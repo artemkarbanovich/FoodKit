@@ -8,12 +8,11 @@
 
   <ItemGroup>
     <None Remove=".gitignore" />
+    <None Remove="foodkitdb.db" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="Extensions\" />
-    <Folder Include="Helpers\" />
   </ItemGroup>
 
   <ItemGroup>
