@@ -17,4 +17,5 @@ public class AppUser : IdentityUser<int>
     public ICollection<Order> Orders { get; set; }
     public ICollection<Message> MessagesSent { get; set; }
     public ICollection<Message> MessagesReceived { get; set; }
+    public ICollection<AppUserRole> AppUserRoles { get; set; }
 }
