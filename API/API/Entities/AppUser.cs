@@ -15,4 +15,6 @@ public class AppUser : IdentityUser<int>
     public ICollection<Address> Addresses { get; set; }
     public ICollection<UserDish> UserDishes { get; set; }
     public ICollection<Order> Orders { get; set; }
+    public ICollection<Message> MessagesSent { get; set; }
+    public ICollection<Message> MessagesReceived { get; set; }
 }
