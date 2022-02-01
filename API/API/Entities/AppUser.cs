@@ -7,7 +7,7 @@ public class AppUser : IdentityUser<int>
     public string Name { get; set; }
     public DateOnly RegistrationDate { get; set; }
     public DateOnly DateOfBirth { get; set; }
-    public string Gender { get; set; }                      //male, female, not selected
+    public Gender Gender { get; set; }
     public int BodyWeight { get; set; }                     //kg
     public int BodyHeight { get; set; }                     //sm
     public int PhysicalActivityCoefficient { get; set; }
@@ -18,4 +18,12 @@ public class AppUser : IdentityUser<int>
     public ICollection<Message> MessagesSent { get; set; }
     public ICollection<Message> MessagesReceived { get; set; }
     public ICollection<AppUserRole> AppUserRoles { get; set; }
+}
+
+public enum Gender
+{
+    Male = 1,
+    Female,
+    Other,
+    NotSelected
 }

@@ -5,7 +5,7 @@ public class Order
     public int Id { get; set; }
     public DateTime OrderDate { get; set; }
     public DateTime DeliveryDate { get; set; }
-    public float TotalPrice { get; set; }
+    public decimal TotalPrice { get; set; }
     public int Evaluation { get; set; }
 
     public ICollection<OrderSetParameter> OrderSetParameters { get; set; }

@@ -7,7 +7,7 @@ public class Dish
     public TimeOnly CookingTime { get; set; }
     public string YouWillNeed { get; set; }
     public int DishWeight { get; set; }
-    public float Price { get; set; }
+    public decimal Price { get; set; }
     public bool IsAvailableForSingleOrder { get; set; }
 
     public ICollection<Image> Images { get; set; }
