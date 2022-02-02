@@ -39,8 +39,8 @@
           <li>
             <mat-icon mat-button [matMenuTriggerFor]="accountMenu">person</mat-icon>
             <mat-menu #accountMenu="matMenu" xPosition="before">
-              <button mat-menu-item>Вход</button>
-              <button mat-menu-item>Регистрация</button>
+              <button mat-menu-item (click)="openSignInDialog()">Вход</button>
+              <button mat-menu-item (click)="openRegistrationDialog()">Регистрация</button>
             </mat-menu>
           </li>
           <li>

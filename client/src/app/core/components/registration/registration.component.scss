@@ -1,0 +1,42 @@
+.container {
+    max-width: 500px;
+}
+
+.close-btn {
+    width: 24px;
+    height: 24px;
+    float: right;
+    cursor: pointer;
+    margin-bottom: 30px;
+    margin-top: -10px;
+    margin-right: -10px;
+}
+
+.form-field {
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.submit-btn:enabled {
+    background-color: rgb(46, 131, 131) !important;
+}
+
+.submit-btn {
+    margin-top: 8px;
+}
+
+input {
+    caret-color: rgb(46, 131, 131) !important;
+}
+
+::ng-deep .mat-focused .mat-form-field-label {
+    color: rgb(46, 131, 131) !important;
+}
+  
+::ng-deep .mat-form-field-underline {
+    background-color: rgb(46, 131, 131) !important;
+} 
+  
+::ng-deep .mat-form-field-ripple {
+    background-color: rgb(46, 131, 131) !important;
+}
