@@ -15,13 +15,13 @@
 		<mat-form-field class="form-field" appearance="fill">
 			<mat-label>Введите телефон</mat-label>
 			<input matInput placeholder="+375XXXXXXXXX" [formControl]="registrationForm.controls['phoneNumber']">
-			<mat-error *ngIf="registrationForm.controls['password'].invalid">Неверный формат телефона</mat-error>
+			<mat-error *ngIf="registrationForm.controls['phoneNumber'].invalid">Неверный формат телефона</mat-error>
 		</mat-form-field>
 
 		<mat-form-field class="form-field" appearance="fill">
 			<mat-label>Введите email</mat-label>
 			<input matInput placeholder="xxx@gmail.com" [formControl]="registrationForm.controls['email']">
-			<mat-error *ngIf="registrationForm.controls['name'].invalid">Неверный формат email</mat-error>
+			<mat-error *ngIf="registrationForm.controls['email'].invalid">Неверный формат email</mat-error>
 		</mat-form-field>
 
 		<mat-form-field class="form-field" appearance="fill">

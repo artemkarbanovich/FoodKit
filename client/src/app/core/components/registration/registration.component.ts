@@ -27,7 +27,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   public register() : void {
-
+    //TODO: service for register
   }
 
   private initializeForm() : void {
