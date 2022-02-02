@@ -1,0 +1,126 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    position: relative;
+    max-width: 1300px;
+    margin: auto;
+    height: 100px;
+}
+
+.container__content {
+    position: absolute;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 65px;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.container__logo {
+    display: inline-block;
+    height: 65px;
+
+    img {
+        height: 65px;
+        width: 65px;
+    }
+}
+
+.container__nav {
+    position: absolute;
+    display: inline-block;
+    top: 45%;
+
+    ul {
+        padding: 0;
+        margin-left: 50px;
+        text-align: center;
+    }
+
+    li {
+        list-style: none;
+        display: inline-block;
+        margin-left: 20px;
+        margin-right: 20px;
+        cursor: pointer;
+    }
+
+    a:hover {
+        color: rgb(46, 131, 131);
+    }
+}
+
+.container__nav__icons {
+    position: absolute;
+    top: 40%;
+    right: 0;
+
+    ul {
+        height: 24px;
+    }
+
+    li {
+        list-style: none;
+        display: inline-block;
+        margin-left: 20px;
+        margin-right: 20px;
+        height: 24px;
+        width: 24px;
+        cursor: pointer;
+    }
+
+    li:hover {
+        color: rgb(46, 131, 131);
+    }
+}
+
+.navigation-menu__icon {
+    display: none !important;
+}
+
+button[mat-menu-item] {
+    text-align: center;
+}
+
+@media screen and (max-width: 700px) {
+    .container__nav {
+        ul {
+            margin-left: 30px;
+        }
+    
+        li {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+    }
+
+    .container__nav__icons {
+        padding-right: 10px;
+
+        li {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+    }
+}
+
+@media screen and (max-width: 515px) {
+    .container__nav {
+        display: none;
+    }
+
+    .navigation-menu__icon {
+        display: inline-block !important;
+    }
+}
+
+@media screen and (min-width: 515px) {
+    ::ng-deep .navigation-menu {
+        display: none;
+    }
+}
