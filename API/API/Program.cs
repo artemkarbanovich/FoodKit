@@ -1,11 +1,23 @@
-var builder = WebApplication.CreateBuilder(args);
+using API.Extensions;
 
-builder.Services.AddControllers();
+
+var builder = WebApplication.CreateBuilder(args);
+var services = builder.Services;
+var config = builder.Configuration;
+
+services.AddApplicationServices(config);
+services.AddIdentityServices(config);
+services.AddControllers();
+services.AddCors();
 
 
 var app = builder.Build();
 
 app.UseHttpsRedirection();
+app.UseRouting();
+app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-app.Run();
+await app.ConfigureDatabaseAsync();
+await app.RunAsync();
