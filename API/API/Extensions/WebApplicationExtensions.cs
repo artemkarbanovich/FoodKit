@@ -19,6 +19,7 @@ public static class WebApplicationExtensions
             var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
 
             await context.Database.MigrateAsync();
+            await Seeder.SetBaseRoleConfiguration(roleManager);
         }
         catch (Exception ex)
         {
