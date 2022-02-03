@@ -1,0 +1,41 @@
+<div class="container">
+
+	<div class="close-btn" (click)="closeDialog()">
+		<mat-icon>close</mat-icon>
+	</div>
+
+	<form [formGroup]="signInForm" autocomplete="off" (ngSubmit)="signInForm.valid && signIn()">
+
+		<mat-form-field class="form-field" appearance="fill">
+			<mat-label>Введите телефон</mat-label>
+			<input matInput placeholder="+375XXXXXXXXX" [formControl]="signInForm.controls['phoneNumber']">
+			<mat-error *ngIf="signInForm.controls['phoneNumber'].invalid">Неверный формат телефона</mat-error>
+		</mat-form-field>
+
+		<mat-form-field class="form-field" appearance="fill">
+			<mat-label>Введите пароль</mat-label>
+			<input 
+				matInput
+				[type]="hidePassword ? 'password' : 'text'"
+				[formControl]="signInForm.controls['password']">
+			<button
+				mat-icon-button
+				matSuffix 
+				(click)="hidePassword = !hidePassword" 
+				[attr.aria-label]="'Hide password'"
+				[attr.aria-pressed]="hidePassword">
+				<mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+			</button>
+			<mat-error *ngIf="signInForm.controls['password'].invalid">Длина должна быть от 6 до 32 символов</mat-error>
+		</mat-form-field>
+
+		<button
+			class="submit-btn"
+			color="primary"
+			[disabled]="!signInForm.valid"
+			mat-raised-button
+			type="submit">ВОЙТИ</button>
+
+	</form>
+
+</div>

@@ -1,0 +1,57 @@
+<nav>
+  <div class="container">
+    <div class="container__content">
+
+      <div class="container__logo">
+        <a routerLink="/">
+          <img src="../../../../assets/icons/icon-foodkit.png" alt="FoodKit icon">
+        </a>
+      </div>
+
+      <div class="container__nav">
+        <ul>
+          <li>
+            <a>Наборы</a>
+          </li>
+          <li>
+            <a>О нас</a>
+          </li>
+          <li>
+            <a>Контакты</a>
+          </li>
+          <li>
+            <a>FAQ</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="container__nav__icons">
+        <ul>
+          <li class="navigation-menu__icon">
+            <mat-icon mat-button [matMenuTriggerFor]="navigationMenu">view_headline</mat-icon>
+            <mat-menu class="navigation-menu" #navigationMenu="matMenu" xPosition="before">
+              <button mat-menu-item><a>Наборы</a></button>
+              <button mat-menu-item><a>О нас</a></button>
+              <button mat-menu-item><a>Контакты</a></button>
+              <button mat-menu-item><a>FAQ</a></button>
+            </mat-menu>
+          </li>
+          <li>
+            <mat-icon mat-button [matMenuTriggerFor]="accountMenu">person</mat-icon>
+            <mat-menu #accountMenu="matMenu" xPosition="before">
+              <button mat-menu-item (click)="openSignInDialog()">Вход</button>
+              <button mat-menu-item (click)="openRegistrationDialog()">Регистрация</button>
+            </mat-menu>
+          </li>
+          <li>
+            <mat-icon mat-button [matMenuTriggerFor]="shoppingCartMenu">shopping_cart</mat-icon>
+            <mat-menu #shoppingCartMenu="matMenu" xPosition="before">
+              <p>Корзина</p>
+            </mat-menu>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</nav>
