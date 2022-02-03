@@ -62,7 +62,7 @@ public class AccountController : BaseApiController
             .SingleOrDefaultAsync(ap => ap.UserName == signInDto.PhoneNumber.Replace("+", ""));
 
         if (user == null)
-            return Unauthorized("Такой телефон не зарегистрирован");
+            return Unauthorized("Введенный телефон не зарегистрирован");
 
         if (!(await _signInManager.CheckPasswordSignInAsync(user, signInDto.Password, false)).Succeeded)
             return Unauthorized("Неверный пароль");
