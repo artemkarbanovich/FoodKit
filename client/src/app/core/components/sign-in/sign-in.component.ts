@@ -19,11 +19,11 @@ export class SignInComponent implements OnInit{
     this.initializeForm();
   }
 
-  public closeDialog() {
+  public closeDialog(): void {
     this.dialogRef.close();
   }
 
-  public signIn() {
+  public signIn(): void {
     //TODO: service for sign in
   }
 

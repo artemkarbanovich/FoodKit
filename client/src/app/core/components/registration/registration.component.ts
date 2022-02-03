@@ -14,7 +14,7 @@ export class RegistrationComponent implements OnInit {
   public hideConfirmPassword: boolean = true;
 
 
-  constructor(public dialogRef: MatDialogRef<RegistrationComponent>,
+  constructor(private dialogRef: MatDialogRef<RegistrationComponent>,
     private formBuilder: FormBuilder, private accountService: AccountService) { }
 
   

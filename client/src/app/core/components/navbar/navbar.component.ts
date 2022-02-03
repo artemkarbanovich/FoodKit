@@ -9,9 +9,9 @@ import { SignInComponent } from '../sign-in/sign-in.component';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
-  constructor(public dialog: MatDialog) { }
+  constructor(private dialog: MatDialog) { }
 
-  public openSignInDialog() {
+  public openSignInDialog(): void {
     this.dialog.open(SignInComponent, { 
       autoFocus: false,
       maxWidth: '92%',
@@ -19,7 +19,7 @@ export class NavbarComponent {
     });
   }
 
-  public openRegistrationDialog() {
+  public openRegistrationDialog(): void {
     this.dialog.open(RegistrationComponent, { 
       autoFocus: false,
       maxWidth: '92%',

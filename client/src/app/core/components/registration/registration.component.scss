@@ -32,11 +32,7 @@ input {
 ::ng-deep .mat-focused .mat-form-field-label {
     color: rgb(46, 131, 131) !important;
 }
-  
-::ng-deep .mat-form-field-underline {
-    background-color: rgb(46, 131, 131) !important;
-} 
-  
-::ng-deep .mat-form-field-ripple {
+
+::ng-deep .mat-form-field-ripple, .mat-form-field-underline {
     background-color: rgb(46, 131, 131) !important;
 }
