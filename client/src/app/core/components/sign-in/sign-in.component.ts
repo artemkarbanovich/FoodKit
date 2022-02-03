@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
+import { catchError, throwError } from 'rxjs';
+import { SignIn } from '../../models/signIn';
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -10,9 +14,11 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class SignInComponent implements OnInit{
   public signInForm: FormGroup;
   public hidePassword: boolean = true;
+  public errors: string[] | null = null;
 
 
-  constructor(private dialogRef: MatDialogRef<SignInComponent>, private formBuilder: FormBuilder) { }
+  constructor(private accountService: AccountService, private toastr: ToastrService,
+    private dialogRef: MatDialogRef<SignInComponent>, private formBuilder: FormBuilder) { }
 
 
   public ngOnInit(): void {
@@ -24,7 +30,34 @@ export class SignInComponent implements OnInit{
   }
 
   public signIn(): void {
-    //TODO: service for sign in
+    let user: SignIn = {
+      phoneNumber: this.signInForm.controls['phoneNumber'].value,
+      password: this.signInForm.controls['password'].value
+    };
+
+    this.accountService.signIn(user)
+    .pipe(
+      catchError(error => {
+        if(error) {
+          this.errors = [];
+          if(error.error.errors) {
+            for(const key in error.error.errors) {
+              this.errors.push(error.error.errors[key]);
+            } 
+          } else {
+            this.errors.push(error.error);
+          }
+        }
+        return throwError(() => error);
+      })
+    )
+    .subscribe({
+      complete: () => {
+        this.closeDialog();
+        this.toastr.success('Вы успешно вошли');
+      },
+      error: (error) => console.log(error)
+    });
   }
 
   private initializeForm() : void {
@@ -34,6 +67,17 @@ export class SignInComponent implements OnInit{
       password: ['', [Validators.required,
         Validators.minLength(6),
         Validators.maxLength(32)]]
+    });
+
+    this.signInForm.controls['phoneNumber'].valueChanges.subscribe(() => {
+      if(this.errors && this.errors.includes('Введенный телефон не зарегистрирован')) {
+        this.errors = null;
+      }
+    });
+    this.signInForm.controls['password'].valueChanges.subscribe(() => { 
+      if(this.errors && this.errors.includes('Неверный пароль')) {
+        this.errors = null;
+      }
     });
   }
 }

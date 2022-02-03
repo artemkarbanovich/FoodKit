@@ -36,3 +36,9 @@ input {
 ::ng-deep .mat-form-field-ripple, .mat-form-field-underline {
     background-color: rgb(46, 131, 131) !important;
 }
+
+.error {
+    font-size: 12px;
+    color: red;
+    margin-top: -5px;
+}

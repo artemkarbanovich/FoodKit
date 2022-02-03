@@ -27,6 +27,7 @@
 
       <div class="container__nav__icons">
         <ul>
+
           <li class="navigation-menu__icon">
             <mat-icon mat-button [matMenuTriggerFor]="navigationMenu">view_headline</mat-icon>
             <mat-menu class="navigation-menu" #navigationMenu="matMenu" xPosition="before">
@@ -36,19 +37,28 @@
               <button mat-menu-item><a>FAQ</a></button>
             </mat-menu>
           </li>
+
           <li>
             <mat-icon mat-button [matMenuTriggerFor]="accountMenu">person</mat-icon>
             <mat-menu #accountMenu="matMenu" xPosition="before">
-              <button mat-menu-item (click)="openSignInDialog()">Вход</button>
-              <button mat-menu-item (click)="openRegistrationDialog()">Регистрация</button>
+              <ng-container *ngIf="(accountService.currentUser$ | async) === null">
+                <button mat-menu-item (click)="openSignInDialog()">Вход</button>
+                <button mat-menu-item (click)="openRegistrationDialog()">Регистрация</button>
+              </ng-container>
+              <ng-container *ngIf="accountService.currentUser$ | async">
+                <button mat-menu-item>Личный кабинет</button>
+                <button mat-menu-item (click)="signOut()">Выйти</button>
+              </ng-container>
             </mat-menu>
           </li>
+
           <li>
             <mat-icon mat-button [matMenuTriggerFor]="shoppingCartMenu">shopping_cart</mat-icon>
             <mat-menu #shoppingCartMenu="matMenu" xPosition="before">
               <p>Корзина</p>
             </mat-menu>
           </li>
+
         </ul>
       </div>
 

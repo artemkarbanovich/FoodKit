@@ -1,5 +1,9 @@
 <div class="container">
 
+	<span class="error" *ngFor="let error of errors">
+		{{error}}
+	</span>
+
 	<div class="close-btn" (click)="closeDialog()">
 		<mat-icon>close</mat-icon>
 	</div>
@@ -19,8 +23,9 @@
 				[type]="hidePassword ? 'password' : 'text'"
 				[formControl]="signInForm.controls['password']">
 			<button
+				type="button"
 				mat-icon-button
-				matSuffix 
+				matSuffix
 				(click)="hidePassword = !hidePassword" 
 				[attr.aria-label]="'Hide password'"
 				[attr.aria-pressed]="hidePassword">
@@ -32,7 +37,7 @@
 		<button
 			class="submit-btn"
 			color="primary"
-			[disabled]="!signInForm.valid"
+			[disabled]="!signInForm.valid || errors"
 			mat-raised-button
 			type="submit">ВОЙТИ</button>
 

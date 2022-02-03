@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { AccountService } from '../../services/account.service';
 import { RegistrationComponent } from '../registration/registration.component';
 import { SignInComponent } from '../sign-in/sign-in.component';
 
@@ -9,7 +12,9 @@ import { SignInComponent } from '../sign-in/sign-in.component';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
-  constructor(private dialog: MatDialog) { }
+  constructor(public accountService: AccountService, private dialog: MatDialog,
+    private router: Router, private toastr: ToastrService) { }
+
 
   public openSignInDialog(): void {
     this.dialog.open(SignInComponent, { 
@@ -25,5 +30,11 @@ export class NavbarComponent {
       maxWidth: '92%',
       maxHeight: '90vh'
     });
+  }
+
+  public signOut(): void {
+    this.accountService.signOut();
+    this.router.navigateByUrl('/');
+    this.toastr.success('Вы успешно вышли');
   }
 }
