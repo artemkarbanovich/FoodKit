@@ -1,4 +1,5 @@
 ﻿using API.DTOs.User;
+using API.Entities;
 using API.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +15,12 @@ public class UserRepository : IUserRepository
     }
 
 
-    public async Task<PersonalDataDto> GetPersonalDataByUserName(string userName)
+    public async Task<AppUser> GetUserByUserNameAsync(string userName)
+    {
+        return await _dataContext.Users.SingleOrDefaultAsync(au => au.UserName == userName);
+    }
+
+    public async Task<PersonalDataDto> GetPersonalDataByUserNameAsync(string userName)
     {
         var user = await _dataContext.Users.SingleOrDefaultAsync(au => au.UserName == userName);
 
@@ -31,5 +37,15 @@ public class UserRepository : IUserRepository
             BodyHeight = user.BodyHeight,
             PhysicalActivityCoefficient = user.PhysicalActivityCoefficient
         };
+    }
+
+    public void UpdatePersonalData(AppUser appUser)
+    {
+        _dataContext.Entry(appUser).State = EntityState.Modified;
+    }
+
+    public async Task<bool> SaveAllAsync()
+    {
+        return await _dataContext.SaveChangesAsync() > 0;
     }
 }

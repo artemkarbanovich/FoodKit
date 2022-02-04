@@ -21,9 +21,9 @@ public class TokenService : ITokenService
     
     public async Task<string> CreateToken(AppUser appUser)
     {
-        var claims = new List<Claim>() { 
-            new Claim(JwtRegisteredClaimNames.NameId, appUser.Id.ToString()),
-            new Claim(JwtRegisteredClaimNames.UniqueName, appUser.UserName)
+        var claims = new List<Claim>() 
+        {
+            new Claim(JwtRegisteredClaimNames.NameId, appUser.Id.ToString())
         };
         var roles = await _userManager.GetRolesAsync(appUser);
 
