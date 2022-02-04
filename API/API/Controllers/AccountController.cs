@@ -25,7 +25,7 @@ public class AccountController : BaseApiController
     [HttpPost("register")]
     public async Task<ActionResult<AccountDto>> Register(RegisterDto registerDto)
     {
-        if (await _userManager.Users.AnyAsync(ap => ap.UserName == registerDto.PhoneNumber.Replace("+", "")))
+        if (await _userManager.Users.AnyAsync(au => au.UserName == registerDto.PhoneNumber.Replace("+", "")))
             return BadRequest("Такой номер телефона уже зарегистрирован");
         
         var user = new AppUser
@@ -59,7 +59,7 @@ public class AccountController : BaseApiController
     public async Task<ActionResult<AccountDto>> SignIn(SignInDto signInDto)
     {
         var user = await _userManager.Users
-            .SingleOrDefaultAsync(ap => ap.UserName == signInDto.PhoneNumber.Replace("+", ""));
+            .SingleOrDefaultAsync(au => au.UserName == signInDto.PhoneNumber.Replace("+", ""));
 
         if (user == null)
             return Unauthorized("Введенный телефон не зарегистрирован");
