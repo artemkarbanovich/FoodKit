@@ -9,6 +9,8 @@
   <ItemGroup>
     <None Remove=".gitignore" />
     <None Remove="foodkitdb.db" />
+    <None Remove="foodkitdb.db-shm" />
+    <None Remove="foodkitdb.db-wal" />
   </ItemGroup>
 
   <ItemGroup>

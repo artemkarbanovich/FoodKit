@@ -4,15 +4,15 @@ import { map, Observable, ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Register } from '../models/register';
 import { SignIn } from '../models/signIn';
-import { User } from '../models/user';
+import { Account } from '../models/account';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
   private baseUrl: string = environment.apiUrl;
-  private currentUserSource: ReplaySubject<User> = new ReplaySubject<User>(1);
-  public currentUser$: Observable<User> = this.currentUserSource.asObservable();
+  private currentUserSource: ReplaySubject<Account> = new ReplaySubject<Account>(1);
+  public currentUser$: Observable<Account> = this.currentUserSource.asObservable();
 
   
   constructor(private http: HttpClient) { }
@@ -20,7 +20,7 @@ export class AccountService {
 
   public register(user: Register): Observable<void> {
     return this.http.post(this.baseUrl + 'account/register', user).pipe(
-      map((user: User) => {
+      map((user: Account) => {
         if(user) {
           this.setCurrentUser(user);
         }
@@ -30,7 +30,7 @@ export class AccountService {
 
   public signIn(user: SignIn): Observable<void> {
     return this.http.post(this.baseUrl + 'account/sign-in', user).pipe(
-      map((user: User) => {
+      map((user: Account) => {
         if(user) {
           this.setCurrentUser(user);
         }
@@ -43,7 +43,7 @@ export class AccountService {
     this.currentUserSource.next(null);
   }
 
-  public setCurrentUser(user: User): void {
+  public setCurrentUser(user: Account): void {
     user.roles = [];
     const roles = JSON.parse(atob(user.token.split('.')[1])).role;
     Array.isArray(roles) ? user.roles = roles : user.roles.push(roles);

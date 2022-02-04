@@ -23,7 +23,7 @@ public class AccountController : BaseApiController
 
 
     [HttpPost("register")]
-    public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
+    public async Task<ActionResult<AccountDto>> Register(RegisterDto registerDto)
     {
         if (await _userManager.Users.AnyAsync(ap => ap.UserName == registerDto.PhoneNumber.Replace("+", "")))
             return BadRequest("Такой номер телефона уже зарегистрирован");
@@ -45,7 +45,7 @@ public class AccountController : BaseApiController
         if (!roleResult.Succeeded)
             return BadRequest(roleResult.Errors);
 
-        return new UserDto
+        return new AccountDto
         {
             UserName = user.UserName,
             Name = user.Name,
@@ -56,7 +56,7 @@ public class AccountController : BaseApiController
     }
 
     [HttpPost("sign-in")]
-    public async Task<ActionResult<UserDto>> SignIn(SignInDto signInDto)
+    public async Task<ActionResult<AccountDto>> SignIn(SignInDto signInDto)
     {
         var user = await _userManager.Users
             .SingleOrDefaultAsync(ap => ap.UserName == signInDto.PhoneNumber.Replace("+", ""));
@@ -67,7 +67,7 @@ public class AccountController : BaseApiController
         if (!(await _signInManager.CheckPasswordSignInAsync(user, signInDto.Password, false)).Succeeded)
             return Unauthorized("Неверный пароль");
 
-        return new UserDto
+        return new AccountDto
         {
             UserName = user.UserName,
             Name = user.Name,
