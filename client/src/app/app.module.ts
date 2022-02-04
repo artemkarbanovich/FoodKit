@@ -16,6 +16,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
+import { ProfileComponent } from './core/components/profile/profile.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatDividerModule } from '@angular/material/divider';
+import { PersonalDataComponent } from './core/components/personal-data/personal-data.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +27,9 @@ import { ToastrModule } from 'ngx-toastr';
     NavbarComponent,
     RegistrationComponent,
     HomeComponent,
-    SignInComponent
+    SignInComponent,
+    ProfileComponent,
+    PersonalDataComponent
   ],
   imports: [
     BrowserModule,
@@ -37,6 +43,8 @@ import { ToastrModule } from 'ngx-toastr';
     ReactiveFormsModule,
     FormsModule,
     MatButtonModule,
+    MatTabsModule,
+    MatDividerModule,
     HttpClientModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-left'
