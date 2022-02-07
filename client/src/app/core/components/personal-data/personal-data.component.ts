@@ -67,7 +67,7 @@ export class PersonalDataComponent implements OnInit {
     });
   }
 
-  public resetDateOfBirth() {
+  public resetDateOfBirth(): void {
     this.personalDataForm.controls['dateOfBirth'].reset();
     this.isDateOfbirthReset = true;
   }
@@ -83,7 +83,7 @@ export class PersonalDataComponent implements OnInit {
     });
   }
 
-  private initializeForm(user: PersonalData) {
+  private initializeForm(user: PersonalData): void {
     this.personalDataForm = this.formBuilder.group({
       name: [user.name, [Validators.required]],
       phoneNumber: [user.phoneNumber, [Validators.required,
