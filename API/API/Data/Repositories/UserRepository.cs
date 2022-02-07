@@ -31,11 +31,11 @@ public class UserRepository : IUserRepository
             PhoneNumber = user.PhoneNumber,
             Email = user.Email,
             RegistrationDate = user.RegistrationDate,
-            DateOfBirth = user.DateOfBirth,
-            Gender = user.Gender,
-            BodyWeight = user.BodyWeight,
-            BodyHeight = user.BodyHeight,
-            PhysicalActivityCoefficient = user.PhysicalActivityCoefficient
+            DateOfBirth = user.DateOfBirth.HasValue ? user.DateOfBirth.Value : null,
+            Gender = user.Gender.HasValue ? user.Gender : null,
+            BodyWeight = user.BodyWeight.HasValue ? user.BodyWeight : null,
+            BodyHeight = user.BodyHeight.HasValue ? user.BodyHeight : null,
+            PhysicalActivityCoefficient = user.PhysicalActivityCoefficient.HasValue ? user.PhysicalActivityCoefficient : null
         };
     }
 
