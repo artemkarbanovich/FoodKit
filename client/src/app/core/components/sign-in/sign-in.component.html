@@ -12,7 +12,7 @@
 
 		<mat-form-field class="form-field" appearance="fill">
 			<mat-label>Введите телефон</mat-label>
-			<input matInput placeholder="+375XXXXXXXXX" [formControl]="signInForm.controls['phoneNumber']">
+			<input matInput placeholder="+375XXXXXXXXX" formControlName="phoneNumber">
 			<mat-error *ngIf="signInForm.controls['phoneNumber'].invalid">Неверный формат телефона</mat-error>
 		</mat-form-field>
 
@@ -21,7 +21,7 @@
 			<input 
 				matInput
 				[type]="hidePassword ? 'password' : 'text'"
-				[formControl]="signInForm.controls['password']">
+				formControlName="password">
 			<button
 				type="button"
 				mat-icon-button

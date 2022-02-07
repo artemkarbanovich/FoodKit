@@ -14,7 +14,6 @@ export class AccountService {
   private currentUserSource: ReplaySubject<Account> = new ReplaySubject<Account>(1);
   public currentUser$: Observable<Account> = this.currentUserSource.asObservable();
 
-  
   constructor(private http: HttpClient) { }
 
 
@@ -49,5 +48,16 @@ export class AccountService {
     Array.isArray(roles) ? user.roles = roles : user.roles.push(roles);
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
+  }
+
+  public updateUserAfterChange(name: string, userName: string, phoneNumber: string, email: string) {
+    let user: Account = JSON.parse(localStorage.getItem('user'));
+    if(user) {
+      user.name = name;
+      user.userName = userName;
+      user.phoneNumber = phoneNumber;
+      user.email = email;
+      this.setCurrentUser(user);
+    }
   }
 }

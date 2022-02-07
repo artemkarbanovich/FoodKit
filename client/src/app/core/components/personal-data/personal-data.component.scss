@@ -1,0 +1,63 @@
+.container {
+    margin: 20px 5px 20px 5px;
+}
+
+mat-panel-title {
+    font-weight: 500;
+}
+
+mat-expansion-panel {
+    vertical-align: top;
+    top: 0;
+    width: 48%;
+    display: inline-block;
+    margin: 0 1% 0 1%;
+}
+
+mat-form-field {
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+mat-slider {
+    width: calc(100% - 40px);
+    margin-bottom: 15px;
+}
+
+.mat-select-panel mat-option.mat-option {
+    height: unset;
+}
+
+.button__sliderWeight-reset {
+    float: right;
+    margin-top: 1.5px;
+}
+
+.submit-btn {
+    display: block;
+    margin: 20px auto 40px auto;
+}
+
+@media screen and (max-width: 815px) {
+    mat-expansion-panel {
+        width: 96%;
+        display: inline-block;
+        margin: 0 2% 0 2%;
+    }
+
+    mat-expansion-panel:last-of-type {
+        margin-top: 20px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    mat-option {
+        font-size: 12px !important;
+    }
+
+    mat-expansion-panel {
+        width: 98%;
+        display: inline-block;
+        margin: 0 1% 0 1%;
+    }
+}

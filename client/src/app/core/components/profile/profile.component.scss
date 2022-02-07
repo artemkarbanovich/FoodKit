@@ -29,10 +29,6 @@
     display: none;
 }
 
-::ng-deep .mat-ink-bar {
-    background-color: rgb(46, 131, 131) !important;
-}
-
 $black: #121212;
 @mixin media-query-for-mobile {
   @media (max-width: 768px) and (min-width: 1px) {
