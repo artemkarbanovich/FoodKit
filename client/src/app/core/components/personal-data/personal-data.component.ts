@@ -92,6 +92,7 @@ export class PersonalDataComponent implements OnInit {
   public resetDateOfBirth(): void {
     this.personalDataForm.controls['dateOfBirth'].reset();
     this.isDateOfbirthReset = true;
+    this.personalDataForm.markAsDirty();
   }
 
   private loadPersonalData(): void {

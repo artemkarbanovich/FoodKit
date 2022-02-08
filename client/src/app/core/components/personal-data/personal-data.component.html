@@ -53,7 +53,7 @@
 						readonly>
 					<mat-datepicker-toggle matSuffix [for]="DPdateOfBirth"></mat-datepicker-toggle>
 					<mat-datepicker #DPdateOfBirth disabled="false"></mat-datepicker>
-					<button type="button" matSuffix mat-icon-button (click)="resetDateOfBirth()">
+					<button type="button" matSuffix mat-icon-button (click)="resetDateOfBirth();">
 						<mat-icon>close</mat-icon>
 					</button>
 				</mat-form-field>
@@ -78,7 +78,7 @@
 					aria-labelledby="example-name-label">
 				</mat-slider>
 				<button class="button__sliderWeight-reset" type="button" matSuffix mat-icon-button
-					(click)="personalDataForm.controls['bodyWeight'].reset()">
+					(click)="personalDataForm.controls['bodyWeight'].reset(); personalDataForm.markAsDirty();">
 					<mat-icon>close</mat-icon>
 				</button>
 
@@ -91,7 +91,7 @@
 					[min]="30">
 				</mat-slider>
 				<button class="button__sliderWeight-reset" type="button" matSuffix mat-icon-button
-					(click)="personalDataForm.controls['bodyHeight'].reset()">
+					(click)="personalDataForm.controls['bodyHeight'].reset(); personalDataForm.markAsDirty();">
 					<mat-icon>close</mat-icon>
 				</button>
 
