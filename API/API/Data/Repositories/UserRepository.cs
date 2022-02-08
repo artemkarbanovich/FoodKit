@@ -1,6 +1,5 @@
-﻿using API.DTOs.User;
-using API.Entities;
-using API.Interfaces;
+﻿using API.Entities;
+using API.Interfaces.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data.Repositories;
@@ -20,32 +19,13 @@ public class UserRepository : IUserRepository
         return await _dataContext.Users.SingleOrDefaultAsync(au => au.UserName == userName);
     }
 
-    public async Task<PersonalDataDto> GetPersonalDataByUserNameAsync(string userName)
+    public async Task<AppUser> GetUserByIdAsync(int id)
     {
-        var user = await _dataContext.Users.SingleOrDefaultAsync(au => au.UserName == userName);
-
-        return new PersonalDataDto
-        {
-            UserName = user.UserName,
-            Name = user.Name,
-            PhoneNumber = user.PhoneNumber,
-            Email = user.Email,
-            RegistrationDate = user.RegistrationDate,
-            DateOfBirth = user.DateOfBirth.HasValue ? user.DateOfBirth.Value : null,
-            Gender = user.Gender.HasValue ? user.Gender : null,
-            BodyWeight = user.BodyWeight.HasValue ? user.BodyWeight : null,
-            BodyHeight = user.BodyHeight.HasValue ? user.BodyHeight : null,
-            PhysicalActivityCoefficient = user.PhysicalActivityCoefficient.HasValue ? user.PhysicalActivityCoefficient : null
-        };
+        return await _dataContext.Users.SingleOrDefaultAsync(au => au.Id == id);
     }
 
-    public void UpdatePersonalData(AppUser appUser)
+    public async Task<bool> IsExistUserByUserNameAsync(string userName)
     {
-        _dataContext.Entry(appUser).State = EntityState.Modified;
-    }
-
-    public async Task<bool> SaveAllAsync()
-    {
-        return await _dataContext.SaveChangesAsync() > 0;
+        return await _dataContext.Users.AnyAsync(au => au.UserName == userName);
     }
 }

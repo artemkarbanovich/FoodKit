@@ -1,12 +1,10 @@
 ﻿using API.DTOs.User;
 using API.Entities;
 
-namespace API.Interfaces;
+namespace API.Interfaces.Data;
 
-public interface IUserRepository
+public interface IPersonalDataRepository
 {
-    Task<AppUser> GetUserByUserNameAsync(string userName);
     Task<PersonalDataDto> GetPersonalDataByUserNameAsync(string userName);
     void UpdatePersonalData(AppUser appUser);
-    Task<bool> SaveAllAsync();
 }
