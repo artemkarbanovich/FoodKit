@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, map, Observable, take, throwError } from 'rxjs';
@@ -32,6 +32,7 @@ export const DATE_FORMATS = {
   ]
 })
 export class PersonalDataComponent implements OnInit {
+  @ViewChild('editForm') editForm: NgForm;
   private currentUserName: string;
   private isDateOfbirthReset: boolean | null = null;
   public userPersonalData$: Observable<PersonalData>;
@@ -81,6 +82,7 @@ export class PersonalDataComponent implements OnInit {
       complete: () => {
         this.accountService.updateUserAfterChange(user.name, user.phoneNumber.replace('+', ''), user.phoneNumber, user.email);
         this.currentUserName = user.phoneNumber.replace("+", "");
+        this.personalDataForm.markAsPristine();
         this.toastr.success('Изменения успешно сохранены');
       },
       error: (error) => console.log(error)

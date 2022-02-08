@@ -1,8 +1,7 @@
 <div class="container">
 
 	<div class="form__container" *ngIf="(userPersonalData$ | async)">
-		<form [formGroup]="personalDataForm" (ngSubmit)="personalDataForm.valid && saveChanges()">
-
+		<form #editForm="ngForm" [formGroup]="personalDataForm" (ngSubmit)="personalDataForm.valid && saveChanges()">
 
 			<!--Общая информация-->
 			<mat-expansion-panel>
@@ -115,10 +114,9 @@
 			<button
 				class="submit-btn"
 				color="primary"
-				[disabled]="!personalDataForm.valid || errors"
+				[disabled]="!personalDataForm.valid || errors || !editForm.dirty"
 				mat-raised-button
 				type="submit">Сохранить изменения</button>
-
 
 		</form>
 	</div>
