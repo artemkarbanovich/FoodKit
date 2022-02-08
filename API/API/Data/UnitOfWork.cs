@@ -15,6 +15,7 @@ public class UnitOfWork : IUnitOfWork
 
     public IUserRepository UserRepository => new UserRepository(_dataContext);
     public IPersonalDataRepository PersonalDataRepository => new PersonalDataRepository(_dataContext);
+    public IAddressRepository AddressRepository => new AddressRepository(_dataContext);
 
 
     public async Task<bool> CompleteAsync() => await _dataContext.SaveChangesAsync() > 0;
