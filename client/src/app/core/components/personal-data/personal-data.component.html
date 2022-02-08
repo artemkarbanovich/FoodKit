@@ -10,6 +10,10 @@
 					<mat-panel-title>Общая информация</mat-panel-title>
 				</mat-expansion-panel-header>
 
+				<span class="error" *ngFor="let error of errors">
+					{{error}}
+				</span>
+
 				<mat-form-field appearance="fill">
 					<mat-label>Имя</mat-label>
 					<input [autofocus]="false" matInput placeholder="Артём" autocomplete="off" formControlName="name">

@@ -38,6 +38,13 @@ mat-slider {
     margin: 20px auto 40px auto;
 }
 
+.error {
+    display: block;
+    font-size: 12px;
+    color: red;
+    margin-top: -20px;
+}
+
 @media screen and (max-width: 815px) {
     mat-expansion-panel {
         width: 96%;

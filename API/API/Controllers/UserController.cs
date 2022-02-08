@@ -1,7 +1,10 @@
 ﻿using API.DTOs.User;
+using API.Entities;
 using API.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
@@ -9,10 +12,12 @@ namespace API.Controllers;
 public class UserController : BaseApiController
 {
     private readonly IUserRepository _userRepository;
+    private readonly UserManager<AppUser> _userManager;
 
-    public UserController(IUserRepository userRepository)
+    public UserController(IUserRepository userRepository, UserManager<AppUser> userManager)
     {
         _userRepository = userRepository;
+        _userManager = userManager;
     }
 
 
@@ -25,6 +30,10 @@ public class UserController : BaseApiController
     [HttpPut("update-personal-data")]
     public async Task<ActionResult> UpdatePersonalData(PersonalDataDto personalDataDto)
     {
+        if ((await _userManager.Users.AnyAsync(au => au.UserName == personalDataDto.PhoneNumber.Replace("+", ""))) 
+            && personalDataDto.UserName != personalDataDto.PhoneNumber.Replace("+", "")) 
+                return BadRequest("Аккаунт с введенным номером телефона уже зарегистрирован");
+
         var user = await _userRepository.GetUserByUserNameAsync(personalDataDto.UserName);
 
         user.UserName = personalDataDto.PhoneNumber.Replace("+", "");

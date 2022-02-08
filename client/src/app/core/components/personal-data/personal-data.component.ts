@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { ToastrService } from 'ngx-toastr';
-import { map, Observable, take } from 'rxjs';
+import { catchError, map, Observable, take, throwError } from 'rxjs';
 import { Account } from '../../models/account';
 import { PersonalData } from '../../models/personal-data';
 import { AccountService } from '../../services/account.service';
@@ -38,6 +38,7 @@ export class PersonalDataComponent implements OnInit {
   public personalDataForm: FormGroup;
   public minDateOfBirth: Date = new Date(new Date().getFullYear() - 100, 0, 1);
   public maxDateOfBirth: Date = new Date();
+  public errors: string[] | null = null;
 
   constructor(private personalDataService: PersonalDataService, private formBuilder: FormBuilder,
     private accountService: AccountService, private toastr: ToastrService, private datePipe: DatePipe) { }
@@ -60,10 +61,29 @@ export class PersonalDataComponent implements OnInit {
       physicalActivityCoefficient: Number.parseFloat(this.personalDataForm.controls['physicalActivityCoefficient'].value) || null
     };
 
-    this.personalDataService.updatePersonalData(user).subscribe(() => {
-      this.accountService.updateUserAfterChange(user.name, user.phoneNumber.replace('+', ''), user.phoneNumber, user.email);
-      this.currentUserName = user.phoneNumber.replace("+", "");
-      this.toastr.success('Изменения успешно сохранены');
+    this.personalDataService.updatePersonalData(user)
+    .pipe(
+      catchError(error => {
+        if(error) {
+          this.errors = [];
+          if(error.error.errors) {
+            for(const key in error.error.errors) {
+              this.errors.push(error.error.errors[key]);
+            }
+          } else {
+            this.errors.push(error.error);
+          }
+        }
+        return throwError(() => error);
+      })
+    )
+    .subscribe({
+      complete: () => {
+        this.accountService.updateUserAfterChange(user.name, user.phoneNumber.replace('+', ''), user.phoneNumber, user.email);
+        this.currentUserName = user.phoneNumber.replace("+", "");
+        this.toastr.success('Изменения успешно сохранены');
+      },
+      error: (error) => console.log(error)
     });
   }
 
@@ -99,6 +119,11 @@ export class PersonalDataComponent implements OnInit {
     this.personalDataForm.controls['dateOfBirth'].valueChanges.subscribe(() => {
       if(this.isDateOfbirthReset && this.isDateOfbirthReset !== null) {
         this.isDateOfbirthReset = false;
+      }
+    });
+    this.personalDataForm.controls['phoneNumber'].valueChanges.subscribe(() => {
+      if(this.errors) {
+        this.errors = null;
       }
     });
   }
