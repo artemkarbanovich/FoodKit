@@ -2,6 +2,7 @@
 using API.Entities;
 using API.Extensions;
 using API.Interfaces.Data;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,34 +12,27 @@ namespace API.Controllers;
 public class AddressController : BaseApiController
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
 
-    public AddressController(IUnitOfWork unitOfWork)
+    public AddressController(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
+        _mapper = mapper;
     }
 
 
     [HttpPost("add-address")]
     public async Task<ActionResult<int>> AddAddress(AddressDto addressDto)
     {
-        var address = new Address
-        {
-            AppUserId = User.GetUserId(),
-            Country = addressDto.Country,
-            Locality = addressDto.Locality,
-            Street = addressDto.Street,
-            HouseNumber = addressDto.HouseNumber,
-            ApartmentNumber = addressDto.ApartmentNumber,
-            EntranceNumber = (addressDto.EntranceNumber != null) ? addressDto.EntranceNumber : null,
-            Floor = (addressDto.Floor != null) ? addressDto.Floor : null
-        };
+        var address = new Address { AppUserId = User.GetUserId() };
+        _mapper.Map(addressDto, address);
 
         await _unitOfWork.AddressRepository.AddAddressAsync(address);
 
         if (await _unitOfWork.CompleteAsync())
             return address.Id;
 
-        return BadRequest("Ошибка доавления адреса");
+        return BadRequest("Ошибка добавления адреса");
     }
 
     [HttpDelete("delete-address/{addressId}")]

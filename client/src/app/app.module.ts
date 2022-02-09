@@ -20,7 +20,7 @@ import { ProfileComponent } from './core/components/profile/profile.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDividerModule } from '@angular/material/divider';
 import { PersonalDataComponent } from './core/components/personal-data/personal-data.component';
-import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
+import { JwtInterceptor } from './core/security/interceptors/jwt.interceptor';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';

@@ -1,6 +1,8 @@
 ﻿using API.DTOs.User;
 using API.Entities;
 using API.Interfaces.Data;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data.Repositories;
@@ -8,10 +10,12 @@ namespace API.Data.Repositories;
 public class AddressRepository : IAddressRepository
 {
     private readonly DataContext _dataContext;
+    private readonly IMapper _mapper;
 
-    public AddressRepository(DataContext dataContext)
+    public AddressRepository(DataContext dataContext, IMapper mapper)
     {
         _dataContext = dataContext;
+        _mapper = mapper;
     }
 
 
@@ -29,17 +33,7 @@ public class AddressRepository : IAddressRepository
     {
         return await _dataContext.Addresses
             .Where(a => a.AppUserId == userId)
-            .Select(a => new AddressDto
-            {
-                Id = a.Id,
-                Country = a.Country,
-                Locality = a.Locality,
-                Street = a.Street,
-                HouseNumber = a.HouseNumber,
-                ApartmentNumber = a.ApartmentNumber,
-                EntranceNumber = a.EntranceNumber ?? null,
-                Floor = a.Floor ?? null
-            })
+            .ProjectTo<AddressDto>(_mapper.ConfigurationProvider)
             .ToListAsync();
     }
 

@@ -1,6 +1,7 @@
 ﻿using API.DTOs.User;
 using API.Entities;
 using API.Interfaces.Data;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data.Repositories;
@@ -8,10 +9,12 @@ namespace API.Data.Repositories;
 public class PersonalDataRepository : IPersonalDataRepository
 {
     private readonly DataContext _dataContext;
+    private readonly IMapper _mapper;
 
-    public PersonalDataRepository(DataContext dataContext)
+    public PersonalDataRepository(DataContext dataContext, IMapper mapper)
     {
         _dataContext = dataContext;
+        _mapper = mapper;
     }
 
 
@@ -21,19 +24,10 @@ public class PersonalDataRepository : IPersonalDataRepository
 
         if (user == null) return null;
 
-        return new PersonalDataDto
-        {
-            UserName = user.UserName,
-            Name = user.Name,
-            PhoneNumber = user.PhoneNumber,
-            Email = user.Email,
-            RegistrationDate = user.RegistrationDate,
-            DateOfBirth = user.DateOfBirth.HasValue ? user.DateOfBirth.Value : null,
-            Gender = user.Gender.HasValue ? user.Gender : null,
-            BodyWeight = user.BodyWeight.HasValue ? user.BodyWeight : null,
-            BodyHeight = user.BodyHeight.HasValue ? user.BodyHeight : null,
-            PhysicalActivityCoefficient = user.PhysicalActivityCoefficient.HasValue ? user.PhysicalActivityCoefficient : null
-        };
+        var personalDataDto = new PersonalDataDto();
+        _mapper.Map(user, personalDataDto);
+
+        return personalDataDto;
     }
 
     public void UpdatePersonalData(AppUser appUser)

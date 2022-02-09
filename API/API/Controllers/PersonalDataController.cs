@@ -1,5 +1,6 @@
 ﻿using API.DTOs.User;
 using API.Interfaces.Data;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +10,12 @@ namespace API.Controllers;
 public class PersonalDataController : BaseApiController
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
 
-    public PersonalDataController(IUnitOfWork unitOfWork)
+    public PersonalDataController(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
+        _mapper = mapper;
     }
 
 
@@ -39,15 +42,7 @@ public class PersonalDataController : BaseApiController
         if (user == null)
             return BadRequest("Ошибка обновления личных данных");
 
-        user.UserName = personalDataDto.PhoneNumber.Replace("+", "");
-        user.Name = personalDataDto.Name;
-        user.PhoneNumber = personalDataDto.PhoneNumber;
-        user.Email = personalDataDto.Email;
-        user.DateOfBirth = personalDataDto.DateOfBirth;
-        user.Gender = personalDataDto.Gender;
-        user.BodyWeight = personalDataDto.BodyWeight;
-        user.BodyHeight = personalDataDto.BodyHeight;
-        user.PhysicalActivityCoefficient = personalDataDto.PhysicalActivityCoefficient;
+        _mapper.Map(personalDataDto, user);
 
         _unitOfWork.PersonalDataRepository.UpdatePersonalData(user);
 

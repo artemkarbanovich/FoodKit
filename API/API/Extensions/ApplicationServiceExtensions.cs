@@ -1,4 +1,5 @@
 ﻿using API.Data;
+using API.Helpers;
 using API.Interfaces;
 using API.Interfaces.Data;
 using API.Services;
@@ -12,6 +13,7 @@ public static class ApplicationServiceExtensions
     {
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
         services.AddDbContext<DataContext>(options =>
         {
             options.UseSqlite(config.GetConnectionString("DefaultConnection"));
