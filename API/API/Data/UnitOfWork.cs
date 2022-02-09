@@ -22,5 +22,4 @@ public class UnitOfWork : IUnitOfWork
 
 
     public async Task<bool> CompleteAsync() => await _dataContext.SaveChangesAsync() > 0;
-    public bool HasChanges() => _dataContext.ChangeTracker.HasChanges();
 }

@@ -7,5 +7,4 @@ public interface IUnitOfWork
     IAddressRepository AddressRepository { get; }
 
     Task<bool> CompleteAsync();
-    bool HasChanges();
 }

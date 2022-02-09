@@ -1,0 +1,82 @@
+<div class="container">
+
+    <div class="add-address__container">
+        <mat-expansion-panel [(expanded)]="panelExpansionState">
+            <mat-expansion-panel-header>
+                <mat-panel-title>Добавить адрес</mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <form #editForm="ngForm" class="form" [formGroup]="addressForm" autocomplete="off" 
+                (ngSubmit)="addressForm.valid && addAddress(editForm)">
+
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Страна</mat-label>
+                    <input [autofocus]="false" matInput placeholder="Беларусь" formControlName="country">
+                    <mat-error *ngIf="addressForm.controls['country'].invalid">Длина должна быть от 1 до 50</mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Город</mat-label>
+                    <input [autofocus]="false" matInput placeholder="Минск" formControlName="locality">
+                    <mat-error *ngIf="addressForm.controls['locality'].invalid">Длина должна быть от 1 до 50</mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Улица</mat-label>
+                    <input [autofocus]="false" matInput placeholder="Центральная" formControlName="street">
+                    <mat-error *ngIf="addressForm.controls['street'].invalid">Длина должна быть от 1 до 50</mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Дом</mat-label>
+                    <input [autofocus]="false" matInput placeholder="XX" formControlName="houseNumber">
+                    <mat-error *ngIf="addressForm.controls['houseNumber'].invalid">Длина должна быть от 1 до 10
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Квартира</mat-label>
+                    <input [autofocus]="false" matInput placeholder="XX" formControlName="apartmentNumber">
+                    <mat-error *ngIf="addressForm.controls['apartmentNumber'].invalid">Длина должна быть от 1 до 10
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Подъезд</mat-label>
+                    <input [autofocus]="false" matInput placeholder="XX" formControlName="entranceNumber">
+                    <mat-error *ngIf="addressForm.controls['entranceNumber'].invalid">Длина должна быть до 5</mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Этаж</mat-label>
+                    <input [autofocus]="false" matInput placeholder="XX" formControlName="floor">
+                    <mat-error *ngIf="addressForm.controls['floor'].invalid">Длина должна быть до 5</mat-error>
+                </mat-form-field>
+
+                <button class="submit-btn" color="primary" [disabled]="!addressForm.valid" mat-raised-button
+                    type="submit">Добавить адрес</button>
+
+            </form>
+        </mat-expansion-panel>
+    </div>
+
+    <mat-toolbar>
+        <p>Мои адреса</p>
+    </mat-toolbar>
+    <div class="list-adresses__container">
+        <mat-list>
+            <mat-list-item class="list-item__container" *ngFor="let addr of addresses">
+                <div>
+                    {{addr.country}}, {{addr.locality}}, ул. {{addr.street}}, д. {{addr.houseNumber}}
+                    <span *ngIf="addr.entranceNumber">,&nbsp;под. {{addr.apartmentNumber}}</span>
+                    <span *ngIf="addr.floor">,&nbsp;этаж {{addr.floor}}</span>
+                    <span *ngIf="addr.apartmentNumber">,&nbsp;кв. {{addr.apartmentNumber}}</span>
+                </div>
+                <button class="delete-button" mat-icon-button (click)="deleteAddress(addr)">
+                    <mat-icon class="delete-icon">close</mat-icon>
+                </button>
+                <mat-divider></mat-divider>
+            </mat-list-item>
+        </mat-list>
+    </div>
+</div>

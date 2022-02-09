@@ -9,11 +9,11 @@ public class AutoMapperProfile : Profile
     public AutoMapperProfile()
     {
         CreateMap<AddressDto, Address>()
-            .ForMember(ad => ad.Id, opt => opt.Ignore());
+            .ForMember(a => a.Id, opt => opt.Ignore());
 
         CreateMap<PersonalDataDto, AppUser>()
             .ForMember(ap => ap.RegistrationDate, opt => opt.Ignore())
-            .ForMember(ap => ap.UserName, opt => opt.MapFrom(pd => pd.PhoneNumber.Replace("+", "")));
+            .ForMember(ap => ap.UserName, opt => opt.MapFrom(pdd => pdd.PhoneNumber.Replace("+", "")));
 
         CreateMap<AppUser, PersonalDataDto>();
         CreateMap<Address, AddressDto>();
