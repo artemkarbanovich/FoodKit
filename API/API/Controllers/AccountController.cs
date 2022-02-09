@@ -1,9 +1,9 @@
 ﻿using API.DTOs;
 using API.Entities;
 using API.Interfaces;
+using API.Interfaces.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
@@ -12,21 +12,23 @@ public class AccountController : BaseApiController
     private readonly UserManager<AppUser> _userManager;
     private readonly SignInManager<AppUser> _signInManager;
     private readonly ITokenService _tokenService;
+    private readonly IUnitOfWork _unitOfWork;
 
     public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, 
-        ITokenService tokenService)
+        ITokenService tokenService, IUnitOfWork unitOfWork)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _tokenService = tokenService;
+        _unitOfWork = unitOfWork;
     }
 
 
     [HttpPost("register")]
-    public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
+    public async Task<ActionResult<AccountDto>> Register(RegisterDto registerDto)
     {
-        if (await _userManager.Users.AnyAsync(ap => ap.UserName == registerDto.PhoneNumber.Replace("+", "")))
-            return BadRequest("Такой номер телефона уже зарегистрирован");
+        if (await _unitOfWork.UserRepository.IsExistUserByUserNameAsync(registerDto.PhoneNumber.Replace("+", "")))
+            return BadRequest("Введенный номер телефона уже зарегистрирован");
         
         var user = new AppUser
         {
@@ -45,7 +47,7 @@ public class AccountController : BaseApiController
         if (!roleResult.Succeeded)
             return BadRequest(roleResult.Errors);
 
-        return new UserDto
+        return new AccountDto
         {
             UserName = user.UserName,
             Name = user.Name,
@@ -56,10 +58,9 @@ public class AccountController : BaseApiController
     }
 
     [HttpPost("sign-in")]
-    public async Task<ActionResult<UserDto>> SignIn(SignInDto signInDto)
+    public async Task<ActionResult<AccountDto>> SignIn(SignInDto signInDto)
     {
-        var user = await _userManager.Users
-            .SingleOrDefaultAsync(ap => ap.UserName == signInDto.PhoneNumber.Replace("+", ""));
+        var user = await _unitOfWork.UserRepository.GetUserByUserNameAsync(signInDto.PhoneNumber.Replace("+", ""));
 
         if (user == null)
             return Unauthorized("Введенный телефон не зарегистрирован");
@@ -67,7 +68,7 @@ public class AccountController : BaseApiController
         if (!(await _signInManager.CheckPasswordSignInAsync(user, signInDto.Password, false)).Succeeded)
             return Unauthorized("Неверный пароль");
 
-        return new UserDto
+        return new AccountDto
         {
             UserName = user.UserName,
             Name = user.Name,

@@ -1,0 +1,123 @@
+<div class="container">
+
+	<div class="form__container" *ngIf="(userPersonalData$ | async)">
+		<form #editForm="ngForm" [formGroup]="personalDataForm" (ngSubmit)="personalDataForm.valid && saveChanges()">
+
+			<!--Общая информация-->
+			<mat-expansion-panel>
+				<mat-expansion-panel-header>
+					<mat-panel-title>Общая информация</mat-panel-title>
+				</mat-expansion-panel-header>
+
+				<span class="error" *ngFor="let error of errors">
+					{{error}}
+				</span>
+
+				<mat-form-field appearance="fill">
+					<mat-label>Имя</mat-label>
+					<input [autofocus]="false" matInput placeholder="Артём" autocomplete="off" formControlName="name">
+					<mat-error *ngIf="personalDataForm.controls['name'].invalid">Имя не может быть пустым</mat-error>
+				</mat-form-field>
+
+				<mat-form-field appearance="fill">
+					<mat-label>Номер телефона</mat-label>
+					<input [autofocus]="false" matInput placeholder="+375XXXXXXXXX" formControlName="phoneNumber"
+						autocomplete="off">
+					<mat-error *ngIf="personalDataForm.controls['phoneNumber'].invalid">Неверный формат телефона</mat-error>
+				</mat-form-field>
+
+				<mat-form-field appearance="fill">
+					<mat-label>Email</mat-label>
+					<input [autofocus]="false" matInput placeholder="xxx@gmail.com" formControlName="email" autocomplete="off">
+					<mat-error *ngIf="personalDataForm.controls['email'].invalid">Неверный формат email</mat-error>
+				</mat-form-field>
+
+			</mat-expansion-panel>
+
+
+			<!--Физические показатели-->
+			<mat-expansion-panel>
+				<mat-expansion-panel-header>
+					<mat-panel-title>Физические показатели</mat-panel-title>
+				</mat-expansion-panel-header>
+
+				<mat-form-field appearance="fill">
+					<mat-label>Дата рождения</mat-label>
+					<input
+						[autofocus]="false"
+						matInput [matDatepicker]="DPdateOfBirth"
+						[min]="minDateOfBirth"
+						[max]="maxDateOfBirth"
+						formControlName="dateOfBirth"
+						autocomplete="off"
+						readonly>
+					<mat-datepicker-toggle matSuffix [for]="DPdateOfBirth"></mat-datepicker-toggle>
+					<mat-datepicker #DPdateOfBirth disabled="false"></mat-datepicker>
+					<button type="button" matSuffix mat-icon-button (click)="resetDateOfBirth();">
+						<mat-icon>close</mat-icon>
+					</button>
+				</mat-form-field>
+
+				<mat-form-field appearance="fill">
+					<mat-label>Пол</mat-label>
+					<mat-select formControlName="gender">
+						<mat-option>Не выбрано</mat-option>
+						<mat-option value="1">Мужской</mat-option>
+						<mat-option value="2">Женский</mat-option>
+						<mat-option value="3">Другой</mat-option>
+					</mat-select>
+				</mat-form-field>
+
+				<mat-label>Масса тела &#40;кг&#41;: {{personalDataForm.controls['bodyWeight'].value || 'Не выбрано'}}</mat-label>
+				<mat-slider
+					formControlName="bodyWeight"
+  				thumbLabel
+  				step="1"
+					[max]="220"
+					[min]="10"
+					aria-labelledby="example-name-label">
+				</mat-slider>
+				<button class="button__sliderWeight-reset" type="button" matSuffix mat-icon-button
+					(click)="personalDataForm.controls['bodyWeight'].reset(); personalDataForm.markAsDirty();">
+					<mat-icon>close</mat-icon>
+				</button>
+
+				<mat-label>Рост &#40;см&#41;: {{personalDataForm.controls['bodyHeight'].value || 'Не выбрано'}}</mat-label>
+				<mat-slider
+					formControlName="bodyHeight"
+  				thumbLabel
+  				step="1"
+					[max]="260"
+					[min]="30">
+				</mat-slider>
+				<button class="button__sliderWeight-reset" type="button" matSuffix mat-icon-button
+					(click)="personalDataForm.controls['bodyHeight'].reset(); personalDataForm.markAsDirty();">
+					<mat-icon>close</mat-icon>
+				</button>
+
+				<mat-form-field appearance="fill">
+					<mat-label>Степень физической активности</mat-label>
+					<mat-select formControlName="physicalActivityCoefficient">
+						<mat-option>Не выбрано</mat-option>
+						<mat-option value="1.2">Минимум/отсутствие физической активности</mat-option>
+						<mat-option value="1.38">Тренировки средней тяжести 3 раза в неделю</mat-option>
+						<mat-option value="1.46">Тренировки средней тяжести 5 раз в неделю</mat-option>
+						<mat-option value="1.55">Интенсивные тренировки 5 раз в неделю</mat-option>
+						<mat-option value="1.64">Тренировки каждый день</mat-option>
+						<mat-option value="1.73">Тренировки каждый день или по 2 раза в день</mat-option>
+						<mat-option value="1.9">Ежедневная нагрузка + физическая работа</mat-option>
+					</mat-select>
+				</mat-form-field>
+
+			</mat-expansion-panel>
+
+			<button
+				class="submit-btn"
+				color="primary"
+				[disabled]="!personalDataForm.valid || errors || !editForm.dirty"
+				mat-raised-button
+				type="submit">Сохранить изменения</button>
+
+		</form>
+	</div>
+</div>

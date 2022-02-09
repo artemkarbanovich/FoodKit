@@ -27,11 +27,11 @@ public class DataContext : IdentityDbContext<AppUser, AppRole, int, IdentityUser
 
         builder.Entity<Message>()
             .HasOne(m => m.Sender)
-            .WithMany(m => m.MessagesSent);
+            .WithMany(au => au.MessagesSent);
 
         builder.Entity<Message>()
             .HasOne(m => m.Recipient)
-            .WithMany(u => u.MessagesReceived);
+            .WithMany(au => au.MessagesReceived);
 
         builder.Entity<AppUser>()
             .HasMany(au => au.AppUserRoles)

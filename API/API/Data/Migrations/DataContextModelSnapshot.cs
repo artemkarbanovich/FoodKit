@@ -90,17 +90,17 @@ namespace API.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("BodyHeight")
+                    b.Property<int?>("BodyHeight")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("BodyWeight")
+                    b.Property<int?>("BodyWeight")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateOnly>("DateOfBirth")
+                    b.Property<DateOnly?>("DateOfBirth")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
@@ -110,7 +110,7 @@ namespace API.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Gender")
+                    b.Property<int?>("Gender")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("LockoutEnabled")
@@ -139,8 +139,8 @@ namespace API.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("PhysicalActivityCoefficient")
-                        .HasColumnType("INTEGER");
+                    b.Property<float?>("PhysicalActivityCoefficient")
+                        .HasColumnType("REAL");
 
                     b.Property<DateOnly>("RegistrationDate")
                         .HasColumnType("TEXT");

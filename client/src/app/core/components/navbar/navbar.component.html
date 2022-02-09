@@ -10,18 +10,10 @@
 
       <div class="container__nav">
         <ul>
-          <li>
-            <a>Наборы</a>
-          </li>
-          <li>
-            <a>О нас</a>
-          </li>
-          <li>
-            <a>Контакты</a>
-          </li>
-          <li>
-            <a>FAQ</a>
-          </li>
+          <li><a>Меню</a></li>
+          <li><a>О нас</a></li>
+          <li><a>Контакты</a></li>
+          <li><a>FAQ</a></li>
         </ul>
       </div>
 
@@ -46,7 +38,7 @@
                 <button mat-menu-item (click)="openRegistrationDialog()">Регистрация</button>
               </ng-container>
               <ng-container *ngIf="accountService.currentUser$ | async">
-                <button mat-menu-item>Личный кабинет</button>
+                <button mat-menu-item routerLink="/profile">Личный кабинет</button>
                 <button mat-menu-item (click)="signOut()">Выйти</button>
               </ng-container>
             </mat-menu>

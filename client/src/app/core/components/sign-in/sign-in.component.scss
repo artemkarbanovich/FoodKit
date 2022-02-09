@@ -17,26 +17,6 @@
     margin-bottom: 12px;
 }
 
-.submit-btn:enabled {
-    background-color: rgb(46, 131, 131) !important;
-}
-
-.submit-btn {
-    margin-top: 8px;
-}
-
-input {
-    caret-color: rgb(46, 131, 131) !important;
-}
-
-::ng-deep .mat-focused .mat-form-field-label {
-    color: rgb(46, 131, 131) !important;
-}
-
-::ng-deep .mat-form-field-ripple, .mat-form-field-underline {
-    background-color: rgb(46, 131, 131) !important;
-}
-
 .error {
     font-size: 12px;
     color: red;

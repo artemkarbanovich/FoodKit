@@ -12,13 +12,13 @@
 
 		<mat-form-field class="form-field" appearance="fill">
 			<mat-label>Введите имя</mat-label>
-			<input [autofocus]="false" matInput placeholder="Артём" [formControl]="registrationForm.controls['name']">
+			<input [autofocus]="false" matInput placeholder="Артём" formControlName="name">
 			<mat-error *ngIf="registrationForm.controls['name'].invalid">Имя не может быть пустым</mat-error>
 		</mat-form-field>
 
 		<mat-form-field class="form-field" appearance="fill">
 			<mat-label>Введите телефон</mat-label>
-			<input matInput placeholder="+375XXXXXXXXX" [formControl]="registrationForm.controls['phoneNumber']">
+			<input matInput placeholder="+375XXXXXXXXX" formControlName="phoneNumber">
 			<mat-error *ngIf="registrationForm.controls['phoneNumber'].invalid">Неверный формат телефона</mat-error>
 		</mat-form-field>
 
@@ -33,7 +33,7 @@
 			<input 
 				matInput
 				[type]="hidePassword ? 'password' : 'text'"
-				[formControl]="registrationForm.controls['password']">
+				formControlName="password">
 			<button
 				type="button"
 				mat-icon-button 
@@ -51,7 +51,7 @@
 			<input
 				matInput
 				[type]="hideConfirmPassword ? 'password' : 'text'"
-				[formControl]="registrationForm.controls['confirmPassword']">
+				formControlName="confirmPassword">
 			<button
 				type="button"
 				mat-icon-button

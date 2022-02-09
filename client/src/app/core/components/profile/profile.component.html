@@ -1,0 +1,38 @@
+<div class="container">
+    <mat-divider></mat-divider>
+    <mat-tab-group class="remove-border-bottom" [disablePagination]="true">
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <span class="tab-number">Личные</span>
+                <span class="tab-text">данные</span>
+            </ng-template>
+            <ng-template matTabContent>
+                <app-personal-data></app-personal-data>
+            </ng-template>
+        </mat-tab>
+        <mat-tab label="Адреса">
+            <ng-template matTabContent>
+                <app-address></app-address>
+            </ng-template>
+        </mat-tab>
+        <mat-tab label="Заказы">
+            <ng-template matTabContent>
+                Lazy loading content will be here!
+            </ng-template>
+        </mat-tab>
+        <mat-tab label="Поддержка">
+            <ng-template matTabContent>
+                Lazy loading content will be here!
+            </ng-template>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <span class="tab-number">Калькулятор</span>
+                <span class="tab-text">калорий</span>
+            </ng-template>
+            <ng-template matTabContent>
+                Lazy loading content will be here!
+            </ng-template>
+        </mat-tab>
+    </mat-tab-group>
+</div>
