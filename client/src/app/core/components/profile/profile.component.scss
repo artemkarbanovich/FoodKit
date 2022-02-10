@@ -51,7 +51,7 @@
 
         .mat-tab-labels {
             @include media-query-for-mobile {
-                justify-content: unset !important; 
+                justify-content: unset !important;
             }
 
             .mat-tab-label {
@@ -59,7 +59,7 @@
                 margin: 0px !important;
                 color: #121212;
                 font-weight: 400;
-                width: calc(100% / 5);
+                width: calc(99.999% / 6);
                 min-width: 140px;
           }
         }

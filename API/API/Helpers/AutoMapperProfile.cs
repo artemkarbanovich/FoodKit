@@ -15,7 +15,12 @@ public class AutoMapperProfile : Profile
             .ForMember(ap => ap.RegistrationDate, opt => opt.Ignore())
             .ForMember(ap => ap.UserName, opt => opt.MapFrom(pdd => pdd.PhoneNumber.Replace("+", "")));
 
+        CreateMap<UserDishDto, UserDish>()
+            .ForMember(ud => ud.Id, opt => opt.Ignore())
+            .ForMember(ud => ud.Name, opt => opt.MapFrom(udd => udd.Name.ToLower()));
+
         CreateMap<AppUser, PersonalDataDto>();
         CreateMap<Address, AddressDto>();
+        CreateMap<UserDish, UserDishDto>();
     }
 }
