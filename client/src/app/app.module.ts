@@ -34,9 +34,13 @@ import { AddressComponent } from './core/components/address/address.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LoadingInterceptor } from './core/security/interceptors/loading.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { UserDishComponent } from './core/components/user-dish/user-dish.component';
+import { UserDishAddFormComponent } from './core/components/user-dish-add-form/user-dish-add-form.component';
 import { DATE_FORMATS } from './core/constants/date-formats';
 import { DatePipe } from '@angular/common';
+import { UserDishTableComponent } from './core/components/user-dish-table/user-dish-table.component';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -48,7 +52,8 @@ import { DatePipe } from '@angular/common';
     ProfileComponent,
     PersonalDataComponent,
     AddressComponent,
-    UserDishComponent
+    UserDishAddFormComponent,
+    UserDishTableComponent
   ],
   imports: [
     BrowserModule,
@@ -68,9 +73,12 @@ import { DatePipe } from '@angular/common';
     MatExpansionModule,
     MatNativeDateModule,
     MatDatepickerModule,
+    MatBadgeModule,
     MatSelectModule,
     MatListModule,
+    MatPaginatorModule,
     MatSliderModule,
+    MatTooltipModule,
     MatTableModule,
     MatProgressSpinnerModule,
     MomentDateModule,

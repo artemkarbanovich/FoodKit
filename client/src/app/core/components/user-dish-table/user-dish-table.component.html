@@ -1,0 +1,69 @@
+<div class="container">
+    <table mat-table [dataSource]="userDishes">
+
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"></th>
+            <td mat-cell *matCellDef="let userDish">{{userDish.name}}</td>
+        </ng-container>
+        <ng-container matColumnDef="name-rowspan">
+            <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">Название</th>
+        </ng-container>
+
+        <ng-container matColumnDef="dishDate">
+            <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"></th>
+            <td mat-cell *matCellDef="let userDish">{{userDish.dishDate | date:'dd.MM.yyyy'}}</td>
+        </ng-container>
+        <ng-container matColumnDef="dishDate-rowspan">
+            <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">Дата<br>употребления</th>
+        </ng-container>
+
+        <ng-container matColumnDef="dishWeight">
+            <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"></th>
+            <td mat-cell *matCellDef="let userDish">{{userDish.dishWeight}}</td>
+        </ng-container>
+        <ng-container matColumnDef="dishWeight-rowspan">
+            <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">
+                Масса<br>продукта<br>&#40;грамм&#41;</th>
+        </ng-container>
+
+        <ng-container matColumnDef="proteins">
+            <th mat-header-cell *matHeaderCellDef>Белки</th>
+            <td mat-cell *matCellDef="let userDish">{{userDish.proteins}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="fats">
+            <th mat-header-cell *matHeaderCellDef>Жиры</th>
+            <td mat-cell *matCellDef="let userDish">{{userDish.fats}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="carbohydrates">
+            <th mat-header-cell *matHeaderCellDef>Углеводы</th>
+            <td mat-cell *matCellDef="let userDish">{{userDish.carbohydrates}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="calories">
+            <th mat-header-cell *matHeaderCellDef>Калорийность</th>
+            <td mat-cell *matCellDef="let userDish">{{userDish.calories}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="header-row-second-group">
+            <th mat-header-cell *matHeaderCellDef [attr.colspan]="4">На 100 грамм/миллилитров</th>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['name-rowspan', 'dishDate-rowspan',
+            'dishWeight-rowspan', 'header-row-second-group']"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
+
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[10, 25, 50]"
+        aria-label="Выберите страницу"
+        [pageIndex]="pagination?.currentPage"
+        [pageSize]="pagination?.pageSize"
+        [length]="pagination?.totalCount"
+        [showFirstLastButtons]="true"
+        (page)="pageEvent = handlePage($event)">
+    </mat-paginator>
+
+</div>

@@ -62,6 +62,11 @@
 
     <mat-toolbar>
         <p>Мои адреса</p>
+        <mat-icon class="help-icon" type="button" #tooltip="matTooltip"
+            (click)="tooltip.toggle()"
+            matTooltip="Добавьте ваши адреса для доставки.
+            При оформлении заказа можно будет выбрать один из списка."
+        >help_outline</mat-icon>
     </mat-toolbar>
     <div class="list-adresses__container">
         <mat-list>

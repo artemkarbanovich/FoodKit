@@ -29,6 +29,22 @@
     display: none;
 }
 
+.user-dish__container {
+  margin: 20px 10px 0 10px;   
+}
+
+mat-toolbar {
+  margin-top: 20px;
+  border-radius: 5px;
+}
+
+.help-icon {
+  transform: scale(0.8);
+  cursor: pointer;
+  margin-left: -2px;
+  margin-top: -15px;
+}
+
 @mixin media-query-for-mobile {
   @media (max-width: 768px) and (min-width: 1px) {
     @content;

@@ -1,20 +1,20 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { UserDish } from '../../models/userDish';
 import { UserDishService } from '../../services/user-dish.service';
 
 @Component({
-  selector: 'app-user-dish',
-  templateUrl: './user-dish.component.html',
-  styleUrls: ['./user-dish.component.scss']
+  selector: 'app-user-dish-add-form',
+  templateUrl: './user-dish-add-form.component.html',
+  styleUrls: ['./user-dish-add-form.component.scss']
 })
-export class UserDishComponent implements OnInit {
+export class UserDishAddFormComponent implements OnInit {
   public userDishForm: FormGroup;
   public minDishDate: Date = new Date(new Date().getFullYear() - 1, 0, 1);
   public maxDishDate: Date = new Date();
-
+  
   constructor(private userDishService: UserDishService, private toastr: ToastrService,
     private formBuilder: FormBuilder, private datePipe: DatePipe) { }
 
@@ -42,18 +42,18 @@ export class UserDishComponent implements OnInit {
       this.userDishForm.reset();
     });
   }
-
+  
   private initializeForm(): void {
     this.userDishForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.maxLength(30)]],
       dishDate: ['', [Validators.required]],
       dishWeight: ['', [Validators.required, Validators.pattern('^[1-9][0-9]*$'),
         Validators.min(1), Validators.max(5000)]],
-      proteins: ['', [Validators.required, Validators.pattern('^\\d*\\.?\\d*$'),
+      proteins: ['', [Validators.required, Validators.pattern('^-?\\d*(\\.\\d+)?$'),
         Validators.min(0), Validators.max(200)]],
-      fats: ['', [Validators.required, Validators.pattern('^\\d*\\.?\\d*$'),
+      fats: ['', [Validators.required, Validators.pattern('^-?\\d*(\\.\\d+)?$'),
         Validators.min(0), Validators.max(200)]],
-      carbohydrates: ['', [Validators.required, Validators.pattern('^\\d*\\.?\\d*$'),
+      carbohydrates: ['', [Validators.required, Validators.pattern('^-?\\d*(\\.\\d+)?$'),
         Validators.min(0), Validators.max(200)]],
       calories: ['', [Validators.required, Validators.pattern('^[1-9][0-9]*$'),
         Validators.min(1), Validators.max(1100)]]
