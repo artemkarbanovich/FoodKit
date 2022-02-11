@@ -11,45 +11,45 @@
 
                 <mat-form-field class="form-field" appearance="fill">
                     <mat-label>Страна</mat-label>
-                    <input [autofocus]="false" matInput placeholder="Беларусь" formControlName="country">
+                    <input type="text" [autofocus]="false" matInput placeholder="Беларусь" formControlName="country">
                     <mat-error *ngIf="addressForm.controls['country'].invalid">Длина должна быть от 1 до 50</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="form-field" appearance="fill">
                     <mat-label>Город</mat-label>
-                    <input [autofocus]="false" matInput placeholder="Минск" formControlName="locality">
+                    <input type="text" [autofocus]="false" matInput placeholder="Минск" formControlName="locality">
                     <mat-error *ngIf="addressForm.controls['locality'].invalid">Длина должна быть от 1 до 50</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="form-field" appearance="fill">
                     <mat-label>Улица</mat-label>
-                    <input [autofocus]="false" matInput placeholder="Центральная" formControlName="street">
+                    <input type="text" [autofocus]="false" matInput placeholder="Центральная" formControlName="street">
                     <mat-error *ngIf="addressForm.controls['street'].invalid">Длина должна быть от 1 до 50</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="form-field" appearance="fill">
                     <mat-label>Дом</mat-label>
-                    <input [autofocus]="false" matInput placeholder="XX" formControlName="houseNumber">
+                    <input type="text" [autofocus]="false" matInput placeholder="XX" formControlName="houseNumber">
                     <mat-error *ngIf="addressForm.controls['houseNumber'].invalid">Длина должна быть от 1 до 10
                     </mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="form-field" appearance="fill">
                     <mat-label>Квартира</mat-label>
-                    <input [autofocus]="false" matInput placeholder="XX" formControlName="apartmentNumber">
+                    <input type="text" [autofocus]="false" matInput placeholder="XX" formControlName="apartmentNumber">
                     <mat-error *ngIf="addressForm.controls['apartmentNumber'].invalid">Длина должна быть от 1 до 10
                     </mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="form-field" appearance="fill">
                     <mat-label>Подъезд</mat-label>
-                    <input [autofocus]="false" matInput placeholder="XX" formControlName="entranceNumber">
+                    <input type="text" [autofocus]="false" matInput placeholder="XX" formControlName="entranceNumber">
                     <mat-error *ngIf="addressForm.controls['entranceNumber'].invalid">Длина должна быть до 5</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="form-field" appearance="fill">
                     <mat-label>Этаж</mat-label>
-                    <input [autofocus]="false" matInput placeholder="XX" formControlName="floor">
+                    <input type="text" [autofocus]="false" matInput placeholder="XX" formControlName="floor">
                     <mat-error *ngIf="addressForm.controls['floor'].invalid">Длина должна быть до 5</mat-error>
                 </mat-form-field>
 

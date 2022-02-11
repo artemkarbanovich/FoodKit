@@ -15,20 +15,22 @@
 
 				<mat-form-field appearance="fill">
 					<mat-label>Имя</mat-label>
-					<input [autofocus]="false" matInput placeholder="Артём" autocomplete="off" formControlName="name">
+					<input type="text" [autofocus]="false" matInput placeholder="Артём" autocomplete="off"
+						formControlName="name">
 					<mat-error *ngIf="personalDataForm.controls['name'].invalid">Имя не может быть пустым</mat-error>
 				</mat-form-field>
 
 				<mat-form-field appearance="fill">
 					<mat-label>Номер телефона</mat-label>
-					<input [autofocus]="false" matInput placeholder="+375XXXXXXXXX" formControlName="phoneNumber"
+					<input type="text" [autofocus]="false" matInput placeholder="+375XXXXXXXXX" formControlName="phoneNumber"
 						autocomplete="off">
 					<mat-error *ngIf="personalDataForm.controls['phoneNumber'].invalid">Неверный формат телефона</mat-error>
 				</mat-form-field>
 
 				<mat-form-field appearance="fill">
 					<mat-label>Email</mat-label>
-					<input [autofocus]="false" matInput placeholder="xxx@gmail.com" formControlName="email" autocomplete="off">
+					<input type="text" [autofocus]="false" matInput placeholder="xxx@gmail.com"
+						formControlName="email" autocomplete="off">
 					<mat-error *ngIf="personalDataForm.controls['email'].invalid">Неверный формат email</mat-error>
 				</mat-form-field>
 
@@ -71,8 +73,8 @@
 				<mat-label>Масса тела &#40;кг&#41;: {{personalDataForm.controls['bodyWeight'].value || 'Не выбрано'}}</mat-label>
 				<mat-slider
 					formControlName="bodyWeight"
-  				thumbLabel
-  				step="1"
+  					thumbLabel
+  					step="1"
 					[max]="220"
 					[min]="10"
 					aria-labelledby="example-name-label">
@@ -85,8 +87,8 @@
 				<mat-label>Рост &#40;см&#41;: {{personalDataForm.controls['bodyHeight'].value || 'Не выбрано'}}</mat-label>
 				<mat-slider
 					formControlName="bodyHeight"
-  				thumbLabel
-  				step="1"
+  					thumbLabel
+  					step="1"
 					[max]="260"
 					[min]="30">
 				</mat-slider>

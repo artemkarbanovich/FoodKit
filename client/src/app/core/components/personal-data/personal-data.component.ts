@@ -1,7 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, map, Observable, take, throwError } from 'rxjs';
 import { Account } from '../../models/account';
@@ -9,27 +8,10 @@ import { PersonalData } from '../../models/personal-data';
 import { AccountService } from '../../services/account.service';
 import { PersonalDataService } from '../../services/personal-data.service';
 
-
-export const DATE_FORMATS = {
-  parse: {
-    dateInput: 'DD/MM/YYYY',
-  },
-  display: {
-    dateInput: 'DD.MM.YYYY',
-    monthYearLabel: 'MMMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY'
-  }
-};
-
 @Component({
   selector: 'app-personal-data',
   templateUrl: './personal-data.component.html',
-  styleUrls: ['./personal-data.component.scss'],
-  providers: [
-    { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS },
-    DatePipe
-  ]
+  styleUrls: ['./personal-data.component.scss']
 })
 export class PersonalDataComponent implements OnInit {
   @ViewChild('editForm') editForm: NgForm;
