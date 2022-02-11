@@ -24,15 +24,19 @@ import { MatDividerModule } from '@angular/material/divider';
 import { PersonalDataComponent } from './core/components/personal-data/personal-data.component';
 import { JwtInterceptor } from './core/security/interceptors/jwt.interceptor';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
 import { MatSliderModule } from '@angular/material/slider';
 import { MomentDateModule } from '@angular/material-moment-adapter';
 import { AddressComponent } from './core/components/address/address.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LoadingInterceptor } from './core/security/interceptors/loading.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { UserDishComponent } from './core/components/user-dish/user-dish.component';
+import { DATE_FORMATS } from './core/constants/date-formats';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -43,7 +47,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     SignInComponent,
     ProfileComponent,
     PersonalDataComponent,
-    AddressComponent
+    AddressComponent,
+    UserDishComponent
   ],
   imports: [
     BrowserModule,
@@ -66,6 +71,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     MatSelectModule,
     MatListModule,
     MatSliderModule,
+    MatTableModule,
     MatProgressSpinnerModule,
     MomentDateModule,
     HttpClientModule,
@@ -76,7 +82,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true}
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
+    { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS },
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })
