@@ -51,7 +51,7 @@ public class UserDishController : BaseApiController
         if (userDishes == null)
             return BadRequest("Не удалось получить продукты");
 
-        Response.AddPaginationHeader(userDishes.CurrentPage, userDishes.PageSize, userDishes.TotalCount, userDishes.TotalPages);
+        Response.AddPaginationHeader(userDishes.CurrentPage, userDishes.PageSize, userDishes.TotalCount);
 
         return Ok(userDishes);
     }

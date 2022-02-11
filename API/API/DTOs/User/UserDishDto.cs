@@ -14,22 +14,18 @@ public class UserDishDto
     public DateOnly DishDate { get; set; }
     
     [Required]
-    [RegularExpression("^[1-9][0-9]*$")]
     [Range(1, 5000)]
     public int DishWeight { get; set; }
 
     [Required]
-    [RegularExpression("^\\d*\\.?\\d*$")]
     [Range(0, 200)]
     public float Proteins { get; set; }
 
     [Required]
-    [RegularExpression("^\\d*\\.?\\d*$")]
     [Range(0, 200)]
     public float Fats { get; set; }
     
     [Required]
-    [RegularExpression("^\\d*\\.?\\d*$")]
     [Range(0, 200)]
     public float Carbohydrates { get; set; }
     

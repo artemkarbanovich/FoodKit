@@ -10,13 +10,11 @@ public class PagedList<T> : List<T>
         CurrentPage = currentPage;
         PageSize = pageSize;
         TotalCount = totalCount;
-        TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
     }
 
     public int CurrentPage { get; set; }
     public int PageSize { get; set; }
     public int TotalCount { get; set; }
-    public int TotalPages { get; set; }
 
     public static async Task<PagedList<T>> CreateAsync(IQueryable<T> source, int currentPage, int pageSize)
     {
