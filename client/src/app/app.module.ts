@@ -41,6 +41,7 @@ import { UserDishTableComponent } from './core/components/user-dish-table/user-d
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatSelectModule,
     MatListModule,
     MatPaginatorModule,
+    MatCheckboxModule,
     MatSliderModule,
     MatTooltipModule,
     MatTableModule,

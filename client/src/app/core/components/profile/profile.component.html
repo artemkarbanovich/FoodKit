@@ -28,17 +28,6 @@
         <mat-tab label="Мои продукты">
             <ng-template matTabContent>
                 <div class="user-dish__container">
-                    <app-user-dish-add-form></app-user-dish-add-form>
-                    <mat-toolbar>
-                        <p>Мои продукты</p>
-                        <mat-icon class="help-icon" type="button" #tooltip="matTooltip"
-                            (click)="tooltip.toggle()"
-                            matTooltip="В калькулятор калорий автоматически добавляются продукты,
-                            которые вы заказывали у нас. Добавьте сюда продукты, которые вы едите помимо наших, 
-                            чтобы калькулятор был точнее. Для более подробной информации переходите на
-                            следующую вкладку."
-                        >help_outline</mat-icon>
-                    </mat-toolbar>
                     <app-user-dish-table></app-user-dish-table>
                 </div>
             </ng-template>

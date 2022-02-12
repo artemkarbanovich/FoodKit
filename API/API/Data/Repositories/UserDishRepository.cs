@@ -38,10 +38,6 @@ public class UserDishRepository : IUserDishRepository
         }
 
         await _dataContext.AddRangeAsync(userDishes);
-        await _dataContext.SaveChangesAsync();
-
-        foreach (var udd_ud in userDishesDto.Zip(userDishes, Tuple.Create))
-            udd_ud.Item1.Id = udd_ud.Item2.Id;
     }
 
     public async Task<PagedList<UserDishDto>> GetUserDishesAsync(UserDishParams userDishParams, int userId)

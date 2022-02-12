@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -15,8 +15,16 @@ export class UserDishService {
   constructor(private http: HttpClient) { }
 
   
-  public addUserDish(userDish: UserDish): Observable<number> {
-    return this.http.post<number>(this.baseUrl + 'userdish/add-user-dish', userDish);
+  public addUserDishes(userDishes: UserDish[]): Observable<Object> {
+    return this.http.post(this.baseUrl + 'userdish/add-user-dishes', userDishes);
+  }
+
+  public deleteUserDishes(userDishIds: number[]): Observable<Object> {
+    const options = {
+      headers: new HttpHeaders({'Content-Type': 'application/json'}),
+      body: userDishIds
+    };
+    return this.http.delete(this.baseUrl + 'userdish/delete-user-dishes', options);
   }
 
   public getUserDishes(currentPage?: number, pageSize?: number): Observable<PaginatedResult<UserDish[]>> {

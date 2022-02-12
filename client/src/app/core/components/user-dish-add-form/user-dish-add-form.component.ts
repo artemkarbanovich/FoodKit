@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { UserDish } from '../../models/userDish';
@@ -11,6 +11,7 @@ import { UserDishService } from '../../services/user-dish.service';
   styleUrls: ['./user-dish-add-form.component.scss']
 })
 export class UserDishAddFormComponent implements OnInit {
+  @Output() updateUserDishTable: EventEmitter<any> = new EventEmitter(); 
   public userDishForm: FormGroup;
   public minDishDate: Date = new Date(new Date().getFullYear() - 1, 0, 1);
   public maxDishDate: Date = new Date();
@@ -34,9 +35,8 @@ export class UserDishAddFormComponent implements OnInit {
       calories: this.userDishForm.controls['calories'].value
     };
 
-    this.userDishService.addUserDish(userDish).subscribe((userDishId: number) => {
-      userDish.id = userDishId;
-      //TODO: add to userDish[] and dynamicly display in table
+    this.userDishService.addUserDishes(Array.of(userDish)).subscribe(() => {
+      this.updateUserDishTable.emit();
       this.toastr.success('Продукт упешно добавлен');
       editForm.resetForm();
       this.userDishForm.reset();

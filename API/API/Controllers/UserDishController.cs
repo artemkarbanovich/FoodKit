@@ -21,26 +21,18 @@ public class UserDishController : BaseApiController
         _mapper = mapper;
     }
 
-
-    [HttpPost("add-user-dish")]
-    public async Task<ActionResult<int>> AddUserDish(UserDishDto userDishDto)
-    {
-        var userDish = new UserDish { AppUserId = User.GetUserId() };
-        _mapper.Map(userDishDto, userDish);
-
-        await _unitOfWork.UserDishRepository.AddUserDishAsync(userDish);
-
-        if (await _unitOfWork.CompleteAsync())
-            return userDish.Id;
-
-        return BadRequest("Ошибка добавления продукта");
-    }
-
     [HttpPost("add-user-dishes")]
-    public async Task<ActionResult<List<UserDishDto>>> AddUserDishes(List<UserDishDto> userDishesDto)
+    public async Task<ActionResult> AddUserDishes(List<UserDishDto> userDishesDto)
     {
         await _unitOfWork.UserDishRepository.AddUserDishesAsync(userDishesDto, User.GetUserId());
-        return userDishesDto;
+
+        if (await _unitOfWork.CompleteAsync())
+            return Ok();
+
+        if(userDishesDto.Count == 1)
+            return BadRequest("Ошибка добавления продукта");
+
+        return BadRequest("Ошибка добавления продуктов");
     }
 
     [HttpGet("get-user-dishes")]
