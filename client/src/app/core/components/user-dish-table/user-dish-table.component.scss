@@ -57,6 +57,17 @@ mat-toolbar {
     margin-top: -15px;
 }
 
+th.mat-sort-header {
+    font-size: 15px;
+    border: 1px solid #CCC;
+    color: #757575;
+    font-weight: 400;
+    padding-left: 8px !important;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;    
+}
+
 .table-actions__container {
     margin-top: 20px;
     padding: 10px 10px 0 10px;
@@ -112,8 +123,8 @@ mat-toolbar {
 .mat-column-dishDate {
     word-wrap: break-word !important;
     white-space: unset !important;
-    min-width: 120px !important;
-    width: 120px !important;
+    min-width: 125px !important;
+    width: 125px !important;
     overflow-wrap: break-word;
     word-wrap: break-word;
   

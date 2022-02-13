@@ -27,7 +27,7 @@ export class UserDishService {
     return this.http.delete(this.baseUrl + 'userdish/delete-user-dishes', options);
   }
 
-  public getUserDishes(currentPage?: number, pageSize?: number, searchString?: string)
+  public getUserDishes(currentPage?: number, pageSize?: number, searchString?: string, sortByDescending?: boolean)
   : Observable<PaginatedResult<UserDish[]>> {
     let params = new HttpParams();
     
@@ -39,6 +39,8 @@ export class UserDishService {
     if(searchString != null && searchString.trim().length !== 0) {
         params = params.append('searchStringByName', searchString);
     }
+
+    params = params.append('sortDishDateDescending', sortByDescending)
 
     return this.http.get<UserDish[]>(this.baseUrl + 'userdish/get-user-dishes', {observe: 'response' , params})
     .pipe(

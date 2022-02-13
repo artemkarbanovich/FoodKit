@@ -19,6 +19,7 @@ export class UserDishTableComponent implements OnInit {
   public userDishes: UserDish[];
   public selectedUserDishes: UserDish[] = [];
   public searchString: string = '';
+  public sortByDescending: boolean = true;
   public displayColumns: string[] = 
     ['select', 'name', 'dishDate', 'dishWeight', 'proteins', 'fats', 'carbohydrates', 'calories'];
 
@@ -83,12 +84,18 @@ export class UserDishTableComponent implements OnInit {
   }
 
   public loadUserDishes(): void {
-    this.userDishService.getUserDishes(this.pagination?.currentPage + 1, this.pagination?.pageSize, this.searchString)
+    this.userDishService.getUserDishes(this.pagination?.currentPage + 1, this.pagination?.pageSize,
+      this.searchString, this.sortByDescending)
     .subscribe((paginatedResult: PaginatedResult<UserDish[]>) => { 
       this.userDishes = paginatedResult.result;
       this.pagination = paginatedResult.pagination;
       this.pagination.currentPage = this.pagination.currentPage - 1;
     });
+  }
+
+  public sortByDishDate(): void {
+    this.sortByDescending = !this.sortByDescending;
+    this.loadUserDishes();
   }
   
   public changeSearchString(): void {

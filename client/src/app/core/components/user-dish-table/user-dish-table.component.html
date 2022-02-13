@@ -28,7 +28,7 @@
         </div>
 
         <div class="table__container" [style.display]="userDishes?.length === 0 ? 'none' : 'block'">
-            <table mat-table [dataSource]="userDishes">
+            <table mat-table matSort [dataSource]="userDishes" (matSortChange)="sortByDishDate()">
 
                 <ng-container matColumnDef="select">
                     <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"></th>
@@ -50,11 +50,11 @@
                 </ng-container>
 
                 <ng-container matColumnDef="dishDate">
-                    <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"></th>
+                    <th mat-sort-header *matHeaderCellDef [ngStyle]="{'display': 'none'}"></th>
                     <td mat-cell *matCellDef="let userDish">{{userDish.dishDate | date:'dd.MM.yyyy'}}</td>
                 </ng-container>
                 <ng-container matColumnDef="dishDate-rowspan">
-                    <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">Дата<br>употребления</th>
+                    <th mat-sort-header *matHeaderCellDef [attr.rowspan]="2">Дата<br>употребления</th>
                 </ng-container>
 
                 <ng-container matColumnDef="dishWeight">
