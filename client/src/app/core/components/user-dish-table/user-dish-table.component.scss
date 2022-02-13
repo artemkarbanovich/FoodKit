@@ -59,10 +59,14 @@ mat-toolbar {
 
 .table-actions__container {
     margin-top: 20px;
-    padding: 10px;
+    padding: 10px 10px 0 10px;
     border-top: 1px solid #CCC;
     border-left: 1px solid #CCC;
     border-right: 1px solid #CCC;
+
+    ::ng-deep .mat-raised-button {
+        margin-right: 15px !important;
+    }
 }
 
 .container {
@@ -78,6 +82,11 @@ mat-toolbar {
     border-bottom: 1px solid #CCC;
     border-left: 1px solid #CCC;
     border-right: 1px solid #CCC;
+}
+
+.search-string {
+    font-size: 13px;
+    margin-right: 15px;
 }
 
 ::ng-deep .mat-paginator-container {
@@ -119,8 +128,8 @@ mat-toolbar {
 .mat-column-dishWeight {
     word-wrap: break-word !important;
     white-space: unset !important;
-    min-width: 85px !important;
-    width: 85px !important;
+    min-width: 95px !important;
+    width: 95px !important;
     overflow-wrap: break-word;
     word-wrap: break-word;
   
@@ -177,6 +186,24 @@ mat-toolbar {
     th.mat-header-cell:nth-child(2) {
         padding-right: 10px !important;
         text-align: left !important;
+    }
+}
+
+@media screen and (max-width: 575px) {
+    .search-string {
+        margin-right: 0;
+        width: 100%;
+    }
+
+    .table-button {
+        display: block;
+        width: 100%;
+    }
+    .table-button:last-child {
+        margin-top: 10px;
+    }
+    .table-actions__container {
+        padding-bottom: 10px;
     }
 }
 

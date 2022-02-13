@@ -49,8 +49,8 @@ public class UserDishRepository : IUserDishRepository
     
         query = userDishParams.SortDishDateDescending switch
         {
-            true => query.OrderByDescending(ud => ud.DishDate),
-            false => query.OrderBy(ud => ud.DishDate)
+            true => query.OrderByDescending(ud => ud.DishDate).ThenByDescending(ud => ud.Id),
+            false => query.OrderBy(ud => ud.DishDate).ThenBy(ud => ud.Id)
         };
 
         var source = query.ProjectTo<UserDishDto>(_mapper.ConfigurationProvider).AsNoTracking();

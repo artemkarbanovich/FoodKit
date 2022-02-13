@@ -13,11 +13,21 @@
     <div class="container__act-table">
 
         <div class="table-actions__container">
+            <mat-form-field class="search-string" appearance="fill">
+                <mat-label>Поиск</mat-label>
+                <input autofocus matInput type="text" [(ngModel)]="searchString" (input)="changeSearchString()">
+                <button type="button" matSuffix mat-icon-button aria-label="Search" (click)="loadUserDishes();">
+                  <mat-icon>search</mat-icon>
+                </button>
+              </mat-form-field>
+
+            <button type="button" class="table-button" [disabled]="selectedUserDishes.length === 0" mat-raised-button
+                color="primary" (click)="addUserDishesForToday()">Добавить на сегодня</button>
             <button type="button" class="table-button" [disabled]="selectedUserDishes.length === 0" mat-raised-button
                 color="warn" (click)="deleteSelectedUserDishes()">Удалить</button>
         </div>
 
-        <div class="table__container">
+        <div class="table__container" [style.display]="userDishes?.length === 0 ? 'none' : 'block'">
             <table mat-table [dataSource]="userDishes">
 
                 <ng-container matColumnDef="select">
@@ -53,7 +63,7 @@
                 </ng-container>
                 <ng-container matColumnDef="dishWeight-rowspan">
                     <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">
-                        Масса<br>продукта<br>&#40;грамм&#41;</th>
+                        Масса<br>продукта<br>&#40;грамм/мл&#41;</th>
                 </ng-container>
 
                 <ng-container matColumnDef="proteins">

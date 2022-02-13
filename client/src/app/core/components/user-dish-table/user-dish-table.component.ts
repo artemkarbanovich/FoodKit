@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { PageEvent } from '@angular/material/paginator';
@@ -17,11 +18,14 @@ export class UserDishTableComponent implements OnInit {
   public pageEvent: PageEvent;
   public userDishes: UserDish[];
   public selectedUserDishes: UserDish[] = [];
+  public searchString: string = '';
   public displayColumns: string[] = 
     ['select', 'name', 'dishDate', 'dishWeight', 'proteins', 'fats', 'carbohydrates', 'calories'];
 
-  constructor(private userDishService: UserDishService, private toastr: ToastrService) { }
+  constructor(private userDishService: UserDishService, private toastr: ToastrService,
+    private datePipe: DatePipe) { }
 
+  
   public ngOnInit(): void {
     this.loadUserDishes();
   }
@@ -38,6 +42,22 @@ export class UserDishTableComponent implements OnInit {
         this.selectedUserDishes = [];
       });
     }
+  }
+
+  public addUserDishesForToday(): void {
+    this.selectedUserDishes.forEach(sud => {
+      sud.dishDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    });
+
+    this.userDishService.addUserDishes(this.selectedUserDishes).subscribe(() => {
+      if (this.selectedUserDishes.length === 1) {
+        this.toastr.success('Продукт успешно добавлен');
+      } else {
+        this.toastr.success('Продукты успешно добавлены');
+      }
+      this.selectedUserDishes = [];
+      this.loadUserDishes();
+    });
   }
 
   public userDishChangeEvent(clickedUserDish: UserDish, $event: MatCheckboxChange): void {
@@ -63,11 +83,17 @@ export class UserDishTableComponent implements OnInit {
   }
 
   public loadUserDishes(): void {
-    this.userDishService.getUserDishes(this.pagination?.currentPage + 1, this.pagination?.pageSize)
+    this.userDishService.getUserDishes(this.pagination?.currentPage + 1, this.pagination?.pageSize, this.searchString)
     .subscribe((paginatedResult: PaginatedResult<UserDish[]>) => { 
       this.userDishes = paginatedResult.result;
       this.pagination = paginatedResult.pagination;
       this.pagination.currentPage = this.pagination.currentPage - 1;
     });
+  }
+  
+  public changeSearchString(): void {
+    if(this.searchString === '') {
+      this.loadUserDishes();
+    }
   }
 }

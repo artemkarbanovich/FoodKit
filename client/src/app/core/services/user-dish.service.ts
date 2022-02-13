@@ -27,12 +27,17 @@ export class UserDishService {
     return this.http.delete(this.baseUrl + 'userdish/delete-user-dishes', options);
   }
 
-  public getUserDishes(currentPage?: number, pageSize?: number): Observable<PaginatedResult<UserDish[]>> {
+  public getUserDishes(currentPage?: number, pageSize?: number, searchString?: string)
+  : Observable<PaginatedResult<UserDish[]>> {
     let params = new HttpParams();
     
     if(currentPage != null && pageSize != null) {
       params = params.append('currentPage', currentPage.toString());
       params = params.append('pageSize', pageSize.toString());
+    }
+
+    if(searchString != null && searchString.trim().length !== 0) {
+        params = params.append('searchStringByName', searchString);
     }
 
     return this.http.get<UserDish[]>(this.baseUrl + 'userdish/get-user-dishes', {observe: 'response' , params})

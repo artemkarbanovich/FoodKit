@@ -1,9 +1,7 @@
 ﻿using API.DTOs.User;
-using API.Entities;
 using API.Extensions;
 using API.Helpers;
 using API.Interfaces.Data;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,12 +11,10 @@ namespace API.Controllers;
 public class UserDishController : BaseApiController
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
 
-    public UserDishController(IUnitOfWork unitOfWork, IMapper mapper)
+    public UserDishController(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
-        _mapper = mapper;
     }
 
     [HttpPost("add-user-dishes")]
