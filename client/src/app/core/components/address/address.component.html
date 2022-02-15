@@ -53,10 +53,10 @@
                     <mat-error *ngIf="addressForm.controls['floor'].invalid">Длина должна быть до 5</mat-error>
                 </mat-form-field>
 
-                <button class="submit-btn" color="primary" [disabled]="!addressForm.valid || addresses.length >=5"
+                <button class="submit-btn" color="primary" [disabled]="!addressForm.valid || addresses?.length >=5"
                     mat-raised-button type="submit">Добавить адрес</button>
 
-                <span *ngIf="addresses.length >= 5" class="address-warning">
+                <span *ngIf="addresses?.length >= 5" class="address-warning">
                     Количество адресов не может быть больше 5</span>
 
             </form>
