@@ -11,7 +11,7 @@ import { UserDishService } from '../../services/user-dish.service';
   styleUrls: ['./user-dish-add-form.component.scss']
 })
 export class UserDishAddFormComponent implements OnInit {
-  @Output() updateUserDishTable: EventEmitter<any> = new EventEmitter(); 
+  @Output() updateUserDishTable = new EventEmitter();
   public userDishForm: FormGroup;
   public minDishDate: Date = new Date(new Date().getFullYear() - 1, 0, 1);
   public maxDishDate: Date = new Date();
@@ -25,7 +25,7 @@ export class UserDishAddFormComponent implements OnInit {
   }
 
   public addUserDish(editForm: FormGroupDirective): void {
-    let userDish: UserDish = {
+    const userDish: UserDish = {
       name: this.userDishForm.controls['name'].value,
       dishDate: this.datePipe.transform(new Date(this.userDishForm.controls['dishDate'].value), 'yyyy-MM-dd'),
       dishWeight: this.userDishForm.controls['dishWeight'].value,

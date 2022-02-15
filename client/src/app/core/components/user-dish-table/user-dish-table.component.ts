@@ -7,6 +7,8 @@ import { PaginatedResult } from '../../models/paginatedResult';
 import { Pagination } from '../../models/pagination';
 import { UserDish } from '../../models/userDish';
 import { UserDishService } from '../../services/user-dish.service';
+import { DeletionConfirmationComponent } from '../../../shared/components/deletion-confirmation/deletion-confirmation.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-user-dish-table',
@@ -24,7 +26,7 @@ export class UserDishTableComponent implements OnInit {
     ['select', 'name', 'dishDate', 'dishWeight', 'proteins', 'fats', 'carbohydrates', 'calories'];
 
   constructor(private userDishService: UserDishService, private toastr: ToastrService,
-    private datePipe: DatePipe) { }
+    private datePipe: DatePipe, private dialog: MatDialog) { }
 
   
   public ngOnInit(): void {
@@ -32,17 +34,22 @@ export class UserDishTableComponent implements OnInit {
   }
 
   public deleteSelectedUserDishes(): void {
-    if(this.selectedUserDishes.length > 0) {
-      this.userDishService.deleteUserDishes(this.selectedUserDishes.map(sud => sud.id)).subscribe(() => {
-        this.loadUserDishes();
-        if(this.selectedUserDishes.length == 1) {
-          this.toastr.success('Продукт успешно удален');
-        } else {
-          this.toastr.success('Продукты успешно удалены');
-        }
-        this.selectedUserDishes = [];
-      });
-    }
+    this.dialog.open(DeletionConfirmationComponent, {disableClose: true, autoFocus: false})
+    .afterClosed().subscribe(result => {
+      if(result == false) return;
+
+      if(this.selectedUserDishes.length > 0) {
+        this.userDishService.deleteUserDishes(this.selectedUserDishes.map(sud => sud.id)).subscribe(() => {
+          this.loadUserDishes();
+          if(this.selectedUserDishes.length == 1) {
+            this.toastr.success('Продукт успешно удален');
+          } else {
+            this.toastr.success('Продукты успешно удалены');
+          }
+          this.selectedUserDishes = [];
+        });
+      }
+    });
   }
 
   public addUserDishesForToday(): void {
