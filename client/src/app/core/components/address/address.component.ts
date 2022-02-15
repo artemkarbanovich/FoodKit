@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular
 import { ToastrService } from 'ngx-toastr';
 import { Address } from '../../models/address';
 import { AddressService } from '../../services/address.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DeletionConfirmationComponent } from '../../../shared/components/deletion-confirmation/deletion-confirmation.component';
 
 @Component({
   selector: 'app-address',
@@ -15,7 +17,7 @@ export class AddressComponent implements OnInit {
   public addresses: Address[];
 
   constructor(private addressService: AddressService, private toastr: ToastrService,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder, private dialog: MatDialog) { }
 
 
   public ngOnInit(): void {
@@ -24,12 +26,17 @@ export class AddressComponent implements OnInit {
   }
 
   public deleteAddress(address: Address): void {
-    this.addressService.deleteAddress(address.id).subscribe({
-      complete: () => {
-        this.addresses.splice(this.addresses.indexOf(address), 1);
-        this.toastr.success('Адрес успешно удален');
-      },
-      error: () => this.toastr.error('Ошибка удаления')
+    this.dialog.open(DeletionConfirmationComponent, {disableClose: true, autoFocus: false})
+    .afterClosed().subscribe(result => {
+      if(result == false) return;
+
+      this.addressService.deleteAddress(address.id).subscribe({
+        complete: () => {
+          this.addresses.splice(this.addresses.indexOf(address), 1);
+          this.toastr.success('Адрес успешно удален');
+        },
+        error: () => this.toastr.error('Ошибка удаления')
+      });
     });
   }
 

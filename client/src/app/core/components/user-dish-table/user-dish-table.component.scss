@@ -1,0 +1,225 @@
+table {
+    border-collapse: collapse !important;
+    width: 100%;
+}
+
+td, th {
+    padding: 0 !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+td:nth-child(2){
+    text-align: left !important;
+}
+
+.mat-sort-header-container {
+    justify-content: center !important;
+}
+
+th.mat-header-cell {
+    font-size: 15px;
+    text-align: center;
+    border: 1px solid #CCC;
+    padding: 0 !important;
+}
+
+th:nth-child(1),
+th:nth-child(2) {
+    border-left: none !important;
+    border-right: none !important;
+}
+
+th:nth-last-child(1) {
+    border-right: 1px solid transparent;
+}
+
+th.mat-header-cell:nth-child(2) {
+    padding-right: 10px !important;
+    text-align: left !important;
+}
+
+.table__container {
+    border-left: 1px solid #CCC;
+    border-right: 1px solid #CCC;
+    overflow-x: auto;
+}
+
+mat-toolbar {
+    margin-top: 20px;
+    border-radius: 5px;
+}
+  
+.help-icon {
+    transform: scale(0.8);
+    cursor: pointer;
+    margin-left: -2px;
+    margin-top: -15px;
+}
+
+th.mat-sort-header {
+    font-size: 15px;
+    border: 1px solid #CCC;
+    color: #757575;
+    font-weight: 400;
+    padding-left: 8px !important;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;    
+}
+
+.table-actions__container {
+    margin-top: 20px;
+    padding: 10px 10px 0 10px;
+    border-top: 1px solid #CCC;
+    border-left: 1px solid #CCC;
+    border-right: 1px solid #CCC;
+
+    ::ng-deep .mat-raised-button {
+        margin-right: 15px !important;
+    }
+}
+
+.container {
+    margin-bottom: 50px;
+}
+
+.mat-row {
+    min-width: max-content;
+}
+
+.paginator__container {
+    width: 100%;
+    border-bottom: 1px solid #CCC;
+    border-left: 1px solid #CCC;
+    border-right: 1px solid #CCC;
+}
+
+.search-string {
+    font-size: 13px;
+    margin-right: 15px;
+}
+
+::ng-deep .mat-paginator-container {
+    justify-content: center !important;
+}
+
+.mat-column-select {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    min-width: 50px !important;
+    width: 50px !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  
+    word-break: break-word;
+  
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+
+.mat-column-dishDate {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    min-width: 125px !important;
+    width: 125px !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  
+    word-break: break-word;
+  
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+
+.mat-column-dishWeight {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    min-width: 95px !important;
+    width: 95px !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  
+    word-break: break-word;
+  
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+
+.mat-column-proteins,
+.mat-column-fats,
+.mat-column-carbohydrates {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    min-width: 85px !important;
+    width: 85px !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  
+    word-break: break-word;
+  
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+
+.mat-column-calories {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    min-width: 120px !important;
+    width: 120px !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  
+    word-break: break-word;
+  
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+
+@media screen and (max-width: 885px) {
+    .container__act-table {
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}
+
+@media screen and (max-width: 770px) {
+    th.mat-header-cell:nth-child(2) {
+        padding-right: 10px !important;
+        text-align: left !important;
+    }
+}
+
+@media screen and (max-width: 575px) {
+    .search-string {
+        margin-right: 0;
+        width: 100%;
+    }
+
+    .table-button {
+        display: block;
+        width: 100%;
+    }
+    .table-button:last-child {
+        margin-top: 10px;
+    }
+    .table-actions__container {
+        padding-bottom: 10px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    ::ng-deep .mat-paginator-range-label {
+        display: none !important;
+    }
+}

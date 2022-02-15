@@ -50,6 +50,9 @@ $client-theme: mat.define-light-theme((
     padding-right: 10px !important;
   }
 }
+.mat-tooltip {
+  font-size: 12px !important;
+}
 
 
 // TOASTR

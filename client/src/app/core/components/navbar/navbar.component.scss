@@ -2,7 +2,7 @@
     position: relative;
     max-width: 1300px;
     margin: auto;
-    height: 100px;
+    height: 55px;
 }
 
 .container__content {
@@ -16,6 +16,7 @@
 }
 
 .container__logo {
+    transform: scale(0.6);
     display: inline-block;
     height: 65px;
 
@@ -28,7 +29,7 @@
 .container__nav {
     position: absolute;
     display: inline-block;
-    top: 45%;
+    top: 40%;
 
     ul {
         padding: 0;
@@ -51,7 +52,7 @@
 
 .container__nav__icons {
     position: absolute;
-    top: 40%;
+    top: 35%;
     right: 0;
 
     ul {
@@ -103,7 +104,7 @@ button[mat-menu-item] {
     }
 }
 
-@media screen and (max-width: 515px) {
+@media screen and (max-width: 495px) {
     .container__nav {
         display: none;
     }
@@ -113,7 +114,7 @@ button[mat-menu-item] {
     }
 }
 
-@media screen and (min-width: 515px) {
+@media screen and (min-width: 495px) {
     ::ng-deep .navigation-menu {
         display: none;
     }

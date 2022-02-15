@@ -25,6 +25,13 @@
                 Lazy loading content will be here!
             </ng-template>
         </mat-tab>
+        <mat-tab label="Мои продукты">
+            <ng-template matTabContent>
+                <div class="user-dish__container">
+                    <app-user-dish-table></app-user-dish-table>
+                </div>
+            </ng-template>
+        </mat-tab>
         <mat-tab>
             <ng-template mat-tab-label>
                 <span class="tab-number">Калькулятор</span>
