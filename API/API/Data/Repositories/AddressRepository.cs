@@ -41,4 +41,9 @@ public class AddressRepository : IAddressRepository
     {
         return await _dataContext.Addresses.SingleOrDefaultAsync(a => a.Id == addressId);
     }
+
+    public async Task<int> GetAddressesCountByUserId(int userId)
+    {
+        return await _dataContext.Addresses.CountAsync(a => a.Id == userId);
+    }
 }
