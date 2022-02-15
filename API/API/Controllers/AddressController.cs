@@ -24,7 +24,7 @@ public class AddressController : BaseApiController
     [HttpPost("add-address")]
     public async Task<ActionResult<int>> AddAddress(AddressDto addressDto)
     {
-        if (await _unitOfWork.AddressRepository.GetAddressesCountByUserId(User.GetUserId()) >= 5)
+        if (await _unitOfWork.AddressRepository.GetAddressesCountByUserIdAsync(User.GetUserId()) >= 5)
             return BadRequest("Количество адресов не может быть больше 5");
 
         var address = new Address { AppUserId = User.GetUserId() };

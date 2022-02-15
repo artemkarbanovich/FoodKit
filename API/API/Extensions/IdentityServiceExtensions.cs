@@ -40,8 +40,8 @@ public static class IdentityServiceExtensions
 
         services.AddAuthorization(opt =>
         {
-            opt.AddPolicy("AdminRole", policy => policy.RequireRole("Admin"));
-            opt.AddPolicy("CourierRole", policy => policy.RequireRole("Admin", "Courier"));
+            opt.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
+            opt.AddPolicy("CourierPolicy", policy => policy.RequireRole("Admin", "Courier"));
         });
 
         return services;

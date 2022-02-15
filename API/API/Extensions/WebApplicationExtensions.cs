@@ -20,6 +20,7 @@ public static class WebApplicationExtensions
 
             await context.Database.MigrateAsync();
             await Seeder.SetBaseRoleConfiguration(roleManager);
+            await Seeder.AddAdminToDB(userManager, roleManager);
         }
         catch (Exception ex)
         {

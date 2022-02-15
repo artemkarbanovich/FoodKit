@@ -19,6 +19,7 @@ public class UnitOfWork : IUnitOfWork
     public IPersonalDataRepository PersonalDataRepository => new PersonalDataRepository(_dataContext, _mapper);
     public IAddressRepository AddressRepository => new AddressRepository(_dataContext, _mapper);
     public IUserDishRepository UserDishRepository => new UserDishRepository(_dataContext, _mapper);
+    public IIngredientRepository IngredientRepository => new IngredientRepository(_dataContext, _mapper);
 
     public async Task<bool> CompleteAsync() => await _dataContext.SaveChangesAsync() > 0;
 }
