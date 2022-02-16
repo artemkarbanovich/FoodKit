@@ -1,0 +1,95 @@
+.container {
+    max-width: 1260px;
+    margin: auto;
+}
+
+mat-panel-title {
+    font-weight: 500;
+}
+
+.add-ingredient__container {
+    margin: 20px 10px 0 10px;
+}
+
+.form {
+    margin-top: 20px;
+
+    .form-field { margin-bottom: 12px; }
+
+    .form-field:nth-child(1) {
+        width: 32.5%;
+        margin-right: 0.5%;
+    }
+    .form-field:nth-child(2) {
+        width: 33%;
+        margin-left: 0.5%;
+        margin-right: 0.5%;
+    }
+    .form-field:nth-child(3) {
+        margin-left: 0.5%;
+        width: 32.5%;
+    }
+
+    .form-field:nth-child(4) {
+        margin-right: 0.5%;
+        width: 49.5%;
+    }
+    .form-field:nth-child(5) {
+        margin-left: 0.5%;
+        width: 49.5%;
+    }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.submit-btn {
+    margin-top: 8px;
+}
+
+@media screen and (max-width: 535px) {
+    .form {
+        .form-field:nth-child(1) {
+            width: 100%;
+            margin-right: 0;
+            margin-left: 0;
+        }
+
+        .form-field:nth-child(2) {
+            width: 49%;
+            margin-left: 0%;
+            margin-right: 1%;
+        }
+        .form-field:nth-child(3) {
+            margin-left: 1%;
+            margin-right: 0;
+            width: 49%;
+        }
+
+        .form-field:nth-child(4) {
+            margin-right: 1%;
+            width: 49%;
+        }
+        .form-field:nth-child(5) {
+            margin-left: 1%;
+            width: 49%;
+        }
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .form {
+        .form-field:nth-child(4) {
+            margin-right: 0;
+            width: 100%;
+        }
+
+        .form-field:nth-child(5) {
+            margin-left: 0;
+            width: 100%;
+        }
+    }
+}

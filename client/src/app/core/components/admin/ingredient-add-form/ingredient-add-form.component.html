@@ -1,0 +1,49 @@
+<div class="container">
+	<mat-divider></mat-divider>
+	<div class="add-ingredient__container">
+		<mat-expansion-panel>
+			<mat-expansion-panel-header>
+				<mat-panel-title>Добавить ингредиент</mat-panel-title>
+			</mat-expansion-panel-header>
+
+			<form #editForm="ngForm" class="form" autocomplete="off" [formGroup]="ingredientForm"
+				(ngSubmit)="ingredientForm.valid && addIngredient(editForm)">
+
+				<mat-form-field class="form-field" appearance="fill">
+					<mat-label>Название</mat-label>
+					<input type="text" [autofocus]="false" matInput placeholder="Тыква" formControlName="name">
+					<mat-error *ngIf="ingredientForm.controls['name'].invalid">Длина должна быть от 1 до 25</mat-error>
+				</mat-form-field>
+
+				<mat-form-field class="form-field" appearance="fill">
+					<mat-label>Белки <strong>&#40;на 100 г/мл&#41;</strong></mat-label>
+					<input type="text" [autofocus]="false" matInput placeholder="XX.X" formControlName="proteins">
+					<mat-error *ngIf="ingredientForm.controls['proteins'].invalid">Неверный формат</mat-error>
+				</mat-form-field>
+
+				<mat-form-field class="form-field" appearance="fill">
+					<mat-label>Жиры <strong>&#40;на 100 г/мл&#41;</strong></mat-label>
+					<input type="text" [autofocus]="false" matInput placeholder="XX.X" formControlName="fats">
+					<mat-error *ngIf="ingredientForm.controls['fats'].invalid">Неверный формат</mat-error>
+				</mat-form-field>
+
+				<mat-form-field class="form-field" appearance="fill">
+					<mat-label>Углеводы <strong>&#40;на 100 г/мл&#41;</strong></mat-label>
+					<input type="text" [autofocus]="false" matInput placeholder="XX.X" formControlName="carbohydrates">
+					<mat-error *ngIf="ingredientForm.controls['carbohydrates'].invalid">Неверный формат</mat-error>
+				</mat-form-field>
+
+				<mat-form-field class="form-field" appearance="fill">
+					<mat-label>Калорийность <strong>&#40;на 100 г/мл&#41;</strong></mat-label>
+					<input type="text" [autofocus]="false" matInput placeholder="XX" formControlName="calories">
+					<mat-error *ngIf="ingredientForm.controls['calories'].invalid">Неверный формат</mat-error>
+				</mat-form-field>
+
+				<button class="submit-btn" color="primary" [disabled]="!ingredientForm.valid" mat-raised-button
+					type="submit">Добавить ингредиент</button>
+
+			</form>
+
+		</mat-expansion-panel>
+	</div>
+</div>

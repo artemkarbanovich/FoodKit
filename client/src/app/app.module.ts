@@ -17,7 +17,8 @@ import { AddressComponent } from './core/components/address/address.component';
 import { UserDishAddFormComponent } from './core/components/user-dish-add-form/user-dish-add-form.component';
 import { UserDishTableComponent } from './core/components/user-dish-table/user-dish-table.component';
 import { SharedModule } from './shared/modules/shared/shared.module';
-import { IngredientComponent } from './core/components/admin/ingredient/ingredient.component';
+import { IngredientAddFormComponent } from './core/components/admin/ingredient-add-form/ingredient-add-form.component';
+import { IngredientTableComponent } from './core/components/admin/ingredient-table/ingredient-table.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { IngredientComponent } from './core/components/admin/ingredient/ingredie
     AddressComponent,
     UserDishAddFormComponent,
     UserDishTableComponent,
-    IngredientComponent
+    IngredientAddFormComponent,
+    IngredientTableComponent
   ],
   imports: [
     SharedModule,
