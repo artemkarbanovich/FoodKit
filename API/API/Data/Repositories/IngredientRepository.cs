@@ -39,7 +39,10 @@ public class IngredientRepository : IIngredientRepository
     public async Task<PagedList<IngredientDto>> GetIngredientsAsync(IngredientParam ingredientParam)
     {
         var query = _dataContext.Ingredients.AsQueryable();
-        var source = query.ProjectTo<IngredientDto>(_mapper.ConfigurationProvider).AsNoTracking();
+        var source = query
+            .OrderBy(i => i.Name)
+            .ProjectTo<IngredientDto>(_mapper.ConfigurationProvider)
+            .AsNoTracking();
 
         return await PagedList<IngredientDto>
            .CreateAsync(source, ingredientParam.CurrentPage, ingredientParam.PageSize);

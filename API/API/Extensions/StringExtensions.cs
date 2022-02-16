@@ -4,6 +4,9 @@ public static class StringExtensions
 {
     public static int LevenshteinDistance(this string firstWord, string secondWord)
     {
+        firstWord = firstWord.ToLower();
+        secondWord = secondWord.ToLower();
+
         var n = firstWord.Length + 1;
         var m = secondWord.Length + 1;
         var matrixD = new int[n, m];

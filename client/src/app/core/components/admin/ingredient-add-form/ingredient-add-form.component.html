@@ -6,8 +6,12 @@
 				<mat-panel-title>Добавить ингредиент</mat-panel-title>
 			</mat-expansion-panel-header>
 
+			<span class="error" *ngFor="let error of errors">
+				{{error}}
+			</span>
+
 			<form #editForm="ngForm" class="form" autocomplete="off" [formGroup]="ingredientForm"
-				(ngSubmit)="ingredientForm.valid && addIngredient(editForm)">
+				(ngSubmit)="ingredientForm.valid && addIngredient(editForm, false)">
 
 				<mat-form-field class="form-field" appearance="fill">
 					<mat-label>Название</mat-label>
@@ -39,11 +43,14 @@
 					<mat-error *ngIf="ingredientForm.controls['calories'].invalid">Неверный формат</mat-error>
 				</mat-form-field>
 
-				<button class="submit-btn" color="primary" [disabled]="!ingredientForm.valid" mat-raised-button
-					type="submit">Добавить ингредиент</button>
+				<button class="submit-btn" type="submit" color="primary" 
+					[disabled]="!ingredientForm.valid || errors" mat-raised-button>Добавить ингредиент</button>
 
+				<button class="btn-add-anyway" type="button" color="primary" *ngIf="ingredientForm.valid && errors"
+					mat-raised-button (click)="addIngredient(editForm, true)">Добавить в любом случае</button>
+					
 			</form>
-
+			
 		</mat-expansion-panel>
 	</div>
 </div>

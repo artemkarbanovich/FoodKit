@@ -1,0 +1,130 @@
+.container {
+    max-width: 1260px;
+    margin: auto;
+}
+
+.container__act-table {
+    margin: 25px 10px 0 10px !important;
+    padding-bottom: 50px !important;
+}
+
+table {
+    border-collapse: collapse !important;
+    width: 100%;
+}
+
+td, th {
+    padding: 0 !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+td.mat-cell:nth-child(1) {
+    text-align: left !important;
+    padding-left: 10px !important;
+}
+
+th.mat-header-cell {
+    font-size: 15px;
+    text-align: center;
+    border: 1px solid #CCC;
+    padding: 0 !important;
+}
+
+th:nth-child(1) {
+    border-left: none !important;
+    border-right: none !important;
+}
+
+th:nth-last-child(1) {
+    border-right: 1px solid transparent;
+}
+
+th.mat-header-cell:first-child {
+    padding-left: 10px !important;
+    text-align: left !important;
+}
+
+.table__container {
+    border-left: 1px solid #CCC;
+    border-right: 1px solid #CCC;
+    overflow-x: auto;
+    margin-right: -1px;
+}
+
+.mat-column-name {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    min-width: 210px !important;
+    width: 50% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  
+    word-break: break-word;
+  
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+
+.mat-column-proteins,
+.mat-column-fats,
+.mat-column-carbohydrates,
+.mat-column-calories {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    min-width: 85px !important;
+    width: 12% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  
+    word-break: break-word;
+  
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+
+.mat-column-delete {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    min-width: 75px !important;
+    width: 75px !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  
+    word-break: break-word;
+  
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+
+.delete-icon {
+    margin-top: -2px;
+    color: red;
+}
+
+.mat-column-calories {
+    min-width: 120px !important;
+}
+
+.paginator__container {
+    width: 100%;
+    border-bottom: 1px solid #CCC;
+    border-left: 1px solid #CCC;
+    border-right: 1px solid #CCC;
+}
+
+::ng-deep .mat-paginator-container {
+    justify-content: center !important;
+}
+
+@media screen and (max-width: 500px) {
+    ::ng-deep .mat-paginator-range-label {
+        display: none !important;
+    }
+}

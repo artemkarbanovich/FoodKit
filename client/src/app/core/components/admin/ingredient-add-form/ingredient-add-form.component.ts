@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { catchError, throwError } from 'rxjs';
 import { Ingredient } from 'src/app/core/models/ingredient';
 import { IngredientService } from 'src/app/core/services/ingredient.service';
 
@@ -10,7 +11,9 @@ import { IngredientService } from 'src/app/core/services/ingredient.service';
   styleUrls: ['./ingredient-add-form.component.scss']
 })
 export class IngredientAddFormComponent implements OnInit {
+  @Output() updateIngredientTable = new EventEmitter();
   public ingredientForm: FormGroup;
+  public errors: string[] | null = null;
 
   constructor(private ingredientService: IngredientService, private toastr: ToastrService,
     private formBuilder: FormBuilder) { }
@@ -20,8 +23,8 @@ export class IngredientAddFormComponent implements OnInit {
     this.initializeForm();
   }
   
-  public addIngredient(editForm: FormGroupDirective): void {
-    let ingredient: Ingredient = {
+  public addIngredient(editForm: FormGroupDirective, addAnyway: boolean): void {
+    const ingredient: Ingredient = {
       name: this.ingredientForm.controls['name'].value,
       proteins: this.ingredientForm.controls['proteins'].value,
       fats: this.ingredientForm.controls['fats'].value,
@@ -29,12 +32,30 @@ export class IngredientAddFormComponent implements OnInit {
       calories: this.ingredientForm.controls['calories'].value
     };
 
-    this.ingredientService.addIngredient(ingredient).subscribe((id: number) => {
-      ingredient.id = id;
-      //TODO: update ingredient table
-      this.toastr.success('Продукт упешно добавлен');
-      editForm.resetForm();
-      this.ingredientForm.reset();
+    this.ingredientService.addIngredient(ingredient, addAnyway)
+    .pipe(
+      catchError(error => {
+        if(error) {
+          this.errors = [];
+          if(error.error.errors) {
+            for(const key in error.error.errors) {
+              this.errors.push(error.error.errors[key]);
+            }
+          } else {
+            this.errors.push(error.error);
+          }
+        }
+        return throwError(() => error);
+      })
+    )
+    .subscribe({
+      error: (error) => console.log(error),
+      complete: () => {
+        this.updateIngredientTable.emit();
+        this.toastr.success('Продукт упешно добавлен');
+        editForm.resetForm();
+        this.ingredientForm.reset();
+      }
     });
   }
 
@@ -49,6 +70,12 @@ export class IngredientAddFormComponent implements OnInit {
         Validators.min(0), Validators.max(200)]],
       calories: ['', [Validators.required, Validators.pattern('^[1-9][0-9]*$'),
         Validators.min(1), Validators.max(1100)]]
+    });
+
+    this.ingredientForm.controls['name'].valueChanges.subscribe(() => {
+      if(this.errors) {
+        this.errors = null;
+      }
     });
   }
 }

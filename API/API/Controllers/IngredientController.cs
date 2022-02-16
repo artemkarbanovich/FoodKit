@@ -24,7 +24,7 @@ public class IngredientController : BaseApiController
     
 
     [HttpPost("add-ingredient")]
-    public async Task<ActionResult<int>> AddIngredient(IngredientDto ingredientDto, [FromQuery] bool addAnyway = false)
+    public async Task<ActionResult> AddIngredient(IngredientDto ingredientDto, [FromQuery] bool addAnyway = false)
     {
         if (await _unitOfWork.IngredientRepository.AnyIngredientsByLevenshteinDistanceAsync(2, ingredientDto.Name)
             && !addAnyway)
@@ -36,7 +36,7 @@ public class IngredientController : BaseApiController
         await _unitOfWork.IngredientRepository.AddIngredientAsync(ingredient);
 
         if (await _unitOfWork.CompleteAsync())
-            return ingredient.Id;
+            return Ok();
 
         return BadRequest("Не удалось добавить ингредиент");
     }

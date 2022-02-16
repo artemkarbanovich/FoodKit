@@ -3,7 +3,6 @@
 	<div class="form__container" *ngIf="(userPersonalData$ | async)">
 		<form #editForm="ngForm" [formGroup]="personalDataForm" (ngSubmit)="personalDataForm.valid && saveChanges()">
 
-			<!--Общая информация-->
 			<mat-expansion-panel>
 				<mat-expansion-panel-header>
 					<mat-panel-title>Общая информация</mat-panel-title>
@@ -36,8 +35,7 @@
 
 			</mat-expansion-panel>
 
-
-			<!--Физические показатели-->
+			
 			<mat-expansion-panel>
 				<mat-expansion-panel-header>
 					<mat-panel-title>Физические показатели</mat-panel-title>

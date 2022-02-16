@@ -11,6 +11,13 @@ mat-panel-title {
     margin: 20px 10px 0 10px;
 }
 
+.error {
+    display: block;
+    font-size: 12px;
+    color: red;
+    margin-top: -20px;
+}
+
 .form {
     margin-top: 20px;
 
@@ -50,6 +57,20 @@ input::-webkit-inner-spin-button {
     margin-top: 8px;
 }
 
+.btn-add-anyway {
+    margin-left: 20px;
+}
+
+@media screen and (max-width: 535px) { 
+    .submit-btn {
+        width: calc(50% - 10px);
+    }
+
+    .btn-add-anyway {
+        width: calc(50% - 10px);
+    }
+}
+
 @media screen and (max-width: 535px) {
     .form {
         .form-field:nth-child(1) {
@@ -81,6 +102,16 @@ input::-webkit-inner-spin-button {
 }
 
 @media screen and (max-width: 480px) {
+    .submit-btn {
+        width: 100%;
+    }
+
+    .btn-add-anyway {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 15px;
+    }
+    
     .form {
         .form-field:nth-child(4) {
             margin-right: 0;
