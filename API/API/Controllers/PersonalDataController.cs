@@ -36,6 +36,8 @@ public class PersonalDataController : BaseApiController
         if ((await _unitOfWork.UserRepository.IsExistUserByUserNameAsync(personalDataDto.PhoneNumber.Replace("+", "")))
             && personalDataDto.UserName != personalDataDto.PhoneNumber.Replace("+", ""))
                 return BadRequest("Введенный номер телефона уже зарегистрирован");
+        else if(personalDataDto.UserName == "375330000000" && personalDataDto.PhoneNumber != "+375330000000")
+            return BadRequest("Администратор не может изменить номер телефона");
 
         var user = await _unitOfWork.UserRepository.GetUserByUserNameAsync(personalDataDto.UserName);
 
