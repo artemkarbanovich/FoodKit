@@ -1,6 +1,6 @@
 ﻿using API.DTOs.User;
 using API.Extensions;
-using API.Helpers;
+using API.Helpers.QueryParams;
 using API.Interfaces.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,9 +32,9 @@ public class UserDishController : BaseApiController
     }
 
     [HttpGet("get-user-dishes")]
-    public async Task<ActionResult<List<UserDishDto>>> GetUserDishes([FromQuery] UserDishParams userDishParams)
+    public async Task<ActionResult<List<UserDishDto>>> GetUserDishes([FromQuery] UserDishParam userDishParam)
     {
-        var userDishes = await _unitOfWork.UserDishRepository.GetUserDishesAsync(userDishParams, User.GetUserId());
+        var userDishes = await _unitOfWork.UserDishRepository.GetUserDishesAsync(userDishParam, User.GetUserId());
 
         if (userDishes == null)
             return BadRequest("Не удалось получить продукты");

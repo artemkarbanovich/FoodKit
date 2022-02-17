@@ -1,6 +1,6 @@
 ﻿using API.DTOs.User;
 using API.Entities;
-using API.Helpers;
+using API.Helpers.QueryParams;
 using API.Helpers.Paginator;
 using API.Interfaces.Data;
 using AutoMapper;
@@ -40,14 +40,14 @@ public class UserDishRepository : IUserDishRepository
         await _dataContext.AddRangeAsync(userDishes);
     }
 
-    public async Task<PagedList<UserDishDto>> GetUserDishesAsync(UserDishParams userDishParams, int userId)
+    public async Task<PagedList<UserDishDto>> GetUserDishesAsync(UserDishParam userDishParam, int userId)
     {
         var query = _dataContext.UserDishes
             .AsQueryable()
             .Where(ud => ud.AppUserId == userId)
-            .Where(ud => ud.Name.Replace(" ", "").Contains(userDishParams.SearchStringByName.Replace(" ", "").ToLower()));
+            .Where(ud => ud.Name.Replace(" ", "").Contains(userDishParam.SearchStringByName.Replace(" ", "").ToLower()));
     
-        query = userDishParams.SortDishDateDescending switch
+        query = userDishParam.SortDishDateDescending switch
         {
             true => query.OrderByDescending(ud => ud.DishDate).ThenByDescending(ud => ud.Id),
             false => query.OrderBy(ud => ud.DishDate).ThenBy(ud => ud.Id)
@@ -56,7 +56,7 @@ public class UserDishRepository : IUserDishRepository
         var source = query.ProjectTo<UserDishDto>(_mapper.ConfigurationProvider).AsNoTracking();
 
         return await PagedList<UserDishDto>
-            .CreateAsync(source, userDishParams.CurrentPage, userDishParams.PageSize);
+            .CreateAsync(source, userDishParam.CurrentPage, userDishParam.PageSize);
     }
 
     public async Task DeleteUserDishesAsync(List<int> userDishIndexes)

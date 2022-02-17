@@ -9,24 +9,53 @@
       </div>
 
       <div class="container__nav">
-        <ul>
+        <ul *ngIf="(accountService.currentUser$ | async)?.roles.includes('User') 
+          || (accountService.currentUser$ | async) === null">
           <li><a>Меню</a></li>
           <li><a>О нас</a></li>
           <li><a>Контакты</a></li>
           <li><a>FAQ</a></li>
         </ul>
+        <ul *ngIf="(accountService.currentUser$ | async)?.roles.includes('Admin')">
+          <li><a routerLink="/ingredients">Ингредиенты</a></li>
+          <li><a>Блюда</a></li>
+          <li><a>Сеты</a></li>
+          <li><a>Чат</a></li>
+        </ul>
+        <ul *ngIf="(accountService.currentUser$ | async)?.roles.includes('Courier')">
+          <li><a>Заказы</a></li>
+          <li><a>Чат</a></li>
+          <li><a>Статистика</a></li>
+        </ul>
       </div>
 
       <div class="container__nav__icons">
         <ul>
-
           <li class="navigation-menu__icon">
             <mat-icon mat-button [matMenuTriggerFor]="navigationMenu">view_headline</mat-icon>
             <mat-menu class="navigation-menu" #navigationMenu="matMenu" xPosition="before">
-              <button mat-menu-item><a>Наборы</a></button>
-              <button mat-menu-item><a>О нас</a></button>
-              <button mat-menu-item><a>Контакты</a></button>
-              <button mat-menu-item><a>FAQ</a></button>
+
+              <ng-container *ngIf="(accountService.currentUser$ | async)?.roles.includes('User') 
+                || (accountService.currentUser$ | async) === null">
+                <button mat-menu-item><a>Наборы</a></button>
+                <button mat-menu-item><a>О нас</a></button>
+                <button mat-menu-item><a>Контакты</a></button>
+                <button mat-menu-item><a>FAQ</a></button>
+              </ng-container>
+
+              <ng-container *ngIf="(accountService.currentUser$ | async)?.roles.includes('Admin')">
+                <button mat-menu-item><a routerLink="/ingredients">Ингредиенты</a></button>
+                <button mat-menu-item><a>Блюда</a></button>
+                <button mat-menu-item><a>Сеты</a></button>
+                <button mat-menu-item><a>Чат</a></button>
+              </ng-container>
+
+              <ng-container *ngIf="(accountService.currentUser$ | async)?.roles.includes('Courier')">
+                <button mat-menu-item><a>Заказы</a></button>
+                <button mat-menu-item><a>Чат</a></button>
+                <button mat-menu-item><a>Статистика</a></button>
+              </ng-container>
+
             </mat-menu>
           </li>
 
@@ -37,14 +66,18 @@
                 <button mat-menu-item (click)="openSignInDialog()">Вход</button>
                 <button mat-menu-item (click)="openRegistrationDialog()">Регистрация</button>
               </ng-container>
-              <ng-container *ngIf="accountService.currentUser$ | async">
-                <button mat-menu-item routerLink="/profile">Личный кабинет</button>
+              <ng-container *ngIf="(accountService.currentUser$ | async)">
+                <button mat-menu-item routerLink="/profile" 
+                  *ngIf="(accountService.currentUser$ | async)?.roles.includes('User')">
+                  Личный кабинет
+                </button>
                 <button mat-menu-item (click)="signOut()">Выйти</button>
               </ng-container>
             </mat-menu>
           </li>
 
-          <li>
+          <li *ngIf="(accountService.currentUser$ | async) === null 
+            || (accountService.currentUser$ | async)?.roles.includes('User')">
             <mat-icon mat-button [matMenuTriggerFor]="shoppingCartMenu">shopping_cart</mat-icon>
             <mat-menu #shoppingCartMenu="matMenu" xPosition="before">
               <p>Корзина</p>

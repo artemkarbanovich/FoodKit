@@ -1,6 +1,6 @@
-﻿namespace API.Helpers;
+﻿namespace API.Helpers.QueryParams;
 
-public class UserDishParams
+public class IngredientParam
 {
     private const int MinPageSize = 10;
     private const int MaxPageSize = 50;
@@ -20,6 +20,4 @@ public class UserDishParams
                 pageSize = value;
         }
     }
-    public string SearchStringByName { get; set; } = "";
-    public bool SortDishDateDescending { get; set; } = true;
 }

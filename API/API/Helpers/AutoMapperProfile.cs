@@ -1,4 +1,5 @@
-﻿using API.DTOs.User;
+﻿using API.DTOs.Admin;
+using API.DTOs.User;
 using API.Entities;
 using AutoMapper;
 
@@ -19,8 +20,12 @@ public class AutoMapperProfile : Profile
             .ForMember(ud => ud.Id, opt => opt.Ignore())
             .ForMember(ud => ud.Name, opt => opt.MapFrom(udd => udd.Name.ToLower()));
 
+        CreateMap<IngredientDto, Ingredient>()
+            .ForMember(i => i.Id, opt => opt.Ignore());
+
         CreateMap<AppUser, PersonalDataDto>();
         CreateMap<Address, AddressDto>();
         CreateMap<UserDish, UserDishDto>();
+        CreateMap<Ingredient, IngredientDto>();
     }
 }
