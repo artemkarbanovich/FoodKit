@@ -3,6 +3,7 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220220104857_UpdateDishIngredient")]
+    partial class UpdateDishIngredient
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.1");
@@ -455,6 +457,21 @@ namespace API.Data.Migrations
                     b.ToTable("UserDishes");
                 });
 
+            modelBuilder.Entity("DishIngredient", b =>
+                {
+                    b.Property<int>("DishesId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("IngredientsId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("DishesId", "IngredientsId");
+
+                    b.HasIndex("IngredientsId");
+
+                    b.ToTable("DishIngredient", (string)null);
+                });
+
             modelBuilder.Entity("DishSet", b =>
                 {
                     b.Property<int>("DishesId")
@@ -587,13 +604,13 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.DishIngredient", b =>
                 {
                     b.HasOne("API.Entities.Dish", "Dish")
-                        .WithMany("Ingredients")
+                        .WithMany()
                         .HasForeignKey("DishId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("API.Entities.Ingredient", "Ingredient")
-                        .WithMany("Dishes")
+                        .WithMany()
                         .HasForeignKey("IngredientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -685,6 +702,21 @@ namespace API.Data.Migrations
                     b.Navigation("AppUser");
                 });
 
+            modelBuilder.Entity("DishIngredient", b =>
+                {
+                    b.HasOne("API.Entities.Dish", null)
+                        .WithMany()
+                        .HasForeignKey("DishesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.Ingredient", null)
+                        .WithMany()
+                        .HasForeignKey("IngredientsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("DishSet", b =>
                 {
                     b.HasOne("API.Entities.Dish", null)
@@ -759,13 +791,6 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.Dish", b =>
                 {
                     b.Navigation("Images");
-
-                    b.Navigation("Ingredients");
-                });
-
-            modelBuilder.Entity("API.Entities.Ingredient", b =>
-                {
-                    b.Navigation("Dishes");
                 });
 
             modelBuilder.Entity("API.Entities.Order", b =>

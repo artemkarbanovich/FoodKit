@@ -9,5 +9,5 @@ public class Ingredient
     public float Carbohydrates { get; set; }
     public int Calories { get; set; }
 
-    public ICollection<Dish> Dishes { get; set; }
+    public ICollection<DishIngredient> Dishes { get; set; }
 }

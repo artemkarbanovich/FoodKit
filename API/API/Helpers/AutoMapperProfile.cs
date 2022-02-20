@@ -23,6 +23,9 @@ public class AutoMapperProfile : Profile
         CreateMap<IngredientDto, Ingredient>()
             .ForMember(i => i.Id, opt => opt.Ignore());
 
+        CreateMap<DishAddDto, Dish>()
+            .ForMember(d => d.Ingredients, opt => opt.Ignore());
+
         CreateMap<AppUser, PersonalDataDto>();
         CreateMap<Address, AddressDto>();
         CreateMap<UserDish, UserDishDto>();
