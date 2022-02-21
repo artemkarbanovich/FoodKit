@@ -21,7 +21,7 @@ public class DishAddDto
     public string YouWillNeed { get; set; }
 
     [Required]
-    [Range(0, 100)]
+    [Range(0, 300)]
     public decimal Price { get; set; }
 
     [Required]

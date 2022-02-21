@@ -70,11 +70,11 @@ export class DishAddFormComponent implements OnInit {
       name: ['', [Validators.required, Validators.minLength(1),
         Validators.maxLength(30)]],
       cookingTime: ['', [Validators.required, Validators.min(1),
-        Validators.pattern('^[1-9][0-9]*$')]],
+        Validators.max(1400), Validators.pattern('^[1-9][0-9]*$')]],
       youWillNeed: ['', [Validators.required, Validators.minLength(5),
         Validators.maxLength(100)]],
       price: ['', [Validators.required, Validators.min(0),
-        Validators.max(100), Validators.pattern('^-?\\d*(\\.\\d+)?$')]],
+        Validators.max(300), Validators.pattern('^-?\\d*(\\.\\d+)?$')]],
       isAvailableForSingleOrder: [false, []]
     });
   }

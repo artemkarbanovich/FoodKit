@@ -19,7 +19,7 @@
                         <mat-label>Время приготовления <strong>&#40;мин&#41;</strong></mat-label>
                         <input type="number" [autofocus]="false" matInput placeholder="XX"
                             formControlName="cookingTime">
-                        <mat-error *ngIf="dishForm.controls['cookingTime'].invalid">Неверный формат</mat-error>
+                        <mat-error *ngIf="dishForm.controls['cookingTime'].invalid">Неверное значение</mat-error>
                     </mat-form-field>
 
                     <mat-form-field appearance="fill" class="form-field">
@@ -33,7 +33,7 @@
                     <mat-form-field appearance="fill" class="form-field">
                         <mat-label>Цена <strong>&#40;BYN&#41;</strong></mat-label>
                         <input type="number" [autofocus]="false" matInput placeholder="XX.XX" formControlName="price">
-                        <mat-error *ngIf="dishForm.controls['price'].invalid">Цена должна быть от 0 до 100 BYN
+                        <mat-error *ngIf="dishForm.controls['price'].invalid">Цена должна быть от 0 до 300 BYN
                         </mat-error>
                     </mat-form-field>
 
