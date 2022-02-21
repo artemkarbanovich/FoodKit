@@ -5,9 +5,14 @@ import { DishService } from 'src/app/core/services/dish.service';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { FileItem, FileUploader } from 'ng2-file-upload';
 import { DishAdd } from 'src/app/core/models/dishAdd';
-import { DishAddIngredient } from "../../../models/dishAddIngredient";
 import { Router } from '@angular/router';
 import { Ingredient } from 'src/app/core/models/ingredient';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { IngredientService } from 'src/app/core/services/ingredient.service';
+import { PageEvent } from '@angular/material/paginator';
+import { Pagination } from 'src/app/core/models/pagination';
+import { PaginatedResult } from 'src/app/core/models/paginatedResult';
+import { DishAddIngredient } from '../../../models/dishAddIngredient';
 
 @Component({
   selector: 'app-dish-add-form',
@@ -21,17 +26,20 @@ export class DishAddFormComponent implements OnInit {
   public displayedColumns: string[] = ['name', 'size', 'deleteAction'];
   public isVisited: boolean = false;
   public uploader: FileUploader;
+  public pagination: Pagination;
+  public pageEvent: PageEvent;
   public ingredients: Ingredient[] = [];
-  public selectedIngredients: DishAddIngredient[] = [];
+  public selectedIngredients: Ingredient[] = [];
 
-  constructor(private dishService: DishService, private formBuilder: FormBuilder,
-    private toastr: ToastrService, private router: Router) { }
+  constructor(private dishService: DishService, private ingredientService: IngredientService,
+    private formBuilder: FormBuilder, private toastr: ToastrService, private router: Router) { }
   
 
   public ngOnInit(): void {
     this.stepperOrientation();
     this.initializeForm();
     this.initializeUploader();
+    this.loadIngredients();
   }
 
   public stepperOrientation(): string {
@@ -56,13 +64,55 @@ export class DishAddFormComponent implements OnInit {
       images: []
     };
 
-    dish.ingredients = this.selectedIngredients;
+    this.selectedIngredients.forEach((ingr: Ingredient) => {
+      let ingredientToDish: DishAddIngredient = {
+        id: ingr.id,
+        ingredientWeightPerPortion: ingr.ingredientWeightPerPortion
+      };
+      dish.ingredients.push(ingredientToDish);
+    });
+
     this.uploader.queue.forEach((img: FileItem) => dish.images.push(img._file));
 
     this.dishService.addDish(dish).subscribe(() => {
       this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => this.router.navigate(['dishes']));
       this.toastr.success('Блюдо успешно добавлено');
     });
+  }
+
+  public handlePage(event?: PageEvent): PageEvent {
+    this.pagination.currentPage = event.pageIndex;
+    this.pagination.pageSize = event.pageSize;
+    this.loadIngredients();
+    return event;
+  }
+
+  public loadIngredients(): void {
+    this.ingredientService.getIngredients(this.pagination?.currentPage + 1, this.pagination?.pageSize)
+    .subscribe((paginatedResult: PaginatedResult<Ingredient[]>) => {
+      this.ingredients = [];
+      paginatedResult.result.forEach((ingr: Ingredient) => {
+        if(this.selectedIngredients.findIndex(si => si.id === ingr.id) === -1) {
+          ingr.ingredientWeightPerPortion = null;
+          this.ingredients.push(ingr);
+        }
+      });
+      this.pagination = paginatedResult.pagination;
+      this.pagination.currentPage = this.pagination.currentPage - 1;
+    });
+  }
+
+  public drop(event: CdkDragDrop<string[]>): void {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    }
   }
 
   private initializeForm(): void {

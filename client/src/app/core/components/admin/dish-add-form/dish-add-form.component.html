@@ -81,7 +81,43 @@
 
         <mat-step label="Ингредиенты" [hasError]="selectedIngredients.length=== 0 && isVisited"
             errorMessage="Добавьте ингредиенты">
+            <div class="ingredients__container">
 
+                <div class="example-container">
+                    <h2>Все ингредиенты</h2>
+                    <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="ingredients"
+                        [cdkDropListConnectedTo]="[doneList]" class="example-list" (cdkDropListDropped)="drop($event)">
+                        <div class="example-box" *ngFor="let ingr of ingredients" cdkDrag>{{ingr.name}}</div>
+                    </div>
+
+                    <div class="paginator__container">
+                        <mat-paginator [pageSizeOptions]="[10, 25, 50]" aria-label="Выберите страницу"
+                            [pageIndex]="pagination?.currentPage" [pageSize]="pagination?.pageSize"
+                            [length]="pagination?.totalCount" [showFirstLastButtons]="true"
+                            (page)="pageEvent = handlePage($event)">
+                        </mat-paginator>
+                    </div>
+                </div>
+
+                <div class="example-container">
+                    <h2>Ингредиенты в блюде</h2>
+                    <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="selectedIngredients"
+                        [cdkDropListConnectedTo]="[todoList]" class="example-list" (cdkDropListDropped)="drop($event)">
+
+                        <div class="example-box" *ngFor="let ingr of selectedIngredients" cdkDrag>
+                            {{ingr.name}}
+                            <input
+                            type="number"
+                            class="col-sm-8"
+                            [(ngModel)]="ingr.ingredientWeightPerPortion">
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <button (click)="addDish()">Добавить</button>
+            </div>
 
         </mat-step>
     </mat-stepper>
