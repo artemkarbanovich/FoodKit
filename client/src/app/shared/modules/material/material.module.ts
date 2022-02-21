@@ -22,6 +22,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSortModule } from '@angular/material/sort';
+import { MatStepperModule } from '@angular/material/stepper';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DATE_FORMATS } from 'src/app/core/constants/date-formats';
 
 @NgModule({
@@ -51,7 +53,9 @@ import { DATE_FORMATS } from 'src/app/core/constants/date-formats';
     MatSliderModule,
     MatTooltipModule,
     MatTableModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatStepperModule,
+    DragDropModule
   ],
   providers: [
     { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS }

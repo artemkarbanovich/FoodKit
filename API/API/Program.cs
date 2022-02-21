@@ -1,7 +1,6 @@
 using API.Extensions;
 using API.Helpers.Json;
 
-
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var config = builder.Configuration;

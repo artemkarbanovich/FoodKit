@@ -4,12 +4,19 @@ namespace API.DTOs.Admin;
 
 public class DishAddDto
 {
+    [Required]
     [StringLength(30, MinimumLength = 1)]
     public string Name { get; set; }
 
     [Required]
-    public TimeOnly CookingTime { get; set; }
+    [Range(0, 24)]
+    public int CookingTimeHours { get; set; }
 
+    [Required]
+    [Range(0, 60)]
+    public int CookingTimeMinutes { get; set; }
+
+    [Required]
     [StringLength(100, MinimumLength = 5)]
     public string YouWillNeed { get; set; }
 
@@ -22,4 +29,7 @@ public class DishAddDto
 
     [Required]
     public ICollection<DishAddIngredientDto> Ingredients { get; set; }
+
+    [Required]
+    public ICollection<IFormFile> Images { get; set; }
 }

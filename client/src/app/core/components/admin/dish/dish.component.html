@@ -1,0 +1,19 @@
+<div class="container">
+    <mat-divider></mat-divider>
+    <mat-tab-group class="remove-border-bottom" [disablePagination]="true">
+        <mat-tab label="Блюда">
+            <ng-template matTabContent>
+                Dishes list will be here!
+            </ng-template>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <span class="tab-number">Добавить</span>
+                <span class="tab-text">блюдо</span>
+            </ng-template>
+            <ng-template matTabContent>
+                <app-dish-add-form></app-dish-add-form>
+            </ng-template>
+        </mat-tab>
+    </mat-tab-group>
+</div>

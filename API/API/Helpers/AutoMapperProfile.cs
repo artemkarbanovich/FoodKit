@@ -24,7 +24,9 @@ public class AutoMapperProfile : Profile
             .ForMember(i => i.Id, opt => opt.Ignore());
 
         CreateMap<DishAddDto, Dish>()
-            .ForMember(d => d.Ingredients, opt => opt.Ignore());
+            .ForMember(d => d.CookingTime, opt => opt.MapFrom(dad => new TimeOnly(dad.CookingTimeHours, dad.CookingTimeMinutes)))
+            .ForMember(d => d.Ingredients, opt => opt.Ignore())
+            .ForMember(d => d.Images, opt => opt.Ignore());
 
         CreateMap<AppUser, PersonalDataDto>();
         CreateMap<Address, AddressDto>();

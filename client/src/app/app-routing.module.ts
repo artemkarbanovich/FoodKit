@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DishComponent } from './core/components/admin/dish/dish.component';
 import { IngredientTableComponent } from './core/components/admin/ingredient-table/ingredient-table.component';
 import { HomeComponent } from './core/components/home/home.component';
 import { ProfileComponent } from './core/components/profile/profile.component';
@@ -14,7 +15,8 @@ const routes: Routes = [
     canActivate: [AuthorizationGuard],
     children: [
       { path: 'profile', component: ProfileComponent },
-      { path: 'ingredients', component: IngredientTableComponent, canActivate: [AdminGuard] }
+      { path: 'ingredients', component: IngredientTableComponent, canActivate: [AdminGuard] },
+      { path: 'dishes', component: DishComponent, canActivate: [AdminGuard] }
     ]
   }
 ];

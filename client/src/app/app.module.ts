@@ -19,6 +19,11 @@ import { UserDishTableComponent } from './core/components/user-dish-table/user-d
 import { SharedModule } from './shared/modules/shared/shared.module';
 import { IngredientAddFormComponent } from './core/components/admin/ingredient-add-form/ingredient-add-form.component';
 import { IngredientTableComponent } from './core/components/admin/ingredient-table/ingredient-table.component';
+import { DishAddFormComponent } from './core/components/admin/dish-add-form/dish-add-form.component';
+import { DishComponent } from './core/components/admin/dish/dish.component';
+import { DishListComponent } from './core/components/admin/dish-list/dish-list.component';
+import { DishEditComponent } from './core/components/admin/dish-edit/dish-edit.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -33,7 +38,11 @@ import { IngredientTableComponent } from './core/components/admin/ingredient-tab
     UserDishAddFormComponent,
     UserDishTableComponent,
     IngredientAddFormComponent,
-    IngredientTableComponent
+    IngredientTableComponent,
+    DishAddFormComponent,
+    DishComponent,
+    DishListComponent,
+    DishEditComponent
   ],
   imports: [
     SharedModule,

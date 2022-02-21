@@ -21,18 +21,16 @@ public class DishController : BaseApiController
 
 
     [HttpPost("add-dish")]
-    public async Task<ActionResult<int>> AddDish(DishAddDto dishAddDto)
+    public async Task<ActionResult> AddDish([FromForm] DishAddDto dishAddDto)
     {
-        var dishId = await _unitOfWork.DishRepository.AddDishAsync(dishAddDto);
-
-        if (dishId == -1)
+        if (!(await _unitOfWork.DishRepository.AddDishAsync(dishAddDto)))
             return BadRequest("Ошибка добавления блюда");
 
-        return dishId;
+        return Ok();
     }
-    
+
     [HttpPost("add-dish-image")]
-    public async Task<ActionResult> AddDishImage(IFormFile imageFile, [FromQuery] int dishId)
+    public async Task<ActionResult> AddDishImage([FromForm] IFormFile imageFile, [FromQuery] int dishId)
     {
         var result = await _imageService.AddImageAsync(imageFile);
 
