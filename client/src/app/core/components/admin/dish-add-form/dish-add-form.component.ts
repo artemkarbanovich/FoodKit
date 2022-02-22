@@ -55,8 +55,9 @@ export class DishAddFormComponent implements OnInit {
   }
 
   public addDish(): void {
-    if(this.errors.length !== 0) 
+    if(this.errors.length !== 0) {
       return;
+    }
 
     let dish: DishAdd = {
       name: this.dishForm.controls['name'].value,
@@ -126,7 +127,7 @@ export class DishAddFormComponent implements OnInit {
     if(this.dishForm.invalid) {
       this.errors.push("Заполните правильно общую информацию");
     } if(this.uploader.queue.length === 0) {
-      this.errors.push("Выберите хотя бы одно изображение блюда");
+      this.errors.push("Загрузите хотя бы одно изображение блюда");
     } if(this.selectedIngredients.length === 0) {
       this.errors.push("Добавьте ингредиенты");
     }
