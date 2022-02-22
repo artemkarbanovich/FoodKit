@@ -19,17 +19,19 @@ import { DishAddIngredient } from '../../../models/dishAddIngredient';
   templateUrl: './dish-add-form.component.html',
   styleUrls: ['./dish-add-form.component.scss'],
   providers: [ { provide: STEPPER_GLOBAL_OPTIONS, useValue: {showError: true} } ],
-  host: { '(window:resize)': 'stepperOrientation()' }
+  host: { '(window:resize)': 'stepperOrientation()' },
+  
 })
 export class DishAddFormComponent implements OnInit {
   public dishForm: FormGroup;
   public displayedColumns: string[] = ['name', 'size', 'deleteAction'];
-  public isVisited: boolean = false;
+  public isFirstChangedStep: boolean = false;
   public uploader: FileUploader;
   public pagination: Pagination;
   public pageEvent: PageEvent;
   public ingredients: Ingredient[] = [];
   public selectedIngredients: Ingredient[] = [];
+  public errors: string[] = [];
 
   constructor(private dishService: DishService, private ingredientService: IngredientService,
     private formBuilder: FormBuilder, private toastr: ToastrService, private router: Router) { }
@@ -43,16 +45,19 @@ export class DishAddFormComponent implements OnInit {
   }
 
   public stepperOrientation(): string {
-    return (window.innerWidth <= 650) ? 'vertical' : 'horizontal';
+    return (window.innerWidth <= 780) ? 'vertical' : 'horizontal';
   }
 
   public onSelectStepper(): void {
-    if(!this.isVisited) {
-      this.isVisited = true;
+    if(!this.isFirstChangedStep) {
+      this.isFirstChangedStep = true;
     }
   }
 
   public addDish(): void {
+    if(this.errors.length !== 0) 
+      return;
+
     let dish: DishAdd = {
       name: this.dishForm.controls['name'].value,
       cookingTimeHours: Math.floor(this.dishForm.controls['cookingTime'].value / 60),
@@ -102,7 +107,7 @@ export class DishAddFormComponent implements OnInit {
     });
   }
 
-  public drop(event: CdkDragDrop<string[]>): void {
+  public dropIngredient(event: CdkDragDrop<Ingredient[]>): void {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -113,6 +118,30 @@ export class DishAddFormComponent implements OnInit {
         event.currentIndex,
       );
     }
+  }
+
+  public getErrors(): void {
+    this.errors = [];
+
+    if(this.dishForm.invalid) {
+      this.errors.push("Заполните правильно общую информацию");
+    } if(this.uploader.queue.length === 0) {
+      this.errors.push("Выберите хотя бы одно изображение блюда");
+    } if(this.selectedIngredients.length === 0) {
+      this.errors.push("Добавьте ингредиенты");
+    }
+    this.selectedIngredients.forEach((si: Ingredient) => {
+      if(this.errors.indexOf("Масса ингредиента не может быть пустой или превышать 350 грамм") === -1 && 
+        si.ingredientWeightPerPortion === null || si.ingredientWeightPerPortion > 350) {
+          this.errors.push("Масса ингредиента не может быть пустой или превышать 350 грамм");
+      } if(si.ingredientWeightPerPortion !== null && 
+          this.errors.indexOf("Масса ингредиента должна быть целым значением") === -1 && 
+          si.ingredientWeightPerPortion?.toString().includes('.') ||
+          si.ingredientWeightPerPortion?.toString().includes(',') || 
+          si.ingredientWeightPerPortion?.toString().includes('e')) {
+            this.errors.push("Масса ингредиента должна быть целым значением");
+        }
+    });
   }
 
   private initializeForm(): void {
@@ -134,6 +163,5 @@ export class DishAddFormComponent implements OnInit {
       isHTML5: true,
       allowedFileType: ['image']
     });
-    this.uploader.onAfterAddingFile = (file: FileItem) => file.withCredentials = false;
   }
 }

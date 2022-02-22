@@ -32,7 +32,7 @@
 
                     <mat-form-field appearance="fill" class="form-field">
                         <mat-label>Цена <strong>&#40;BYN&#41;</strong></mat-label>
-                        <input type="number" [autofocus]="false" matInput placeholder="XX.XX" formControlName="price">
+                        <input type="text" [autofocus]="false" matInput placeholder="XX.XX" formControlName="price">
                         <mat-error *ngIf="dishForm.controls['price'].invalid">Цена должна быть от 0 до 300 BYN
                         </mat-error>
                     </mat-form-field>
@@ -45,7 +45,7 @@
             </div>
         </mat-step>
 
-        <mat-step [hasError]="uploader?.queue?.length === 0 && isVisited" label="Изображения"
+        <mat-step [hasError]="uploader?.queue?.length === 0 && isFirstChangedStep" label="Изображения"
             errorMessage="Загрузите изображение">
 
             <div class="image__container">
@@ -79,15 +79,24 @@
             </div>
         </mat-step>
 
-        <mat-step label="Ингредиенты" [hasError]="selectedIngredients.length=== 0 && isVisited"
+        <mat-step label="Ингредиенты" [hasError]="selectedIngredients.length === 0 && isFirstChangedStep"
             errorMessage="Добавьте ингредиенты">
             <div class="ingredients__container">
 
-                <div class="example-container">
-                    <h2>Все ингредиенты</h2>
+                <div class="ingredients-data__container">
+                    <div class="ingredient__header">Все ингредиенты</div>
                     <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="ingredients"
-                        [cdkDropListConnectedTo]="[doneList]" class="example-list" (cdkDropListDropped)="drop($event)">
-                        <div class="example-box" *ngFor="let ingr of ingredients" cdkDrag>{{ingr.name}}</div>
+                        [cdkDropListConnectedTo]="[doneList]" class="ingredients-list"
+                        (cdkDropListDropped)="dropIngredient($event)">
+
+                        <div class="ingredient-box" [cdkDragStartDelay]="60" *ngFor="let ingr of ingredients" cdkDrag>
+                            {{ingr.name}}
+                            <div *cdkDragPreview class="ingredient-box">
+                                {{ingr.name}}<br>
+                                Б/Ж/У: {{ingr.proteins}}/{{ingr.fats}}/{{ingr.carbohydrates}}<br>
+                                Калорийность: {{ingr.calories}}<br>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="paginator__container">
@@ -99,26 +108,44 @@
                     </div>
                 </div>
 
-                <div class="example-container">
-                    <h2>Ингредиенты в блюде</h2>
+                <div class="ingredients-data__container">
+                    <div class="ingredient__header">Ингредиенты в блюде</div>
                     <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="selectedIngredients"
-                        [cdkDropListConnectedTo]="[todoList]" class="example-list" (cdkDropListDropped)="drop($event)">
+                        [cdkDropListConnectedTo]="[todoList]" class="ingredients-list"
+                        (cdkDropListDropped)="dropIngredient($event)">
 
-                        <div class="example-box" *ngFor="let ingr of selectedIngredients" cdkDrag>
+                        <div class="ingredient-box ingr-box-dish" [cdkDragStartDelay]="60"
+                            *ngFor="let ingr of selectedIngredients" cdkDrag>
                             {{ingr.name}}
-                            <input
-                            type="number"
-                            class="col-sm-8"
-                            [(ngModel)]="ingr.ingredientWeightPerPortion">
-                        </div>
 
+                            <div class="input-weight" (mousedown)="$event.stopPropagation()">
+                                <mat-form-field class="form-field" appearance="fill">
+                                    <mat-label>Масса в блюде <strong>&#40;грамм&#41;</strong></mat-label>
+                                    <input type="number" [autofocus]="false" matInput placeholder="XX"
+                                        [(ngModel)]="ingr.ingredientWeightPerPortion">
+                                </mat-form-field>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
 
-                <button (click)="addDish()">Добавить</button>
+            </div>
+        </mat-step>
+
+        <mat-step>
+            <ng-template matStepLabel>
+                <div class="stepper-header-overlay" (click)="getErrors()"></div>
+                Добавить
+            </ng-template>
+
+            <div class="add-dish-btn__container">
+                <button mat-raised-button color="primary" (click)="addDish()" [disabled]="errors.length > 0">
+                    Добавить блюдо</button>
             </div>
 
+            <p class="add-dish-errors" *ngFor="let error of errors">{{error}}</p>
         </mat-step>
+
     </mat-stepper>
 </div>
