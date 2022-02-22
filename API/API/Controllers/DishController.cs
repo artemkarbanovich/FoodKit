@@ -1,5 +1,7 @@
 ﻿using API.DTOs.Admin;
 using API.Entities;
+using API.Extensions;
+using API.Helpers.QueryParams;
 using API.Interfaces;
 using API.Interfaces.Data;
 using Microsoft.AspNetCore.Authorization;
@@ -68,5 +70,18 @@ public class DishController : BaseApiController
             return Ok();
 
         return BadRequest("Ошибка удаления изображения");
+    }
+
+    [HttpGet("get-dishes-admin-list")]
+    public async Task<ActionResult<List<DishAdminListDto>>> GetDishesAdminList([FromQuery] DishAdminListParam dishAdminListParam)
+    {
+        var dishesAdminList = await _unitOfWork.DishRepository.GetDishesAdminListAsync(dishAdminListParam);
+
+        if (dishesAdminList == null)
+            return BadRequest("Не удалось получить блюда");
+
+        Response.AddPaginationHeader(dishesAdminList.CurrentPage, dishesAdminList.PageSize, dishesAdminList.TotalCount);
+
+        return dishesAdminList;
     }
 }

@@ -32,5 +32,7 @@ public class AutoMapperProfile : Profile
         CreateMap<Address, AddressDto>();
         CreateMap<UserDish, UserDishDto>();
         CreateMap<Ingredient, IngredientDto>();
+        CreateMap<Dish, DishAdminListDto>()
+            .ForMember(dgald => dgald.ImagePath, opt => opt.MapFrom(d => d.Images.FirstOrDefault().Url));
     }
 }

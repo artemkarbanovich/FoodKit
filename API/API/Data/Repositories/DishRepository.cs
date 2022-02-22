@@ -1,8 +1,11 @@
 ﻿using API.DTOs.Admin;
 using API.Entities;
+using API.Helpers.Paginator;
+using API.Helpers.QueryParams;
 using API.Interfaces;
 using API.Interfaces.Data;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data.Repositories;
@@ -101,5 +104,18 @@ public class DishRepository : IDishRepository
     public void RemoveImage(Image image)
     {
         _dataContext.Images.Remove(image);
+    }
+
+    public async Task<PagedList<DishAdminListDto>> GetDishesAdminListAsync(DishAdminListParam dishAdminListParam)
+    {
+        var source = _dataContext.Dishes
+            .AsQueryable()
+            .OrderByDescending(p => p.Name)
+            .Include(d => d.Images)
+            .ProjectTo<DishAdminListDto>(_mapper.ConfigurationProvider)
+            .AsNoTracking();
+
+        return await PagedList<DishAdminListDto>
+            .CreateAsync(source, dishAdminListParam.CurrentPage, dishAdminListParam.PageSize);
     }
 }
