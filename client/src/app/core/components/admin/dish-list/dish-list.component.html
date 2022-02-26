@@ -1,1 +1,20 @@
-<p>dish-list works!</p>
+<div class="container">
+    <div class="card__container">
+        <mat-card class="dish-card" *ngFor="let dish of dishesAdminList" routerLink="/dishes/{{dish.id}}">
+            <div>
+                <img [src]="dish.imagePath" [alt]="dish.name">
+                <p class="dish-name">{{dish.name}}</p>
+                <p class="dish-single-order">Одиночный заказ: {{dish.isAvailableForSingleOrder ? 'да' : 'нет'}}</p>
+                <p class="dish-price">Цена: {{dish.price}} BYN</p>
+            </div>
+        </mat-card>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="paginator__container">
+        <mat-paginator [pageSizeOptions]="[20, 50, 70]" aria-label="Выберите страницу"
+            [pageIndex]="pagination?.currentPage" [pageSize]="pagination?.pageSize"
+            [length]="pagination?.totalCount" [showFirstLastButtons]="true"
+            (page)="pageEvent = handlePage($event)">
+        </mat-paginator>
+    </div>
+</div>

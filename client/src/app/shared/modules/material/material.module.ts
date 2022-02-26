@@ -23,6 +23,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSortModule } from '@angular/material/sort';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatCardModule } from '@angular/material/card';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DATE_FORMATS } from 'src/app/core/constants/date-formats';
 
@@ -55,6 +56,7 @@ import { DATE_FORMATS } from 'src/app/core/constants/date-formats';
     MatTableModule,
     MatProgressSpinnerModule,
     MatStepperModule,
+    MatCardModule,
     DragDropModule
   ],
   providers: [

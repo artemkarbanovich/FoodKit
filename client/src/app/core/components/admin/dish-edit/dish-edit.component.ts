@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dish-edit',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DishEditComponent implements OnInit {
 
-  constructor() { }
+  constructor(private route: ActivatedRoute, private toastr: ToastrService) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
+    //TODO: load full dish
+    this.route.params.subscribe((params: Params) => {
+      const prodId = params['id'];
+      console.log(prodId);
+   });
   }
-
 }

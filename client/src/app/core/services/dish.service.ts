@@ -1,15 +1,18 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DishAdd } from '../models/dishAdd';
 import { DishAddIngredient } from '../models/dishAddIngredient';
+import { DishAdminList } from '../models/dishAdminList';
+import { PaginatedResult } from '../models/paginatedResult';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DishService {
   private baseUrl: string = environment.apiUrl;
+  public paginatedResult: PaginatedResult<DishAdminList[]> = new PaginatedResult<DishAdminList[]>();
 
   constructor(private http: HttpClient) { }
 
@@ -34,5 +37,25 @@ export class DishService {
     });
 
     return this.http.post(this.baseUrl + 'dish/add-dish', formData);
+  }
+
+  public getDishesAdminList(currentPage?: number, pageSize?: number): Observable<PaginatedResult<DishAdminList[]>> {
+    let params = new HttpParams();
+    
+    if(currentPage != null && pageSize != null) {
+      params = params.append('currentPage', currentPage.toString());
+      params = params.append('pageSize', pageSize.toString());
+    }
+
+    return this.http.get<DishAdminList[]>(this.baseUrl + 'dish/get-dishes-admin-list',  {observe: 'response' , params})
+    .pipe(
+      map((response: HttpResponse<DishAdminList[]>) => {
+        this.paginatedResult.result = response.body;
+        if(response.headers.get('Pagination') !== null) {
+          this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+        }
+        return this.paginatedResult;
+      })
+    )
   }
 }
