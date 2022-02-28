@@ -194,4 +194,50 @@ public class DishRepository : IDishRepository
 
         return imagesDto;
     }
+
+    public async Task<bool> UpdateDishIngredientsAsync(List<DishAddIngredientDto> ingredients, int dishId)
+    {
+        using var transaction = await _dataContext.Database.BeginTransactionAsync();
+        try
+        {
+            var dishIngredients = new List<DishIngredient>();
+            var dishIngredientsToDelete = await _dataContext.DishIngredients
+                .Where(daid => daid.DishId == dishId)
+                .ToListAsync();
+
+            _dataContext.DishIngredients.RemoveRange(dishIngredientsToDelete);
+
+            if (!(await _dataContext.SaveChangesAsync() > 0))
+            {
+                await transaction.RollbackAsync();
+                return false;
+            }
+
+            foreach (var ingr in ingredients)
+            {
+                dishIngredients.Add(new DishIngredient
+                {
+                    IngredientWeightPerPortion = ingr.IngredientWeightPerPortion,
+                    DishId = dishId,
+                    IngredientId = ingr.Id
+                });
+            }
+
+            await _dataContext.DishIngredients.AddRangeAsync(dishIngredients);
+
+            if (!(await _dataContext.SaveChangesAsync() > 0))
+            {
+                await transaction.RollbackAsync();
+                return false;
+            }
+
+            await transaction.CommitAsync();
+            return true;
+        }
+        catch(Exception)
+        {
+            await transaction.RollbackAsync();
+            return false;
+        }
+    }
 }

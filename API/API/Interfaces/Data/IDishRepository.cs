@@ -17,4 +17,5 @@ public interface IDishRepository
     Task<Dish> GetDishByIdAsync(int id);
     void UpdateDish(Dish dish);
     Task<List<ImageDto>> AddImagesAsync(List<IFormFile> imageFiles, int dishId);
+    Task<bool> UpdateDishIngredientsAsync(List<DishAddIngredientDto> ingredients, int dishId);
 }

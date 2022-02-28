@@ -63,8 +63,8 @@
 
                         <button class="img-action__button" mat-raised-button color="primary"
                             (click)="fileInput.click()">Добавить изображение</button>
-                        <button class="img-action__button" mat-raised-button color="primary"
-                            (click)="addImages()" [disabled]="uploader.queue.length === 0">Загрузить</button>
+                        <button class="img-action__button" mat-raised-button color="primary" (click)="addImages()"
+                            [disabled]="uploader.queue.length === 0">Загрузить</button>
 
                         <span class="file-input">
                             <input type="file" #fileInput ng2FileSelect [uploader]="uploader" />
@@ -99,14 +99,70 @@
             <div class="images__container" *ngIf="dish">
                 <mat-card class="image-details" *ngFor="let img of dish.images">
                     <img [src]="img.url" [alt]="dish.name">
-                    <button mat-raised-button color="warn" (click)="deleteDishImage(img)">Удалить</button>
+                    <button mat-raised-button color="warn" [disabled]="dish.images.length === 1"
+                        (click)="deleteDishImage(img)">Удалить</button>
                 </mat-card>
             </div>
 
         </mat-step>
 
         <mat-step label="Ингредиенты">
+            <div class="ingredients__container">
 
+                <div class="ingredients-data__container">
+                    <div class="ingredient__header">Все ингредиенты</div>
+                    <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="ingredients"
+                        [cdkDropListConnectedTo]="[doneList]" class="ingredients-list"
+                        (cdkDropListDropped)="dropIngredient($event)">
+
+                        <div class="ingredient-box" [cdkDragStartDelay]="60" *ngFor="let ingr of ingredients" cdkDrag>
+                            {{ingr.name}}
+                            <div *cdkDragPreview class="ingredient-box">
+                                {{ingr.name}}<br>
+                                Б/Ж/У: {{ingr.proteins}}/{{ingr.fats}}/{{ingr.carbohydrates}}<br>
+                                Калорийность: {{ingr.calories}}<br>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="paginator__container">
+                        <mat-paginator [pageSizeOptions]="[10, 25, 50]" aria-label="Выберите страницу"
+                            [pageIndex]="pagination?.currentPage" [pageSize]="pagination?.pageSize"
+                            [length]="pagination?.totalCount" [showFirstLastButtons]="true"
+                            (page)="pageEvent = handlePage($event)">
+                        </mat-paginator>
+                    </div>
+                </div>
+
+                <div class="ingredients-data__container">
+                    <div class="ingredient__header">Ингредиенты в блюде</div>
+                    <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="selectedIngredients"
+                        [cdkDropListConnectedTo]="[todoList]" class="ingredients-list"
+                        (cdkDropListDropped)="dropIngredient($event)">
+
+                        <div class="ingredient-box ingr-box-dish" [cdkDragStartDelay]="60"
+                            *ngFor="let ingr of selectedIngredients" cdkDrag>
+                            {{ingr.name}}
+
+                            <div class="input-weight" (mousedown)="$event.stopPropagation()">
+                                <mat-form-field class="form-field" appearance="fill">
+                                    <mat-label>Масса в блюде <strong>&#40;грамм&#41;</strong></mat-label>
+                                    <input type="number" [autofocus]="false" matInput placeholder="XX"
+                                        [(ngModel)]="ingr.ingredientWeightPerPortion">
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="update-ingredients-btn__container">
+                    <button mat-raised-button color="primary"
+                        (click)="updateDishIngredients()">
+                        Обновить ингредиенты</button>
+                </div>
+                <p class="ingredient-errors" *ngFor="let error of errors">{{error}}</p>
+            </div>
         </mat-step>
 
     </mat-stepper>

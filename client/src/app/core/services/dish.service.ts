@@ -83,4 +83,8 @@ export class DishService {
     
     return this.http.post<Image[]>(this.baseUrl + 'dish/add-dish-images?dishId=' + dishId, formData);
   }
+  
+  public updateDishIngredients(ingredinets: DishAddIngredient[], dishId: number): Observable<Object> {
+    return this.http.put(this.baseUrl + 'dish/update-dish-ingredients?dishId=' + dishId, ingredinets);
+  }
 }

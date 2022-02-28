@@ -114,4 +114,16 @@ public class DishController : BaseApiController
 
         return BadRequest("Ошибка обновления блюда");
     }
+
+    [HttpPut("update-dish-ingredients")]
+    public async Task<ActionResult> UpdateDishIngredients(List<DishAddIngredientDto> ingredients, [FromQuery] int dishId)
+    {
+        if (!(await _unitOfWork.DishRepository.AnyDishByIdAsync(dishId)))
+            return NotFound();
+
+        if (await _unitOfWork.DishRepository.UpdateDishIngredientsAsync(ingredients, dishId))
+            return Ok();
+
+        return BadRequest("Ошибка обновления ингредиентов");
+    }
 }
