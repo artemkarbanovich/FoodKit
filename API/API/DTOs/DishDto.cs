@@ -1,6 +1,8 @@
-﻿namespace API.Entities;
+﻿using API.DTOs.Admin;
 
-public class Dish
+namespace API.DTOs;
+
+public class DishDto
 {
     public int Id { get; set; }
     public string Name { get; set; }
@@ -9,6 +11,6 @@ public class Dish
     public decimal Price { get; set; }
     public bool IsAvailableForSingleOrder { get; set; }
 
-    public ICollection<Image> Images { get; set; }
-    public ICollection<DishIngredient> Ingredients { get; set; }
+    public ICollection<ImageDto> Images { get; set; }
+    public ICollection<IngredientDto> Ingredients { get; set; }
 }

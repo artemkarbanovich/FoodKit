@@ -13,9 +13,7 @@ public class DataContext : IdentityDbContext<AppUser, AppRole, int, IdentityUser
     public DbSet<Address> Addresses { get; set; }
     public DbSet<UserDish> UserDishes { get; set; }
     public DbSet<Order> Orders { get; set; }
-    public DbSet<OrderSetParameter> OrderSetParameters { get; set; }
     public DbSet<OrderDishParameter> OrderDishParameters { get; set; }
-    public DbSet<Set> Sets { get; set; }
     public DbSet<Dish> Dishes { get; set; }
     public DbSet<Ingredient> Ingredients { get; set; }
     public DbSet<DishIngredient> DishIngredients { get; set; }
@@ -45,11 +43,6 @@ public class DataContext : IdentityDbContext<AppUser, AppRole, int, IdentityUser
             .WithOne(aur => aur.AppRole)
             .HasForeignKey(aur => aur.RoleId)
             .IsRequired();
-
-        builder.Entity<Set>()
-            .HasMany(s => s.Dishes)
-            .WithMany(d => d.Sets)
-            .UsingEntity(etb => etb.ToTable("SetDish"));
 
         builder.Entity<DishIngredient>()
             .HasKey(di => new { di.DishId, di.IngredientId });

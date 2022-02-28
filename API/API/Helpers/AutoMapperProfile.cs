@@ -1,4 +1,5 @@
-﻿using API.DTOs.Admin;
+﻿using API.DTOs;
+using API.DTOs.Admin;
 using API.DTOs.User;
 using API.Entities;
 using AutoMapper;
@@ -9,6 +10,7 @@ public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
+        /*--   DTO to Entity   --*/
         CreateMap<AddressDto, Address>()
             .ForMember(a => a.Id, opt => opt.Ignore());
 
@@ -28,11 +30,18 @@ public class AutoMapperProfile : Profile
             .ForMember(d => d.Ingredients, opt => opt.Ignore())
             .ForMember(d => d.Images, opt => opt.Ignore());
 
+        /*--   Entity to DTO   --*/
         CreateMap<AppUser, PersonalDataDto>();
         CreateMap<Address, AddressDto>();
         CreateMap<UserDish, UserDishDto>();
         CreateMap<Ingredient, IngredientDto>();
+        CreateMap<Image, ImageDto>();
+
         CreateMap<Dish, DishAdminListDto>()
             .ForMember(dgald => dgald.ImagePath, opt => opt.MapFrom(d => d.Images.FirstOrDefault().Url));
+
+        CreateMap<Dish, DishDto>()
+            .ForMember(i => i.Images, opt => opt.Ignore())
+            .ForMember(i => i.Ingredients, opt => opt.Ignore());
     }
 }

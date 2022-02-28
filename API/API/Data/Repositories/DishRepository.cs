@@ -1,4 +1,5 @@
-﻿using API.DTOs.Admin;
+﻿using API.DTOs;
+using API.DTOs.Admin;
 using API.Entities;
 using API.Helpers.Paginator;
 using API.Helpers.QueryParams;
@@ -117,5 +118,44 @@ public class DishRepository : IDishRepository
 
         return await PagedList<DishAdminListDto>
             .CreateAsync(source, dishAdminListParam.CurrentPage, dishAdminListParam.PageSize);
+    }
+
+    public async Task<bool> AnyDishByIdAsync(int id)
+    {
+        return await _dataContext.Dishes.AnyAsync(d => d.Id == id);
+    }
+
+    public async Task<DishDto> GetDishByIdAsync(int id)
+    {
+        var dish = await _dataContext.Dishes
+            .Where(d => d.Id == id)
+            .Include(d => d.Images)
+            .Include(d => d.Ingredients)
+            .ThenInclude(di => di.Ingredient)
+            .SingleOrDefaultAsync();
+
+        if (dish == null) 
+            return null;
+
+        var dishDto = new DishDto
+        {
+            Images = new List<ImageDto>(),
+            Ingredients = new List<IngredientDto>()
+        };
+
+        _mapper.Map(dish, dishDto);
+
+        foreach(var img in dish.Images)
+            dishDto.Images.Add(_mapper.Map<Image, ImageDto>(img));
+
+        foreach(var di in dish.Ingredients)
+        {
+            var ingredientDto = _mapper.Map<Ingredient, IngredientDto>(di.Ingredient);
+            ingredientDto.IngredientWeightPerPortion = di.IngredientWeightPerPortion;
+
+            dishDto.Ingredients.Add(ingredientDto);
+        }
+
+        return dishDto;
     }
 }

@@ -1,4 +1,5 @@
-﻿using API.DTOs.Admin;
+﻿using API.DTOs;
+using API.DTOs.Admin;
 using API.Entities;
 using API.Extensions;
 using API.Helpers.QueryParams;
@@ -83,5 +84,19 @@ public class DishController : BaseApiController
         Response.AddPaginationHeader(dishesAdminList.CurrentPage, dishesAdminList.PageSize, dishesAdminList.TotalCount);
 
         return dishesAdminList;
+    }
+
+    [HttpGet("get-dish/{id}")]
+    public async Task<ActionResult<DishDto>> GetDish(int id)
+    {
+        if (!(await _unitOfWork.DishRepository.AnyDishByIdAsync(id)))
+            return NotFound();
+
+        var dishDto = await _unitOfWork.DishRepository.GetDishByIdAsync(id);
+
+        if (dishDto == null)
+            return BadRequest("Ошибка получения блюда");
+
+        return dishDto;
     }
 }
