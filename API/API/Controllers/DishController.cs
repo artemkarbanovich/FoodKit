@@ -1,10 +1,10 @@
 ﻿using API.DTOs;
 using API.DTOs.Admin;
-using API.Entities;
 using API.Extensions;
 using API.Helpers.QueryParams;
 using API.Interfaces;
 using API.Interfaces.Data;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,11 +15,13 @@ public class DishController : BaseApiController
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IImageService _imageService;
+    private readonly IMapper _mapper;
 
-    public DishController(IUnitOfWork unitOfWork, IImageService imageService)
+    public DishController(IUnitOfWork unitOfWork, IImageService imageService, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _imageService = imageService;
+        _mapper = mapper;
     }
 
 
@@ -32,27 +34,18 @@ public class DishController : BaseApiController
         return Ok();
     }
 
-    [HttpPost("add-dish-image")]
-    public async Task<ActionResult> AddDishImage([FromForm] IFormFile imageFile, [FromQuery] int dishId)
+    [HttpPost("add-dish-images")]
+    public async Task<ActionResult<List<ImageDto>>> AddDishImages([FromForm] List<IFormFile> imageFiles, [FromQuery] int dishId)
     {
-        var result = await _imageService.AddImageAsync(imageFile);
+        if (!(await _unitOfWork.DishRepository.AnyDishByIdAsync(dishId)))
+            return NotFound();
 
-        if (result.Error != null)
-            return BadRequest("Ошибка добавления изображения");
+        var imagesDto = await _unitOfWork.DishRepository.AddImagesAsync(imageFiles, dishId);
 
-        var image = new Image
-        {
-            DishId = dishId,
-            Url = result.SecureUrl.AbsoluteUri,
-            PublicId = result.PublicId
-        };
+        if (imagesDto == null)
+            return BadRequest("Ошибка добавления изображений");
 
-        await _unitOfWork.DishRepository.AddImageAsync(image);
-
-        if (await _unitOfWork.CompleteAsync())
-            return Ok();
-
-        return BadRequest("Ошибка добавления изображения");
+        return imagesDto;
     }
 
     [HttpDelete("delete-dish-image/{imageId}")]
@@ -86,17 +79,39 @@ public class DishController : BaseApiController
         return dishesAdminList;
     }
 
+    [AllowAnonymous]
     [HttpGet("get-dish/{id}")]
     public async Task<ActionResult<DishDto>> GetDish(int id)
     {
         if (!(await _unitOfWork.DishRepository.AnyDishByIdAsync(id)))
             return NotFound();
 
-        var dishDto = await _unitOfWork.DishRepository.GetDishByIdAsync(id);
+        var dishDto = await _unitOfWork.DishRepository.GetFullDishByIdAsync(id);
 
         if (dishDto == null)
             return BadRequest("Ошибка получения блюда");
 
         return dishDto;
+    }
+
+    [HttpPut("update-dish")]
+    public async Task<ActionResult> UpdateDish(DishUpdateDto dishUpdateDto)
+    {
+        if (!(await _unitOfWork.DishRepository.AnyDishByIdAsync(dishUpdateDto.Id)))
+            return NotFound();
+
+        var dish = await _unitOfWork.DishRepository.GetDishByIdAsync(dishUpdateDto.Id);
+
+        if (dish == null)
+            return BadRequest("Ошибка обновления блюда");
+
+        _mapper.Map(dishUpdateDto, dish);
+
+        _unitOfWork.DishRepository.UpdateDish(dish);
+
+        if (await _unitOfWork.CompleteAsync())
+            return NoContent();
+
+        return BadRequest("Ошибка обновления блюда");
     }
 }

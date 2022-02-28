@@ -92,11 +92,6 @@ public class DishRepository : IDishRepository
         }
     }
 
-    public async Task AddImageAsync(Image image)
-    {
-        await _dataContext.Images.AddAsync(image);
-    }
-
     public async Task<Image> GetImageByIdAsync(int imageId)
     {
         return await _dataContext.Images.SingleOrDefaultAsync(i => i.Id == imageId);
@@ -125,7 +120,7 @@ public class DishRepository : IDishRepository
         return await _dataContext.Dishes.AnyAsync(d => d.Id == id);
     }
 
-    public async Task<DishDto> GetDishByIdAsync(int id)
+    public async Task<DishDto> GetFullDishByIdAsync(int id)
     {
         var dish = await _dataContext.Dishes
             .Where(d => d.Id == id)
@@ -134,7 +129,7 @@ public class DishRepository : IDishRepository
             .ThenInclude(di => di.Ingredient)
             .SingleOrDefaultAsync();
 
-        if (dish == null) 
+        if (dish == null)
             return null;
 
         var dishDto = new DishDto
@@ -157,5 +152,46 @@ public class DishRepository : IDishRepository
         }
 
         return dishDto;
+    }
+
+    public async Task<Dish> GetDishByIdAsync(int id)
+    {
+        return await _dataContext.Dishes.Where(d => d.Id == id).SingleOrDefaultAsync();
+    }
+
+    public void UpdateDish(Dish dish)
+    {
+        _dataContext.Entry(dish).State = EntityState.Modified;
+    }
+
+    public async Task<List<ImageDto>> AddImagesAsync(List<IFormFile> imageFiles, int dishId)
+    {
+        var images = new List<Image>();
+        var imagesDto = new List<ImageDto>();
+
+        foreach (var img in imageFiles)
+        {
+            var result = await _imageService.AddImageAsync(img);
+
+            if (result.Error != null) 
+                return null;
+
+            images.Add(new Image
+            {
+                DishId = dishId,
+                Url = result.SecureUrl.AbsoluteUri,
+                PublicId = result.PublicId
+            });
+        }
+
+        await _dataContext.Images.AddRangeAsync(images);
+
+        if (!(await _dataContext.SaveChangesAsync() > 0))
+            return null;
+
+        foreach (var img in images)
+            imagesDto.Add(_mapper.Map<Image, ImageDto>(img));
+
+        return imagesDto;
     }
 }

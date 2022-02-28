@@ -30,6 +30,10 @@ public class AutoMapperProfile : Profile
             .ForMember(d => d.Ingredients, opt => opt.Ignore())
             .ForMember(d => d.Images, opt => opt.Ignore());
 
+        CreateMap<DishUpdateDto, Dish>()
+            .ForMember(d => d.Id, opt => opt.Ignore())
+            .ForMember(d => d.CookingTime, opt => opt.MapFrom(dad => new TimeOnly(dad.CookingTimeHours, dad.CookingTimeMinutes)));
+
         /*--   Entity to DTO   --*/
         CreateMap<AppUser, PersonalDataDto>();
         CreateMap<Address, AddressDto>();
@@ -41,7 +45,9 @@ public class AutoMapperProfile : Profile
             .ForMember(dgald => dgald.ImagePath, opt => opt.MapFrom(d => d.Images.FirstOrDefault().Url));
 
         CreateMap<Dish, DishDto>()
-            .ForMember(i => i.Images, opt => opt.Ignore())
-            .ForMember(i => i.Ingredients, opt => opt.Ignore());
+            .ForMember(dd => dd.CookingTimeHours, opt => opt.MapFrom(d => d.CookingTime.Hour))
+            .ForMember(dd => dd.CookingTimeMinutes, opt => opt.MapFrom(d => d.CookingTime.Minute))
+            .ForMember(dd => dd.Images, opt => opt.Ignore())
+            .ForMember(dd => dd.Ingredients, opt => opt.Ignore());
     }
 }

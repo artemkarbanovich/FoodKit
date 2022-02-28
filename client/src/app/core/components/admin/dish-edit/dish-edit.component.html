@@ -1,4 +1,113 @@
 <div class="container">
     <mat-divider></mat-divider>
-    Content will be here!
+
+    <mat-stepper #stepper [orientation]="stepperOrientation()">
+        <ng-template matStepperIcon="edit">
+            <mat-icon>check</mat-icon>
+        </ng-template>
+
+        <mat-step label="Общая информация">
+            <div class="general-info__container" *ngIf="dish">
+                <form #editForm="ngForm" class="form" autocomplete="off" [formGroup]="dishForm"
+                    (ngSubmit)="dishForm.valid && saveDishFormChanges()">
+
+                    <mat-form-field class="form-field" appearance="fill">
+                        <mat-label>Название</mat-label>
+                        <input type="text" [autofocus]="false" matInput placeholder="Улитка с сыром"
+                            formControlName="name">
+                        <mat-error *ngIf="dishForm.controls['name'].invalid">Длина должна быть от 1 до 30</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="form-field">
+                        <mat-label>Время приготовления <strong>&#40;мин&#41;</strong></mat-label>
+                        <input type="number" [autofocus]="false" matInput placeholder="XX"
+                            formControlName="cookingTime">
+                        <mat-error *ngIf="dishForm.controls['cookingTime'].invalid">Неверное значение</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="form-field">
+                        <mat-label>Вам потребуется</mat-label>
+                        <textarea rows="3" type="text" [autofocus]="false" matInput placeholder="Кастрюля, ..."
+                            formControlName="youWillNeed"></textarea>
+                        <mat-error *ngIf="dishForm.controls['youWillNeed'].invalid">Длина должна быть от 5 до 100
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="form-field">
+                        <mat-label>Цена <strong>&#40;BYN&#41;</strong></mat-label>
+                        <input type="text" [autofocus]="false" matInput placeholder="XX.XX" formControlName="price">
+                        <mat-error *ngIf="dishForm.controls['price'].invalid">Цена должна быть от 0 до 300 BYN
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-checkbox class="single-order" formControlName="isAvailableForSingleOrder">
+                        Доступно для одиночного заказа?
+                    </mat-checkbox>
+
+                    <button class="submit-btn" color="primary" [disabled]="!dishForm.valid || !editForm.dirty"
+                        mat-raised-button type="submit">Сохранить общую информацию</button>
+
+                </form>
+            </div>
+        </mat-step>
+
+        <mat-step label="Изображения">
+
+            <div class="add-images__container">
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>Добавить изображения</mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <div class="image__container">
+
+                        <button class="img-action__button" mat-raised-button color="primary"
+                            (click)="fileInput.click()">Добавить изображение</button>
+                        <button class="img-action__button" mat-raised-button color="primary"
+                            (click)="addImages()" [disabled]="uploader.queue.length === 0">Загрузить</button>
+
+                        <span class="file-input">
+                            <input type="file" #fileInput ng2FileSelect [uploader]="uploader" />
+                        </span>
+
+                        <table cellspacing="0" class="files__table">
+                            <thead>
+                                <tr>
+                                    <th>Название</th>
+                                    <th>Размер &#40;МБ&#41;</th>
+                                    <th>Удалить</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let image of uploader.queue">
+                                    <td>{{image?.file?.name}}</td>
+                                    <td>{{image?.file?.size/1024/1024 | number:'.2'}}</td>
+                                    <td>
+                                        <button class="delete-button" (click)="image.remove()" mat-icon-button>
+                                            <mat-icon class="delete-icon">close</mat-icon>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </mat-expansion-panel>
+            </div>
+
+            <div class="images__container" *ngIf="dish">
+                <mat-card class="image-details" *ngFor="let img of dish.images">
+                    <img [src]="img.url" [alt]="dish.name">
+                    <button mat-raised-button color="warn" (click)="deleteDishImage(img)">Удалить</button>
+                </mat-card>
+            </div>
+
+        </mat-step>
+
+        <mat-step label="Ингредиенты">
+
+        </mat-step>
+
+    </mat-stepper>
 </div>

@@ -9,10 +9,12 @@ namespace API.Interfaces.Data;
 public interface IDishRepository
 {
     Task<bool> AddDishAsync(DishAddDto dishAddDto);
-    Task AddImageAsync(Image image);
     Task<Image> GetImageByIdAsync(int imageId);
     void RemoveImage(Image image);
     Task<PagedList<DishAdminListDto>> GetDishesAdminListAsync(DishAdminListParam dishAdminListParam);
     Task<bool> AnyDishByIdAsync(int id);
-    Task<DishDto> GetDishByIdAsync(int id);
+    Task<DishDto> GetFullDishByIdAsync(int id);
+    Task<Dish> GetDishByIdAsync(int id);
+    void UpdateDish(Dish dish);
+    Task<List<ImageDto>> AddImagesAsync(List<IFormFile> imageFiles, int dishId);
 }

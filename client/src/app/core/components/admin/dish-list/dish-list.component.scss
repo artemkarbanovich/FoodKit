@@ -8,7 +8,12 @@
     margin: 13px 10px 15px 10px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-around;
+}
+
+.card__container::after {
+    content: "";
+    flex: auto;
 }
 
 .dish-card.mat-card {
@@ -75,7 +80,15 @@
     }
 }
 
-@media screen and (max-width: 550px) { 
+@media screen and (max-width: 550px) {
+    .card__container {
+        justify-content: center;
+    }
+
+    .card__container::after {
+        flex: none;
+    }
+
     .dish-card.mat-card {
         flex: 0 0 70%;
     }

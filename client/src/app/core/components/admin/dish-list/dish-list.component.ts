@@ -35,7 +35,6 @@ export class DishListComponent implements OnInit {
       this.dishesAdminList = paginatedResult.result;
       this.pagination = paginatedResult.pagination;
       this.pagination.currentPage = this.pagination.currentPage - 1;
-      console.log(this.dishesAdminList);
     });
   }
 }

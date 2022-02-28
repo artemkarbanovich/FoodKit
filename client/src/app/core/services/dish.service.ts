@@ -2,9 +2,12 @@ import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Dish } from '../models/dish';
 import { DishAdd } from '../models/dishAdd';
 import { DishAddIngredient } from '../models/dishAddIngredient';
 import { DishAdminList } from '../models/dishAdminList';
+import { DishUpdate } from '../models/dishUpdate';
+import { Image } from '../models/image';
 import { PaginatedResult } from '../models/paginatedResult';
 
 @Injectable({
@@ -57,5 +60,27 @@ export class DishService {
         return this.paginatedResult;
       })
     )
+  }
+
+  public getDish(id: number): Observable<Dish> {
+    return this.http.get<Dish>(this.baseUrl + 'dish/get-dish/' + id);
+  }
+
+  public updateDish(dishUpdate: DishUpdate): Observable<Object> {
+    return this.http.put(this.baseUrl + 'dish/update-dish', dishUpdate);
+  }
+
+  public deleteDishImage(id: number): Observable<Object> {
+    return this.http.delete(this.baseUrl + 'dish/delete-dish-image/' + id);
+  }
+
+  public addImages(images: File[], dishId: number): Observable<Image[]> {
+    let formData = new FormData();
+
+    images.forEach((img: File) => {
+      formData.append('imageFiles', img);
+    });
+    
+    return this.http.post<Image[]>(this.baseUrl + 'dish/add-dish-images?dishId=' + dishId, formData);
   }
 }

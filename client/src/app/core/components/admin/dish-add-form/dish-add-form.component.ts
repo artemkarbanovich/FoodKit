@@ -20,7 +20,6 @@ import { DishAddIngredient } from '../../../models/dishAddIngredient';
   styleUrls: ['./dish-add-form.component.scss'],
   providers: [ { provide: STEPPER_GLOBAL_OPTIONS, useValue: {showError: true} } ],
   host: { '(window:resize)': 'stepperOrientation()' },
-  
 })
 export class DishAddFormComponent implements OnInit {
   public dishForm: FormGroup;

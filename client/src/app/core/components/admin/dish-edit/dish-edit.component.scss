@@ -2,3 +2,145 @@
     max-width: 1260px;
     margin: auto;
 }
+
+::ng-deep .mat-horizontal-content-container,
+::ng-deep .mat-vertical-content {
+    padding: 0 !important;
+}
+
+.general-info__container {
+    width: 50%;
+    padding: 20px 0 30px 0;
+    margin: 0 auto;
+}
+
+::ng-deep .mat-vertical-content-container {
+    margin-left: 0 !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.form {
+    .form-field { 
+        margin-bottom: 12px;
+        width: 100%;
+
+        textarea {
+            resize: none;
+        }
+    }
+}
+
+.submit-btn {
+    display: block;
+    margin: 40px auto 30px auto;
+}
+
+.add-images__container {
+    margin: 20px 10px 20px 10px; 
+}
+
+.image__container {
+    width: 100%;
+    padding-top: 20px;
+}
+
+.file-input {
+    visibility: hidden;
+    position: absolute;
+    overflow: hidden; 
+    width: 0px; 
+    height:0px;
+    border:none;
+    margin:0;
+    padding:0
+}
+
+.files__table {
+    padding-top: 20px;
+    margin: 0 auto;
+    width: 100%;
+
+    th, td {
+        text-align: center;
+        font-size: 14px;
+        height: 50px;
+        border: 1px solid #CCC;
+        font-weight: 400;
+    }
+
+    td {
+        border-top: none;
+    }
+
+    th:first-child, td:first-child {
+        width: 70%;
+        border-right: none;
+        text-align: left;
+        padding-left: 10px;
+    }
+
+    th:last-child, td:last-child {
+        border-left: none;
+        border-right: 1px solid #CCC;
+    }
+}
+
+.delete-button {
+    margin: 0 !important;
+
+    .delete-icon {
+        margin-top: -2px;
+        color: red;
+    }
+}
+
+.images__container {
+    margin: 13px 10px 30px 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 150px);
+    justify-content: space-around;
+    grid-gap: 15px;
+}
+
+.image-details {
+    padding: 0 !important;
+
+    img {
+        border-radius: 4px 4px 0 0;
+        width: 150px;
+        height: 120px;
+    }
+
+    button {
+        cursor: pointer;
+        margin-top: -4px;
+        width: 100%;
+        border-radius: 0 0 4px 4px;
+    }
+}
+
+.img-action__button:nth-child(2) {
+    margin-left: 15px !important;
+}
+
+@media screen and (max-width: 1000px) { 
+    .general-info__container { 
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 781px) {  
+    .general-info__container { 
+        width: 100%;
+        padding: 20px 10px 0 10px;
+
+        .single-order {
+            margin-left: 12px;
+        }
+    }
+}
