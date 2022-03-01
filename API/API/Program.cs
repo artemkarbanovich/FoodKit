@@ -1,5 +1,8 @@
 using API.Extensions;
 using API.Helpers.Json;
+using System.Globalization;
+
+CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 
 
 var builder = WebApplication.CreateBuilder(args);

@@ -5,4 +5,5 @@ export interface Ingredient {
     fats: number;
     carbohydrates: number;
     calories: number;
+    ingredientWeightPerPortion?: number | null;
 }

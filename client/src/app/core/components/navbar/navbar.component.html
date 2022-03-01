@@ -18,8 +18,7 @@
         </ul>
         <ul *ngIf="(accountService.currentUser$ | async)?.roles.includes('Admin')">
           <li><a routerLink="/ingredients">Ингредиенты</a></li>
-          <li><a>Блюда</a></li>
-          <li><a>Сеты</a></li>
+          <li><a routerLink="/dishes">Блюда</a></li>
           <li><a>Чат</a></li>
         </ul>
         <ul *ngIf="(accountService.currentUser$ | async)?.roles.includes('Courier')">
@@ -45,8 +44,7 @@
 
               <ng-container *ngIf="(accountService.currentUser$ | async)?.roles.includes('Admin')">
                 <button mat-menu-item><a routerLink="/ingredients">Ингредиенты</a></button>
-                <button mat-menu-item><a>Блюда</a></button>
-                <button mat-menu-item><a>Сеты</a></button>
+                <button mat-menu-item><a routerLink="/dishes">Блюда</a></button>
                 <button mat-menu-item><a>Чат</a></button>
               </ng-container>
 

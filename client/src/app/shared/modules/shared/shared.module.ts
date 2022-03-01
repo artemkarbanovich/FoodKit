@@ -5,6 +5,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { MaterialModule } from '../material/material.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from 'src/app/core/security/interceptors/loading.interceptor';
+import { FileUploadModule } from "ng2-file-upload"; 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
@@ -20,7 +21,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
   ],
   exports: [
     MaterialModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    FileUploadModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},

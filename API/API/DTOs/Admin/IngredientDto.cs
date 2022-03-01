@@ -26,4 +26,6 @@ public class IngredientDto
     [RegularExpression("^[1-9][0-9]*$")]
     [Range(1, 1100)]
     public int Calories { get; set; }
+
+    public int? IngredientWeightPerPortion { get; set; }
 }

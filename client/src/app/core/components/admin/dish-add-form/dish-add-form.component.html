@@ -1,0 +1,151 @@
+<div class="container">
+    <mat-stepper #stepper [orientation]="stepperOrientation()" (selectionChange)="onSelectStepper()">
+        <ng-template matStepperIcon="edit">
+            <mat-icon>check</mat-icon>
+        </ng-template>
+
+        <mat-step [stepControl]="dishForm" label="Общая информация" errorMessage="Заполните поля">
+            <div class="general-info__container">
+                <form #editForm="ngForm" class="form" autocomplete="off" [formGroup]="dishForm">
+
+                    <mat-form-field class="form-field" appearance="fill">
+                        <mat-label>Название</mat-label>
+                        <input type="text" [autofocus]="false" matInput placeholder="Улитка с сыром"
+                            formControlName="name">
+                        <mat-error *ngIf="dishForm.controls['name'].invalid">Длина должна быть от 1 до 30</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="form-field">
+                        <mat-label>Время приготовления <strong>&#40;мин&#41;</strong></mat-label>
+                        <input type="number" [autofocus]="false" matInput placeholder="XX"
+                            formControlName="cookingTime">
+                        <mat-error *ngIf="dishForm.controls['cookingTime'].invalid">Неверное значение</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="form-field">
+                        <mat-label>Вам потребуется</mat-label>
+                        <textarea rows="3" type="text" [autofocus]="false" matInput placeholder="Кастрюля, ..."
+                            formControlName="youWillNeed"></textarea>
+                        <mat-error *ngIf="dishForm.controls['youWillNeed'].invalid">Длина должна быть от 5 до 100
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="form-field">
+                        <mat-label>Цена <strong>&#40;BYN&#41;</strong></mat-label>
+                        <input type="text" [autofocus]="false" matInput placeholder="XX.XX" formControlName="price">
+                        <mat-error *ngIf="dishForm.controls['price'].invalid">Цена должна быть от 0 до 300 BYN
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-checkbox class="single-order" formControlName="isAvailableForSingleOrder">
+                        Доступно для одиночного заказа?
+                    </mat-checkbox>
+
+                </form>
+            </div>
+        </mat-step>
+
+        <mat-step [hasError]="uploader?.queue?.length === 0 && isFirstChangedStep" label="Изображения"
+            errorMessage="Загрузите изображение">
+
+            <div class="image__container">
+
+                <button mat-raised-button color="primary" (click)="fileInput.click()">Добавить изображение</button>
+                <span class="file-input">
+                    <input type="file" #fileInput ng2FileSelect [uploader]="uploader" />
+                </span>
+
+                <table cellspacing="0" class="files__table">
+                    <thead>
+                        <tr>
+                            <th>Название</th>
+                            <th>Размер &#40;МБ&#41;</th>
+                            <th>Удалить</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let image of uploader.queue">
+                            <td>{{image?.file?.name}}</td>
+                            <td>{{image?.file?.size/1024/1024 | number:'.2'}}</td>
+                            <td>
+                                <button class="delete-button" (click)="image.remove()" mat-icon-button>
+                                    <mat-icon class="delete-icon">close</mat-icon>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </mat-step>
+
+        <mat-step label="Ингредиенты" [hasError]="selectedIngredients.length === 0 && isFirstChangedStep"
+            errorMessage="Добавьте ингредиенты">
+            <div class="ingredients__container">
+
+                <div class="ingredients-data__container">
+                    <div class="ingredient__header">Все ингредиенты</div>
+                    <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="ingredients"
+                        [cdkDropListConnectedTo]="[doneList]" class="ingredients-list"
+                        (cdkDropListDropped)="dropIngredient($event)">
+
+                        <div class="ingredient-box" [cdkDragStartDelay]="60" *ngFor="let ingr of ingredients" cdkDrag>
+                            {{ingr.name}}
+                            <div *cdkDragPreview class="ingredient-box">
+                                {{ingr.name}}<br>
+                                Б/Ж/У: {{ingr.proteins}}/{{ingr.fats}}/{{ingr.carbohydrates}}<br>
+                                Калорийность: {{ingr.calories}}<br>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="paginator__container">
+                        <mat-paginator [pageSizeOptions]="[10, 25, 50]" aria-label="Выберите страницу"
+                            [pageIndex]="pagination?.currentPage" [pageSize]="pagination?.pageSize"
+                            [length]="pagination?.totalCount" [showFirstLastButtons]="true"
+                            (page)="pageEvent = handlePage($event)">
+                        </mat-paginator>
+                    </div>
+                </div>
+
+                <div class="ingredients-data__container">
+                    <div class="ingredient__header">Ингредиенты в блюде</div>
+                    <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="selectedIngredients"
+                        [cdkDropListConnectedTo]="[todoList]" class="ingredients-list"
+                        (cdkDropListDropped)="dropIngredient($event)">
+
+                        <div class="ingredient-box ingr-box-dish" [cdkDragStartDelay]="60"
+                            *ngFor="let ingr of selectedIngredients" cdkDrag>
+                            {{ingr.name}}
+
+                            <div class="input-weight" (mousedown)="$event.stopPropagation()">
+                                <mat-form-field class="form-field" appearance="fill">
+                                    <mat-label>Масса в блюде <strong>&#40;грамм&#41;</strong></mat-label>
+                                    <input type="number" [autofocus]="false" matInput placeholder="XX"
+                                        [(ngModel)]="ingr.ingredientWeightPerPortion">
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </mat-step>
+
+        <mat-step>
+            <ng-template matStepLabel>
+                <div class="stepper-header-overlay" (click)="getErrors()"></div>
+                Добавить
+            </ng-template>
+
+            <div class="add-dish-btn__container">
+                <button mat-raised-button color="primary" (click)="addDish()" [disabled]="errors.length > 0">
+                    Добавить блюдо</button>
+            </div>
+
+            <p class="add-dish-errors" *ngFor="let error of errors">{{error}}</p>
+        </mat-step>
+
+    </mat-stepper>
+</div>

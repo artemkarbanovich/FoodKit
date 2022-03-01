@@ -8,7 +8,6 @@ public class Order
     public decimal TotalPrice { get; set; }
     public int Evaluation { get; set; }
 
-    public ICollection<OrderSetParameter> OrderSetParameters { get; set; }
     public ICollection<OrderDishParameter> OrderDishParameters { get; set; }
 
     public AppUser AppUser { get; set; }

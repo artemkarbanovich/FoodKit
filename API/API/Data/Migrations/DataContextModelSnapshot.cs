@@ -191,9 +191,6 @@ namespace API.Data.Migrations
                     b.Property<TimeOnly>("CookingTime")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("DishWeight")
-                        .HasColumnType("INTEGER");
-
                     b.Property<bool>("IsAvailableForSingleOrder")
                         .HasColumnType("INTEGER");
 
@@ -211,6 +208,24 @@ namespace API.Data.Migrations
                     b.ToTable("Dishes");
                 });
 
+            modelBuilder.Entity("API.Entities.DishIngredient", b =>
+                {
+                    b.Property<int>("DishId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("IngredientId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("IngredientWeightPerPortion")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("DishId", "IngredientId");
+
+                    b.HasIndex("IngredientId");
+
+                    b.ToTable("DishIngredients");
+                });
+
             modelBuilder.Entity("API.Entities.Image", b =>
                 {
                     b.Property<int>("Id")
@@ -219,6 +234,9 @@ namespace API.Data.Migrations
 
                     b.Property<int>("DishId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("PublicId")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Url")
                         .HasColumnType("TEXT");
@@ -344,62 +362,6 @@ namespace API.Data.Migrations
                     b.ToTable("OrderDishParameters");
                 });
 
-            modelBuilder.Entity("API.Entities.OrderSetParameter", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("NumberOfMeals")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("NumberOfPersons")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("SetId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("SetId");
-
-                    b.ToTable("OrderSetParameters");
-                });
-
-            modelBuilder.Entity("API.Entities.Set", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Category")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("DateAdded")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsAvailableForOrder")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PrivateName")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Sets");
-                });
-
             modelBuilder.Entity("API.Entities.UserDish", b =>
                 {
                     b.Property<int>("Id")
@@ -435,36 +397,6 @@ namespace API.Data.Migrations
                     b.HasIndex("AppUserId");
 
                     b.ToTable("UserDishes");
-                });
-
-            modelBuilder.Entity("DishIngredient", b =>
-                {
-                    b.Property<int>("DishesId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("IngredientsId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("DishesId", "IngredientsId");
-
-                    b.HasIndex("IngredientsId");
-
-                    b.ToTable("DishIngredient", (string)null);
-                });
-
-            modelBuilder.Entity("DishSet", b =>
-                {
-                    b.Property<int>("DishesId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("SetsId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("DishesId", "SetsId");
-
-                    b.HasIndex("SetsId");
-
-                    b.ToTable("SetDish", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -581,6 +513,25 @@ namespace API.Data.Migrations
                     b.Navigation("AppUser");
                 });
 
+            modelBuilder.Entity("API.Entities.DishIngredient", b =>
+                {
+                    b.HasOne("API.Entities.Dish", "Dish")
+                        .WithMany("Ingredients")
+                        .HasForeignKey("DishId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.Ingredient", "Ingredient")
+                        .WithMany("Dishes")
+                        .HasForeignKey("IngredientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Dish");
+
+                    b.Navigation("Ingredient");
+                });
+
             modelBuilder.Entity("API.Entities.Image", b =>
                 {
                     b.HasOne("API.Entities.Dish", "Dish")
@@ -637,21 +588,6 @@ namespace API.Data.Migrations
                     b.Navigation("Dish");
                 });
 
-            modelBuilder.Entity("API.Entities.OrderSetParameter", b =>
-                {
-                    b.HasOne("API.Entities.Order", null)
-                        .WithMany("OrderSetParameters")
-                        .HasForeignKey("OrderId");
-
-                    b.HasOne("API.Entities.Set", "Set")
-                        .WithMany()
-                        .HasForeignKey("SetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Set");
-                });
-
             modelBuilder.Entity("API.Entities.UserDish", b =>
                 {
                     b.HasOne("API.Entities.AppUser", "AppUser")
@@ -661,36 +597,6 @@ namespace API.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("AppUser");
-                });
-
-            modelBuilder.Entity("DishIngredient", b =>
-                {
-                    b.HasOne("API.Entities.Dish", null)
-                        .WithMany()
-                        .HasForeignKey("DishesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API.Entities.Ingredient", null)
-                        .WithMany()
-                        .HasForeignKey("IngredientsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("DishSet", b =>
-                {
-                    b.HasOne("API.Entities.Dish", null)
-                        .WithMany()
-                        .HasForeignKey("DishesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API.Entities.Set", null)
-                        .WithMany()
-                        .HasForeignKey("SetsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -752,13 +658,18 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.Dish", b =>
                 {
                     b.Navigation("Images");
+
+                    b.Navigation("Ingredients");
+                });
+
+            modelBuilder.Entity("API.Entities.Ingredient", b =>
+                {
+                    b.Navigation("Dishes");
                 });
 
             modelBuilder.Entity("API.Entities.Order", b =>
                 {
                     b.Navigation("OrderDishParameters");
-
-                    b.Navigation("OrderSetParameters");
                 });
 #pragma warning restore 612, 618
         }

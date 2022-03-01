@@ -1,4 +1,5 @@
-﻿using API.DTOs.Admin;
+﻿using API.DTOs;
+using API.DTOs.Admin;
 using API.DTOs.User;
 using API.Entities;
 using AutoMapper;
@@ -9,6 +10,7 @@ public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
+        /*--   DTO to Entity   --*/
         CreateMap<AddressDto, Address>()
             .ForMember(a => a.Id, opt => opt.Ignore());
 
@@ -23,9 +25,29 @@ public class AutoMapperProfile : Profile
         CreateMap<IngredientDto, Ingredient>()
             .ForMember(i => i.Id, opt => opt.Ignore());
 
+        CreateMap<DishAddDto, Dish>()
+            .ForMember(d => d.CookingTime, opt => opt.MapFrom(dad => new TimeOnly(dad.CookingTimeHours, dad.CookingTimeMinutes)))
+            .ForMember(d => d.Ingredients, opt => opt.Ignore())
+            .ForMember(d => d.Images, opt => opt.Ignore());
+
+        CreateMap<DishUpdateDto, Dish>()
+            .ForMember(d => d.Id, opt => opt.Ignore())
+            .ForMember(d => d.CookingTime, opt => opt.MapFrom(dad => new TimeOnly(dad.CookingTimeHours, dad.CookingTimeMinutes)));
+
+        /*--   Entity to DTO   --*/
         CreateMap<AppUser, PersonalDataDto>();
         CreateMap<Address, AddressDto>();
         CreateMap<UserDish, UserDishDto>();
         CreateMap<Ingredient, IngredientDto>();
+        CreateMap<Image, ImageDto>();
+
+        CreateMap<Dish, DishAdminListDto>()
+            .ForMember(dgald => dgald.ImagePath, opt => opt.MapFrom(d => d.Images.FirstOrDefault().Url));
+
+        CreateMap<Dish, DishDto>()
+            .ForMember(dd => dd.CookingTimeHours, opt => opt.MapFrom(d => d.CookingTime.Hour))
+            .ForMember(dd => dd.CookingTimeMinutes, opt => opt.MapFrom(d => d.CookingTime.Minute))
+            .ForMember(dd => dd.Images, opt => opt.Ignore())
+            .ForMember(dd => dd.Ingredients, opt => opt.Ignore());
     }
 }
