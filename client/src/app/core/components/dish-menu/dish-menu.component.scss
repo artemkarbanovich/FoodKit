@@ -1,0 +1,194 @@
+.container {
+    max-width: 1260px;
+    margin: 0 auto;
+    padding-bottom: 40px;
+}
+
+.menu-description {
+    :nth-child(1) {
+        margin-top: 20px;
+        font-size: 40px;
+        font-weight: 500;
+        text-align: center;   
+    }
+
+    :nth-child(2) {
+        margin-left: 8px;
+        margin-right: 8px;
+        text-align: justify;
+        margin-top: 5px;
+        font-size: 15px;
+        color: rgb(85, 85, 85);
+        text-indent: 25px;
+
+        span {
+            font-size: 15px;
+        }
+    }
+}
+
+.dish-menu-actions__container {
+    margin: 12px 15px 0 15px;
+}
+
+.card__container {
+    margin: 0 10px 0 10px;
+
+    mat-divider {
+        margin-bottom: 15px;
+    }
+}
+
+.card-details {
+    position: relative;
+    width: 100%;
+    height: auto !important;
+
+    .images-carousel {
+        display: inline-block;
+        width: 55%;
+    }
+
+    .dish-description {
+        padding-top: 14px;
+        padding-left: 20px;
+        width: 45%;
+        float: right;
+
+        .dish-name {
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+        }
+
+        ul {
+            padding-top: 10px;
+            padding-left: 32px;
+            font-size: 17px;
+
+            li {
+                margin-top: 4px;
+            }
+        }
+    }
+
+    .cooking-time {
+        padding-top: 14px;
+        padding-left: 9px;
+
+        mat-icon {
+            vertical-align: middle;
+        }
+
+        p {
+            margin-top: 1px;
+            margin-left: 5px;
+            vertical-align: middle;
+            display: inline-block;
+        }
+    }
+
+    .ingredient-list {
+        margin-top: 14px;
+        margin-left: 10px;
+        margin-right: 5px;
+        font-size: 15px;
+        color: grey;
+    }
+
+    .order-button {
+        position: absolute;
+        bottom: 25px;
+    }
+
+    mat-divider {
+        margin-top: 15px;
+        margin-bottom: 19px;
+    }
+}
+
+.paginator__container {
+    width: 100%;
+    margin-top: -20px;
+}
+
+::ng-deep .mat-paginator-container {
+    justify-content: center !important;
+}
+
+@media screen and (max-width: 880px) {
+    .card__container {
+        margin: 0;
+    }
+
+    .card-details {
+        height: 100%;
+
+        .dish-description {
+            .dish-name {
+                text-align: center;
+                padding-right: 20px;
+            }
+        }
+
+        .images-carousel {
+            display: block;
+            width: 100%;
+        }
+    
+        .dish-description {
+            padding-left: 20px;
+            display: block;
+            width: 100%;
+            float: none;
+        }
+
+        .order-button {
+            margin-top: 20px;
+            margin-left: 10px;
+            position: static;
+        }
+
+        mat-divider {
+            margin-bottom: 15px;
+        }
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .menu-description {
+        :nth-child(1) {
+            margin-top: 10px;
+            font-size: 30px;
+        }
+    
+        :nth-child(2) {
+            span {
+                font-size: 13px;
+            }
+        }
+    }
+
+    .card-details {
+        .dish-description {
+            padding-top: 10px;
+
+            .dish-name {
+                font-size: 19px;
+            }
+    
+            ul {
+                padding-top: 6px;
+                font-size: 15px;
+            }
+
+            .cooking-time { 
+                padding-top: 10px;
+            }
+        }
+    }
+
+    ::ng-deep .mat-paginator-range-label {
+        display: none !important;
+    }
+}

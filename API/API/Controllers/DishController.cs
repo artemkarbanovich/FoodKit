@@ -1,6 +1,7 @@
 ﻿using API.DTOs;
 using API.DTOs.Admin;
 using API.Extensions;
+using API.Helpers.Paginator;
 using API.Helpers.QueryParams;
 using API.Interfaces;
 using API.Interfaces.Data;
@@ -79,7 +80,6 @@ public class DishController : BaseApiController
         return dishesAdminList;
     }
 
-    [AllowAnonymous]
     [HttpGet("get-dish/{id}")]
     public async Task<ActionResult<DishDto>> GetDish(int id)
     {
@@ -125,5 +125,19 @@ public class DishController : BaseApiController
             return Ok();
 
         return BadRequest("Ошибка обновления ингредиентов");
+    }
+
+    [AllowAnonymous]
+    [HttpGet("get-dishes-user-list")]
+    public async Task<ActionResult<PagedList<DishDto>>> GetDishesUserList([FromQuery] DishUserListParam dishUserListParam)
+    {
+        var dishes = await _unitOfWork.DishRepository.GetDishesUserListAsync(dishUserListParam);
+
+        if (dishes == null)
+            return BadRequest("Ошибка получения блюд");
+
+        Response.AddPaginationHeader(dishes.CurrentPage, dishes.PageSize, dishes.TotalCount);
+
+        return dishes;
     }
 }

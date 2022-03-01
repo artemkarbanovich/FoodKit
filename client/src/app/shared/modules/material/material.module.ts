@@ -24,13 +24,15 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSortModule } from '@angular/material/sort';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatCardModule } from '@angular/material/card';
+import { MatCarouselModule } from 'ng-mat-carousel';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DATE_FORMATS } from 'src/app/core/constants/date-formats';
 
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule
+    CommonModule,
+    MatCarouselModule.forRoot()
   ],
   exports: [
     MatIconModule,
@@ -57,6 +59,7 @@ import { DATE_FORMATS } from 'src/app/core/constants/date-formats';
     MatProgressSpinnerModule,
     MatStepperModule,
     MatCardModule,
+    MatCarouselModule,
     DragDropModule
   ],
   providers: [

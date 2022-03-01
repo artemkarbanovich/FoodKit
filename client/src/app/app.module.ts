@@ -24,6 +24,7 @@ import { DishComponent } from './core/components/admin/dish/dish.component';
 import { DishListComponent } from './core/components/admin/dish-list/dish-list.component';
 import { DishEditComponent } from './core/components/admin/dish-edit/dish-edit.component';
 import { RouterModule } from '@angular/router';
+import { DishMenuComponent } from './core/components/dish-menu/dish-menu.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { RouterModule } from '@angular/router';
     DishAddFormComponent,
     DishComponent,
     DishListComponent,
-    DishEditComponent
+    DishEditComponent,
+    DishMenuComponent
   ],
   imports: [
     SharedModule,

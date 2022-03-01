@@ -11,7 +11,7 @@
       <div class="container__nav">
         <ul *ngIf="(accountService.currentUser$ | async)?.roles.includes('User') 
           || (accountService.currentUser$ | async) === null">
-          <li><a>Меню</a></li>
+          <li><a routerLink="/menu">Меню</a></li>
           <li><a>О нас</a></li>
           <li><a>Контакты</a></li>
           <li><a>FAQ</a></li>
@@ -24,7 +24,6 @@
         <ul *ngIf="(accountService.currentUser$ | async)?.roles.includes('Courier')">
           <li><a>Заказы</a></li>
           <li><a>Чат</a></li>
-          <li><a>Статистика</a></li>
         </ul>
       </div>
 
@@ -36,7 +35,7 @@
 
               <ng-container *ngIf="(accountService.currentUser$ | async)?.roles.includes('User') 
                 || (accountService.currentUser$ | async) === null">
-                <button mat-menu-item><a>Наборы</a></button>
+                <button mat-menu-item><a routerLink="/menu">Меню</a></button>
                 <button mat-menu-item><a>О нас</a></button>
                 <button mat-menu-item><a>Контакты</a></button>
                 <button mat-menu-item><a>FAQ</a></button>
@@ -51,7 +50,6 @@
               <ng-container *ngIf="(accountService.currentUser$ | async)?.roles.includes('Courier')">
                 <button mat-menu-item><a>Заказы</a></button>
                 <button mat-menu-item><a>Чат</a></button>
-                <button mat-menu-item><a>Статистика</a></button>
               </ng-container>
 
             </mat-menu>
