@@ -6,6 +6,7 @@ import { Pagination } from '../../models/pagination';
 import { DishCartService } from '../../services/dish-cart.service';
 import { DishService } from '../../services/dish.service';
 import { Ingredient } from '../../models/ingredient';
+import { DishCartItem } from '../../models/dishCartItem';
 
 @Component({
   selector: 'app-dish-menu',
@@ -18,7 +19,7 @@ export class DishMenuComponent implements OnInit {
   public dishes: Dish[] = [];
   public numberOfPersons: string = '2';
 
-  constructor(private dishService: DishService, private dishCardService: DishCartService) { }
+  constructor(private dishService: DishService, private dishCartService: DishCartService) { }
 
 
   public ngOnInit(): void {
@@ -42,7 +43,23 @@ export class DishMenuComponent implements OnInit {
   }
 
   public addToCart(dish: Dish) {
-    //TODO: add to cart
+    let dishCartItem: DishCartItem = {
+      dishId: dish.id,
+      dishName: dish.name,
+      dishPrice: dish.price,
+      dishImageUrl: dish.images[0].url,
+      count: 1,
+      numberOfPersons: Number(this.numberOfPersons)
+    };
+
+    let checkItemId = this.dishCartService.dishCartItems.findIndex(item => item.dishId === dishCartItem.dishId &&
+      item.numberOfPersons === dishCartItem.numberOfPersons);
+
+    if(checkItemId !== -1) {
+      this.dishCartService.dishCartItems[checkItemId].count++;
+    } else {
+      this.dishCartService.dishCartItems.push(dishCartItem);
+    }
   }
 
   public handlePage(event?: PageEvent): PageEvent {

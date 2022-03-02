@@ -69,6 +69,10 @@
                 <div class="order-button">
                     <button color="primary" (click)="addToCart(dish)" mat-raised-button>Выбрать</button>
                 </div>
+
+                <div class="dish-price">
+                    <p>{{dish.price * numberOfPersons | number : '1.1-1'}} BYN</p>
+                </div>
             </div>
             <mat-divider></mat-divider>
         </div>

@@ -5,5 +5,5 @@ import { DishCartItem } from '../models/dishCartItem';
   providedIn: 'root'
 })
 export class DishCartService {
-  public dishCartItem: DishCartItem[] = [];
+  public dishCartItems: DishCartItem[] = [];
 }

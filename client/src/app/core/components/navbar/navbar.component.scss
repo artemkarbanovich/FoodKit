@@ -79,12 +79,114 @@ a {
     }
 }
 
+.mat-badge-count {
+    display: inline-block;
+}
+
+:host ::ng-deep .mat-badge-content {
+    top: -8px !important;
+    right: -11px !important;
+}
+
 .navigation-menu__icon {
     display: none !important;
 }
 
 button[mat-menu-item] {
     text-align: center;
+}
+
+::ng-deep.mat-menu-panel {
+    max-width: none !important;
+    min-height: 0 !important;
+}
+
+::ng-deep .cart-menu {
+    cursor: default;
+
+    .cart-no-items {
+        margin: 20px 35px 20px 35px;
+        text-align: center;
+        font-size: 25px;
+    }
+
+    .button-make-order {
+        cursor: pointer;
+        width: 100%;
+        margin-bottom: -8px;
+        margin-top: 9px;
+        border-radius: 0 0 4px 4px;
+    }
+
+    .button-make-order:disabled {
+        cursor: default;
+    }
+}
+
+.cart-item__container {
+    .cart-item {
+        width: 450px;
+        position: relative;
+        margin-top: 9px;
+        background-color: white;
+
+        img {
+            margin-left: 5px;
+            width: 90px;
+            height: 70px;
+            border-radius: 3px;
+        }
+
+        .delete-button {
+            position: absolute;
+            top: -10px;
+            right: 0;
+        }
+        
+        .delete-icon {
+            color: red;
+        }
+
+        .item-name {
+            font-weight: 500;
+            margin-left: 5px;
+            top: 32px;
+            position: absolute;
+            display: inline-block;
+        }
+
+        .item-info {
+            color: grey;
+            margin-left: 5px;
+            position: absolute;
+            top: 52px;
+            display: inline-block;
+        }
+
+        .item-price {
+            width: 90px;
+            text-align: center;
+            margin: 5px 0 5px 5px;
+            font-weight: 500;
+        }
+    }
+}
+
+.order-info {
+    margin-top: 10px;
+    margin-bottom: 4px;
+
+    .items-count, .items-price {
+        font-size: 18px;
+        font-weight: 500;
+        margin-top: 5px;
+        margin-left: 5px;
+        margin-right: 15px;
+
+        span {
+            float: right;
+        }
+    }
 }
 
 @media screen and (max-width: 700px) {
@@ -116,6 +218,18 @@ button[mat-menu-item] {
 
     .navigation-menu__icon {
         display: inline-block !important;
+    }
+
+    ::ng-deep .mat-menu-panel {
+        width: 100vh !important;
+        margin: 14px 10px 0 10px !important;
+        border-radius: 0 0 4px 4px !important; 
+    }
+
+    .cart-item__container {
+        .cart-item {
+            width: 100% !important;
+        }
     }
 }
 

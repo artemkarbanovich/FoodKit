@@ -96,9 +96,17 @@
         color: grey;
     }
 
+    .dish-price {
+        position: absolute;
+        font-size: 25px;
+        font-weight: 500;
+        bottom: 19px;
+    }
+
     .order-button {
         position: absolute;
-        bottom: 25px;
+        bottom: 18px;
+        right: 5px;
     }
 
     mat-divider {
@@ -143,10 +151,15 @@
             float: none;
         }
 
-        .order-button {
+        .dish-price {
             margin-top: 20px;
             margin-left: 10px;
             position: static;
+        }
+
+        .order-button {
+            bottom: 15px;
+            margin-right: 20px;
         }
 
         mat-divider {
