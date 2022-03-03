@@ -70,8 +70,4 @@ export class NavbarComponent {
 
     return sum;
   }
-
-  public makeOrder(): void {
-    //TODO: MAKE-ORDER COMPONENT
-  }
 }

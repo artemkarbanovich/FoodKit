@@ -24,6 +24,7 @@ public class UnitOfWork : IUnitOfWork
     public IUserDishRepository UserDishRepository => new UserDishRepository(_dataContext, _mapper);
     public IIngredientRepository IngredientRepository => new IngredientRepository(_dataContext, _mapper);
     public IDishRepository DishRepository => new DishRepository(_dataContext, _mapper, _imageService);
-
+    public IOrderRepository OrderRepository => new OrderRepository(_dataContext, _mapper);
+    
     public async Task<bool> CompleteAsync() => await _dataContext.SaveChangesAsync() > 0;
 }

@@ -53,6 +53,12 @@ $client-theme: mat.define-light-theme((
 .mat-tooltip {
   font-size: 12px !important;
 }
+.mat-checkbox-layout {
+  white-space: normal !important;
+}
+.mat-radio-label {
+  white-space: normal !important;
+}
 
 
 // TOASTR

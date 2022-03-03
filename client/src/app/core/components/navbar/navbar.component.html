@@ -115,7 +115,7 @@
                 <p class="items-price">Сумма заказа: <span>{{getOrderSummary() | number : '1.1-1'}} BYN</span></p>
               </div>
 
-              <button class="button-make-order" mat-raised-button color="primary" (click)="makeOrder()"
+              <button class="button-make-order" mat-raised-button color="primary" routerLink="/order"
                 [disabled]="dishCartService.dishCartItems.length === 0 || (accountService.currentUser$ | async) === null">
                 Оформить заказ</button>
 

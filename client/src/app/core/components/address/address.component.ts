@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Address } from '../../models/address';
@@ -12,6 +12,7 @@ import { DeletionConfirmationComponent } from '../../../shared/components/deleti
   styleUrls: ['./address.component.scss']
 })
 export class AddressComponent implements OnInit {
+  @Output() updateAddresses = new EventEmitter<void>();
   public panelExpansionState: boolean = false;
   public addressForm: FormGroup;
   public addresses: Address[];
@@ -58,6 +59,7 @@ export class AddressComponent implements OnInit {
       editForm.resetForm();
       this.addressForm.reset();
       this.panelExpansionState = !this.panelExpansionState;
+      this.updateAddresses.next();
     });
   }
 
