@@ -20,6 +20,9 @@ public class OrderDto
 
     public int? Evaluation { get; set; }
 
+    [Required]
+    public string Status { get; set; }
+
     [Required] 
     public List<OrderDishParameterDto> OrderDishParameters { get; set; }
 }

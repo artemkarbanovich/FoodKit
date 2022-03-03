@@ -7,6 +7,7 @@ public class Order
     public DateTime DeliveryDate { get; set; }
     public decimal TotalPrice { get; set; }
     public int? Evaluation { get; set; }
+    public string Status { get; set; }
 
     public ICollection<OrderDishParameter> OrderDishParameters { get; set; }
 

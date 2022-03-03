@@ -7,5 +7,6 @@ export interface Order {
     deliveryDate: string;
     totalPrice: number;
     evaluation?: number;
+    status: string;
     orderDishParameters: OrderDishParameter[];
 }

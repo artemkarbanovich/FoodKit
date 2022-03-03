@@ -68,6 +68,7 @@ export class OrderComponent implements OnInit {
       deliveryDate: this.datePipe.transform(new Date(this.orderForm.controls['deliveryDate'].value), 'yyyy-MM-dd')
         + 'T17:' + this.datePipe.transform(new Date(this.orderForm.controls['deliveryDate'].value), 'HH:mm'),
       totalPrice: this.getOrderSummary(),
+      status: 'accepted',
       orderDishParameters: orderDishParameters
     };
 
