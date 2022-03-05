@@ -37,7 +37,8 @@ public class AutoMapperProfile : Profile
         CreateMap<OrderDto, Order>()
             .ForMember(o => o.Id, opt => opt.Ignore())
             .ForMember(o => o.Evaluation, opt => opt.Ignore())
-            .ForMember(o => o.OrderDishParameters, opt => opt.Ignore());
+            .ForMember(o => o.OrderDishParameters, opt => opt.Ignore())
+            .ForMember(o => o.AppUserId, opt => opt.Ignore());
 
         CreateMap<OrderDishParameterDto, OrderDishParameter>()
             .ForMember(odp => odp.Id, opt => opt.Ignore());

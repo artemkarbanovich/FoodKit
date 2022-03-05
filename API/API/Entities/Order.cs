@@ -14,5 +14,5 @@ public class Order
     public AppUser AppUser { get; set; }
     public int AppUserId { get; set; }
     public Address Address { get; set; }
-    public int AddressId { get; set; }
+    public int? AddressId { get; set; }
 }

@@ -63,7 +63,9 @@ export class OrderComponent implements OnInit {
     });
 
     let order: Order = {
-      addressId: Number(this.orderForm.controls['addressId'].value),
+      addressId: (Number(this.orderForm.controls['addressId'].value) === 0) 
+        ? this.addresses[0].id 
+        : Number(this.orderForm.controls['addressId'].value),
       orderDate: this.datePipe.transform(new Date(), 'yyyy-MM-dd') + 'T17:' + this.datePipe.transform(new Date(), 'HH:mm'),
       deliveryDate: this.datePipe.transform(new Date(this.orderForm.controls['deliveryDate'].value), 'yyyy-MM-dd')
         + 'T17:' + this.datePipe.transform(new Date(this.orderForm.controls['deliveryDate'].value), 'HH:mm'),

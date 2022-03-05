@@ -3,7 +3,7 @@ import { OrderDishParameter } from "./orderDishParameter";
 export interface Order {
     id?: number;
     addressId: number;
-    orderDate?: string;
+    orderDate: string;
     deliveryDate: string;
     totalPrice: number;
     evaluation?: number;
