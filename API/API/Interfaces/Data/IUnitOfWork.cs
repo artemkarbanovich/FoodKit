@@ -8,6 +8,7 @@ public interface IUnitOfWork
     IUserDishRepository UserDishRepository { get; }
     IIngredientRepository IngredientRepository { get; }
     IDishRepository DishRepository { get; }
+    IOrderRepository OrderRepository { get; }
 
     Task<bool> CompleteAsync();
 }

@@ -34,6 +34,14 @@ public class AutoMapperProfile : Profile
             .ForMember(d => d.Id, opt => opt.Ignore())
             .ForMember(d => d.CookingTime, opt => opt.MapFrom(dad => new TimeOnly(dad.CookingTimeHours, dad.CookingTimeMinutes)));
 
+        CreateMap<OrderDto, Order>()
+            .ForMember(o => o.Id, opt => opt.Ignore())
+            .ForMember(o => o.Evaluation, opt => opt.Ignore())
+            .ForMember(o => o.OrderDishParameters, opt => opt.Ignore());
+
+        CreateMap<OrderDishParameterDto, OrderDishParameter>()
+            .ForMember(odp => odp.Id, opt => opt.Ignore());
+
         /*--   Entity to DTO   --*/
         CreateMap<AppUser, PersonalDataDto>();
         CreateMap<Address, AddressDto>();
