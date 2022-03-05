@@ -1,7 +1,11 @@
 ﻿using API.DTOs.User;
 using API.Entities;
+using API.Helpers.Paginator;
+using API.Helpers.QueryParams;
 using API.Interfaces.Data;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Data.Repositories;
 
@@ -54,5 +58,33 @@ public class OrderRepository : IOrderRepository
             await transaction.RollbackAsync();
             return false;
         }
+    }
+
+    public async Task<PagedList<OrderUserGetDto>> GetUserOrdersAsync(OrderParam orderParam, int userId)
+    {
+        var source = _dataContext.Orders
+            .Where(o => o.AppUserId == userId)
+            .OrderByDescending(o => o.OrderDate)
+            .ProjectTo<OrderUserGetDto>(_mapper.ConfigurationProvider)
+            .AsNoTracking();
+
+        return await PagedList<OrderUserGetDto>
+            .CreateAsync(source, orderParam.CurrentPage, orderParam.PageSize);
+    }
+
+    public void UpdateOrderStatus(int id, string status)
+    {
+        var order = new Order { Id = id, Status = status };
+
+        _dataContext.Orders.Attach(order);
+        _dataContext.Entry(order).Property(o => o.Status).IsModified = true;
+    }
+
+    public void UpdateEvaluation(int id, int evaluationValue)
+    {
+        var order = new Order { Id = id, Evaluation = evaluationValue };
+
+        _dataContext.Orders.Attach(order);
+        _dataContext.Entry(order).Property(o => o.Evaluation).IsModified = true;
     }
 }

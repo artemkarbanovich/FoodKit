@@ -65,6 +65,10 @@ $client-theme: mat.define-light-theme((
 @import url('../node_modules/ngx-toastr/toastr.css');
 
 
+// FONT AWESOME
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+
+
 // OWN
 @import url(styles/normalize.scss);
 * {

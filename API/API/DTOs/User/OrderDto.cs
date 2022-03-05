@@ -4,8 +4,6 @@ namespace API.DTOs.User;
 
 public class OrderDto
 {
-    public int? Id { get; set; }
-
     [Required] 
     public int AddressId { get; set; }
 
@@ -17,8 +15,6 @@ public class OrderDto
 
     [Required] 
     public decimal TotalPrice { get; set; }
-
-    public int? Evaluation { get; set; }
 
     [Required]
     public string Status { get; set; }

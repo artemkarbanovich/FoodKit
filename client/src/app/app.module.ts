@@ -26,6 +26,8 @@ import { DishEditComponent } from './core/components/admin/dish-edit/dish-edit.c
 import { RouterModule } from '@angular/router';
 import { DishMenuComponent } from './core/components/dish-menu/dish-menu.component';
 import { OrderComponent } from './core/components/order/order.component';
+import { UserOrdersComponent } from './core/components/user-orders/user-orders.component';
+import { CancellationConfirmationComponent } from './shared/components/cancellation-confirmation/cancellation-confirmation.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,9 @@ import { OrderComponent } from './core/components/order/order.component';
     DishListComponent,
     DishEditComponent,
     DishMenuComponent,
-    OrderComponent
+    OrderComponent,
+    UserOrdersComponent,
+    CancellationConfirmationComponent
   ],
   imports: [
     SharedModule,

@@ -1,0 +1,97 @@
+.container {
+    max-width: 1260px;
+    margin: auto;
+    padding: 25px 10px 50px 10px !important;
+}
+
+table {
+    overflow-y: hidden !important;
+    border-collapse: collapse !important;
+    width: 99.999%;
+    min-width: 920px;
+}
+
+td, th {
+    padding: 0 !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+th {
+    border-right: 1px solid #CCC;
+}
+
+th:last-child {
+    border-right: none;
+}
+
+.table__container {
+    overflow-y: hidden !important;
+    border-top: 1px solid #CCC;
+    border-left: 1px solid #CCC;
+    border-right: 1px solid #CCC;
+    overflow-x: auto;
+    margin-right: -1px;
+}
+
+.mat-column-evaluation {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    min-width: 270px !important;
+    width: 270px !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  
+    word-break: break-word;
+  
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+
+.mat-column-cancelOrder {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    min-width: 140px !important;
+    width: 140px !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  
+    word-break: break-word;
+  
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+
+.paginator__container {
+    width: 100%;
+    border-bottom: 1px solid #CCC;
+    border-left: 1px solid #CCC;
+    border-right: 1px solid #CCC;
+}
+
+.no-orders__notif {
+    margin-top: 10px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 20px;
+
+    a {
+        text-decoration: underline;
+        cursor: pointer;
+        color: black;
+    }
+}
+
+::ng-deep .mat-paginator-container {
+    justify-content: center !important;
+}
+
+@media screen and (max-width: 500px) {
+    ::ng-deep .mat-paginator-range-label {
+        display: none !important;
+    }
+}

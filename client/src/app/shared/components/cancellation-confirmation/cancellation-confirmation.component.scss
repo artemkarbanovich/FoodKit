@@ -1,0 +1,29 @@
+h2 {
+    font-weight: 500;
+}
+
+p {
+    margin-top: 5px;
+    text-align: center;
+}
+
+mat-dialog-actions {
+    margin-top: 10px;
+    position: relative;
+}
+
+.mat-button-focus-overlay {
+    background-color: transparent!important;
+}
+
+button:first-child {
+    outline: none !important;
+    position: absolute;
+    left: 0;
+}
+
+button:last-child {
+    outline: none !important;
+    position: absolute;
+    right: 0;
+}

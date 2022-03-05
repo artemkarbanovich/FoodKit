@@ -60,7 +60,7 @@ export class DishService {
         }
         return this.paginatedResult;
       })
-    )
+    );
   }
 
   public getDish(id: number): Observable<Dish> {
@@ -106,6 +106,6 @@ export class DishService {
         }
         return this.dishesUserList;
       })
-    )
+    );
   }
 }

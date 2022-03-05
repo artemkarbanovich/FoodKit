@@ -52,6 +52,8 @@ export class OrderComponent implements OnInit {
 
   public makeOrder(): void {
     let orderDishParameters: OrderDishParameter[] = [];
+    let deliveryDate = new Date(this.orderForm.controls['deliveryDate'].value);
+    let orderDate = new Date();
 
     this.dishCartService.dishCartItems.forEach(item => {
       let orderDishParameter: OrderDishParameter = {
@@ -66,9 +68,8 @@ export class OrderComponent implements OnInit {
       addressId: (Number(this.orderForm.controls['addressId'].value) === 0) 
         ? this.addresses[0].id 
         : Number(this.orderForm.controls['addressId'].value),
-      orderDate: this.datePipe.transform(new Date(), 'yyyy-MM-dd') + 'T17:' + this.datePipe.transform(new Date(), 'HH:mm'),
-      deliveryDate: this.datePipe.transform(new Date(this.orderForm.controls['deliveryDate'].value), 'yyyy-MM-dd')
-        + 'T17:' + this.datePipe.transform(new Date(this.orderForm.controls['deliveryDate'].value), 'HH:mm'),
+      orderDate: this.datePipe.transform(orderDate, 'yyyy-MM-dd') + 'T' + this.datePipe.transform(orderDate, 'HH:mm'),
+      deliveryDate: this.datePipe.transform(deliveryDate, 'yyyy-MM-dd') + 'T' + this.datePipe.transform(deliveryDate, 'HH:mm'),
       totalPrice: this.getOrderSummary(),
       status: 'accepted',
       orderDishParameters: orderDishParameters
