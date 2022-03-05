@@ -8,10 +8,12 @@ import { LoadingInterceptor } from 'src/app/core/security/interceptors/loading.i
 import { FileUploadModule } from "ng2-file-upload"; 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgxStarRatingModule } from 'ngx-star-rating';
+import { CancellationConfirmationComponent } from '../../components/cancellation-confirmation/cancellation-confirmation.component';
 
 @NgModule({
   declarations: [
-    DeletionConfirmationComponent
+    DeletionConfirmationComponent,
+    CancellationConfirmationComponent
   ],
   imports: [
     MaterialModule,
@@ -27,7 +29,7 @@ import { NgxStarRatingModule } from 'ngx-star-rating';
     NgxStarRatingModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
     DatePipe
   ],
 })

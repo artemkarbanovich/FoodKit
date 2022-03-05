@@ -49,8 +49,7 @@ import { CancellationConfirmationComponent } from './shared/components/cancellat
     DishEditComponent,
     DishMenuComponent,
     OrderComponent,
-    UserOrdersComponent,
-    CancellationConfirmationComponent
+    UserOrdersComponent
   ],
   imports: [
     SharedModule,
