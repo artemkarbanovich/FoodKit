@@ -316,22 +316,30 @@ namespace API.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("AddressId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("AppUserId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("DeliveryDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Evaluation")
+                    b.Property<int?>("Evaluation")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("OrderDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Status")
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
 
                     b.HasIndex("AppUserId");
 
@@ -344,13 +352,16 @@ namespace API.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("Count")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("DishId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("NumberOfPersons")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("OrderId")
+                    b.Property<int>("OrderId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -564,11 +575,18 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.Order", b =>
                 {
+                    b.HasOne("API.Entities.Address", "Address")
+                        .WithMany("Orders")
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("API.Entities.AppUser", "AppUser")
                         .WithMany("Orders")
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Address");
 
                     b.Navigation("AppUser");
                 });
@@ -581,11 +599,15 @@ namespace API.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Entities.Order", null)
+                    b.HasOne("API.Entities.Order", "Order")
                         .WithMany("OrderDishParameters")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Dish");
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("API.Entities.UserDish", b =>
@@ -633,6 +655,11 @@ namespace API.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("API.Entities.Address", b =>
+                {
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("API.Entities.AppRole", b =>

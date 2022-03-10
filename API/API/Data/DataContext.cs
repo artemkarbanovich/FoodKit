@@ -56,5 +56,10 @@ public class DataContext : IdentityDbContext<AppUser, AppRole, int, IdentityUser
           .HasOne(di => di.Ingredient)
           .WithMany(i => i.Dishes)
           .HasForeignKey(di => di.IngredientId);
+
+        builder.Entity<Order>()
+            .HasOne(o => o.Address)
+            .WithMany(a => a.Orders)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

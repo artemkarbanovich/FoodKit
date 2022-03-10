@@ -16,6 +16,7 @@ import { PaginatedResult } from '../models/paginatedResult';
 export class DishService {
   private baseUrl: string = environment.apiUrl;
   public paginatedResult: PaginatedResult<DishAdminList[]> = new PaginatedResult<DishAdminList[]>();
+  public dishesUserList: PaginatedResult<Dish[]> = new PaginatedResult<Dish[]>();
 
   constructor(private http: HttpClient) { }
 
@@ -59,7 +60,7 @@ export class DishService {
         }
         return this.paginatedResult;
       })
-    )
+    );
   }
 
   public getDish(id: number): Observable<Dish> {
@@ -86,5 +87,25 @@ export class DishService {
   
   public updateDishIngredients(ingredinets: DishAddIngredient[], dishId: number): Observable<Object> {
     return this.http.put(this.baseUrl + 'dish/update-dish-ingredients?dishId=' + dishId, ingredinets);
+  }
+
+  public getDishesUserList(currentPage?: number, pageSize?: number): Observable<PaginatedResult<Dish[]>> {
+    let params = new HttpParams();
+    
+    if(currentPage != null && pageSize != null) {
+      params = params.append('currentPage', currentPage.toString());
+      params = params.append('pageSize', pageSize.toString());
+    }
+
+    return this.http.get<Dish[]>(this.baseUrl + 'dish/get-dishes-user-list',  {observe: 'response', params})
+    .pipe(
+      map((response: HttpResponse<Dish[]>) => {
+        this.dishesUserList.result = response.body;
+        if(response.headers.get('Pagination') !== null) {
+          this.dishesUserList.pagination = JSON.parse(response.headers.get('Pagination'));
+        }
+        return this.dishesUserList;
+      })
+    );
   }
 }

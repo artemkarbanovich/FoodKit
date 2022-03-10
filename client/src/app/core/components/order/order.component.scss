@@ -1,0 +1,83 @@
+.container {
+    max-width: 1260px;
+    width: 100%;
+    margin: 0 auto;
+    padding-bottom: 40px;
+}
+
+.addresses__container {
+    padding: 20px 5px 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    label {
+        display: inline-block;
+        margin-bottom: 10px;
+        font-weight: 500;
+        font-size: 18px;  
+    }
+
+    .mat-radio-label {
+        white-space: normal;
+    }
+
+    .mat-radio-button {
+        display: block !important;
+        margin-bottom: 10px;
+        font-size: 15px;
+    }
+}
+
+.no-addresses {
+    margin: 20px 7px 0px 7px;
+    font-size: 17px;
+    font-weight: 500;
+    text-align: center;
+
+    p {
+        margin-bottom: 20px;
+    }
+}
+
+::ng-deep .mat-form-field-flex {
+
+    background-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+.delivery-date__container {
+    width: 480px;
+    margin: 0 auto;
+    margin-top: 25px;
+
+    mat-form-field {
+        width: 100%;
+    }
+}
+
+.order-info {
+    width: 480px;
+    margin: 0 auto;
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: 500;
+
+    span {
+        float: right;
+    }
+}
+
+.order-btn__container {
+    width: 480px;
+    margin: 0 auto;
+    margin-top: 30px;
+    padding-left: 1px;
+}
+
+@media screen and (max-width: 505px) { 
+    .delivery-date__container, .order-info, .order-btn__container { 
+        width: 100%;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}

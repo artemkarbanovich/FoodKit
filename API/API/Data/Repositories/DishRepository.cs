@@ -240,4 +240,50 @@ public class DishRepository : IDishRepository
             return false;
         }
     }
+
+    public async Task<PagedList<DishDto>> GetDishesUserListAsync(DishUserListParam dishUserListParam)
+    {
+        var dishesSource = _dataContext.Dishes
+            .Where(d => d.IsAvailableForSingleOrder)
+            .Include(d => d.Images)
+            .Include(d => d.Ingredients)
+            .ThenInclude(di => di.Ingredient);
+
+        var dishes = await dishesSource
+            .Skip((dishUserListParam.CurrentPage - 1) * dishUserListParam.PageSize)
+            .Take(dishUserListParam.PageSize)
+            .ToListAsync();
+
+        if (dishesSource == null) 
+            return null;
+
+        var dishesDto = new List<DishDto>();
+
+        foreach (var d in dishes)
+        {
+            var dishDto = new DishDto
+            {
+                Images = new List<ImageDto>(),
+                Ingredients = new List<IngredientDto>()
+            };
+
+            _mapper.Map(d, dishDto);
+
+            foreach (var img in d.Images)
+                dishDto.Images.Add(_mapper.Map<Image, ImageDto>(img));
+
+            foreach (var di in d.Ingredients)
+            {
+                var ingredientDto = _mapper.Map<Ingredient, IngredientDto>(di.Ingredient);
+                ingredientDto.IngredientWeightPerPortion = di.IngredientWeightPerPortion;
+
+                dishDto.Ingredients.Add(ingredientDto);
+            }
+
+            dishesDto.Add(dishDto);
+        }
+
+        return new PagedList<DishDto>(dishesDto, dishUserListParam.CurrentPage,
+            dishUserListParam.PageSize, await dishesSource.CountAsync());
+    }
 }

@@ -1,0 +1,89 @@
+<div class="container">
+    <mat-divider></mat-divider>
+
+    <div class="menu-description">
+        <p>Наше меню</p>
+        <p>На этой странице вы можете выбрать блюда для заказа. Укажите количество персон &#40;человек&#41;.
+            Нажмите кнопку выбрать для добавления блюда в корзину, которая расположена сверху справа. Для заказа
+            нажмите на корзину и далее на кнопку оформить заказ <span>&#40;ЕСЛИ КНОПКА НЕДОСТУПНА, ТО ВОЙДИТЕ В
+            АККАУНТ ИЛИ ЗАРЕГИСТРИРУЙТЕСЬ&#41;</span>.
+        </p>
+    </div>
+
+    <div class="dish-menu-actions__container">
+        <form>
+            <mat-form-field appearance="fill">
+                <mat-label>Количество персон</mat-label>
+                <mat-select [(value)]="numberOfPersons">
+                    <mat-option value="1">1 персона</mat-option>
+                    <mat-option value="2">2 персоны</mat-option>
+                    <mat-option value="4">4 персоны</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </form>
+    </div>
+
+    <div class="card__container">
+        <mat-divider></mat-divider>
+        <div class="card-details" *ngFor="let dish of dishes">
+
+            <div class="images-carousel">
+                <mat-carousel timings="250ms ease-in" [autoplay]="false" color="accent" proportion="65"
+                    [loop]="true" [hideArrows]="false" [hideIndicators]="false" [useKeyboard]="true"
+                    [useMouseWheel]="false" orientation="ltr">
+                    <mat-carousel-slide #matCarouselSlide *ngFor="let img of dish.images; let i = index"
+                        [image]="img.url" [hideOverlay]="true"></mat-carousel-slide>
+                </mat-carousel>
+            </div>
+
+            <div class="dish-description">
+                <div class="dish-name">
+                    <p>{{dish.name}}</p>
+                </div>
+
+                <ul>
+                    <li *ngIf="numberOfPersons === '1'">{{numberOfPersons}} порция</li>
+                    <li *ngIf="numberOfPersons === '2' || numberOfPersons === '4'">
+                        {{numberOfPersons}} порции
+                    </li>
+                    <li>{{getWeightOfDish(dish)}} грамм</li>
+                    <li>{{getAverageValue(dish.ingredients, 'calories')}} ккал &#40;БЖУ:
+                        {{getAverageValue(dish.ingredients, 'proteins')}}/{{getAverageValue(dish.ingredients,
+                        'fats')}}/{{getAverageValue(dish.ingredients, 'carbohydrates')}}
+                        на 100 г&#41;
+                    </li>
+                </ul>
+
+                <div class="cooking-time">
+                    <mat-icon>schedule</mat-icon>
+                    <p>{{dish.cookingTimeHours * 60 + dish.cookingTimeMinutes}} мин</p>
+                </div>
+
+                <div class="ingredient-list">
+                    <span *ngFor="let ingr of dish.ingredients; let last = last">
+                        <span *ngIf="!last">{{ingr.name}} &bull; </span>
+                        <span *ngIf="last">{{ingr.name}}</span>
+                    </span>
+                </div>
+
+                <div class="order-button">
+                    <button color="primary" (click)="addToCart(dish)" mat-raised-button>Выбрать</button>
+                </div>
+
+                <div class="dish-price">
+                    <p>{{dish.price * numberOfPersons | number : '1.1-1'}} BYN</p>
+                </div>
+            </div>
+            <mat-divider></mat-divider>
+        </div>
+    </div>
+
+    <div class="paginator__container">
+        <mat-paginator [pageSizeOptions]="[5, 10]" aria-label="Выберите страницу"
+            [pageIndex]="pagination?.currentPage" [pageSize]="pagination?.pageSize"
+            [length]="pagination?.totalCount" [showFirstLastButtons]="true"
+            (page)="pageEvent = handlePage($event)">
+        </mat-paginator>
+    </div>
+
+</div>

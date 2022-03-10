@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace API.Data.Migrations
 {
-    public partial class deleteSet : Migration
+    public partial class DeleteSet : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -39,7 +39,7 @@ export class IngredientService {
         }
         return this.paginatedResult;
       })
-    )
+    );
   }
   
   public deleteIngredient(id: number): Observable<Object> {

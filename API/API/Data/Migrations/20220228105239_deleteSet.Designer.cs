@@ -12,7 +12,7 @@ namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
     [Migration("20220228105239_deleteSet")]
-    partial class deleteSet
+    partial class DeleteSet
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

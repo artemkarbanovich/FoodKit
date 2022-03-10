@@ -53,10 +53,20 @@ $client-theme: mat.define-light-theme((
 .mat-tooltip {
   font-size: 12px !important;
 }
+.mat-checkbox-layout {
+  white-space: normal !important;
+}
+.mat-radio-label {
+  white-space: normal !important;
+}
 
 
 // TOASTR
 @import url('../node_modules/ngx-toastr/toastr.css');
+
+
+// FONT AWESOME
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
 
 
 // OWN

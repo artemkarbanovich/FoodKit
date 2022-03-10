@@ -13,4 +13,5 @@ public class Address
 
     public AppUser AppUser { get; set; }
     public int AppUserId { get; set; }
+    public ICollection<Order> Orders { get; set; }
 }

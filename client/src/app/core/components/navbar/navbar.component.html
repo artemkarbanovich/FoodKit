@@ -11,7 +11,7 @@
       <div class="container__nav">
         <ul *ngIf="(accountService.currentUser$ | async)?.roles.includes('User') 
           || (accountService.currentUser$ | async) === null">
-          <li><a>Меню</a></li>
+          <li><a routerLink="/menu">Меню</a></li>
           <li><a>О нас</a></li>
           <li><a>Контакты</a></li>
           <li><a>FAQ</a></li>
@@ -24,7 +24,6 @@
         <ul *ngIf="(accountService.currentUser$ | async)?.roles.includes('Courier')">
           <li><a>Заказы</a></li>
           <li><a>Чат</a></li>
-          <li><a>Статистика</a></li>
         </ul>
       </div>
 
@@ -36,7 +35,7 @@
 
               <ng-container *ngIf="(accountService.currentUser$ | async)?.roles.includes('User') 
                 || (accountService.currentUser$ | async) === null">
-                <button mat-menu-item><a>Наборы</a></button>
+                <button mat-menu-item><a routerLink="/menu">Меню</a></button>
                 <button mat-menu-item><a>О нас</a></button>
                 <button mat-menu-item><a>Контакты</a></button>
                 <button mat-menu-item><a>FAQ</a></button>
@@ -51,7 +50,6 @@
               <ng-container *ngIf="(accountService.currentUser$ | async)?.roles.includes('Courier')">
                 <button mat-menu-item><a>Заказы</a></button>
                 <button mat-menu-item><a>Чат</a></button>
-                <button mat-menu-item><a>Статистика</a></button>
               </ng-container>
 
             </mat-menu>
@@ -65,7 +63,7 @@
                 <button mat-menu-item (click)="openRegistrationDialog()">Регистрация</button>
               </ng-container>
               <ng-container *ngIf="(accountService.currentUser$ | async)">
-                <button mat-menu-item routerLink="/profile" 
+                <button mat-menu-item routerLink="/profile"
                   *ngIf="(accountService.currentUser$ | async)?.roles.includes('User')">
                   Личный кабинет
                 </button>
@@ -76,9 +74,51 @@
 
           <li *ngIf="(accountService.currentUser$ | async) === null 
             || (accountService.currentUser$ | async)?.roles.includes('User')">
-            <mat-icon mat-button [matMenuTriggerFor]="shoppingCartMenu">shopping_cart</mat-icon>
-            <mat-menu #shoppingCartMenu="matMenu" xPosition="before">
-              <p>Корзина</p>
+            <p class="mat-badge-count" [matBadge]="getItemsCount()">
+              <mat-icon mat-button [matMenuTriggerFor]="shoppingCartMenu">shopping_cart</mat-icon>
+            </p>
+            <mat-menu class="cart-menu" #shoppingCartMenu="matMenu" xPosition="before">
+
+              <div class="cart-no-items" *ngIf="dishCartService.dishCartItems.length === 0">
+                <p>Ой, пусто!</p>
+              </div>
+
+              <div class="cart-item__container" *ngIf="dishCartService.dishCartItems.length !== 0">
+                <div class="cart-item" *ngFor="let item of dishCartService.dishCartItems">
+
+                  <img [src]="item.dishImageUrl" [alt]="item.dishName">
+
+                  <button class="delete-button" mat-icon-button
+                    (click)="$event.stopPropagation(); deleteCartItem(item)">
+                    <mat-icon class="delete-icon">close</mat-icon>
+                  </button>
+
+                  <p class="item-name">{{item.dishName}}</p>
+
+                  <p class="item-info" *ngIf="item.numberOfPersons === 1; else itemInfo">{{item.numberOfPersons}}
+                    порция &bull; кол-во: {{item.count}}</p>
+                  <ng-template #itemInfo>
+                    <p class="item-info">
+                      {{item.numberOfPersons}} порции &bull; количество: {{item.count}}
+                    </p>
+                  </ng-template>
+
+                  <div class="item-price">
+                    <p>{{item.dishPrice * item.numberOfPersons * item.count | number : '1.1-1'}} BYN</p>
+                  </div>
+                  <mat-divider></mat-divider>
+                </div>
+              </div>
+
+              <div class="order-info" *ngIf="dishCartService.dishCartItems.length !== 0">
+                <p class="items-count">Количество: <span>{{getItemsCount()}}</span></p>
+                <p class="items-price">Сумма заказа: <span>{{getOrderSummary() | number : '1.1-1'}} BYN</span></p>
+              </div>
+
+              <button class="button-make-order" mat-raised-button color="primary" routerLink="/order"
+                [disabled]="dishCartService.dishCartItems.length === 0 || (accountService.currentUser$ | async) === null">
+                Оформить заказ</button>
+
             </mat-menu>
           </li>
 

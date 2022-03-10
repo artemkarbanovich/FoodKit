@@ -1,0 +1,57 @@
+<div class="container">
+    <mat-divider></mat-divider>
+    <div class="form__container">
+        <form [formGroup]="orderForm" (ngSubmit)="orderForm.valid && makeOrder()">
+
+            <div class="addresses__container" *ngIf="addresses.length !== 0">
+                <div>
+                    <label>Адрес доставки:</label>
+                    <mat-radio-group>
+                        <mat-radio-button *ngFor="let addr of addresses; let i = index" formControlName="addressId"
+                            [value]="addr.id" ngDefaultControl [checked]="i === 0">
+                            {{addr.country}}, {{addr.locality}}, ул. {{addr.street}}, д. {{addr.houseNumber}}
+                            <span *ngIf="addr.entranceNumber">,&nbsp;под. {{addr.apartmentNumber}}</span>
+                            <span *ngIf="addr.floor">,&nbsp;этаж {{addr.floor}}</span>
+                            <span *ngIf="addr.apartmentNumber">,&nbsp;кв. {{addr.apartmentNumber}}</span>
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </div>
+            <div class="no-addresses" *ngIf="addresses.length === 0">
+                <p>У вас не добавлен ни один адрес для доставки.</p>
+                <mat-expansion-panel [(expanded)]="panelExpansionState">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>Добавить адрес</mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <app-address (updateAddresses)="loadAddresses()"></app-address>
+                </mat-expansion-panel>
+            </div>
+
+            <div class="delivery-date__container">
+                <mat-form-field appearance="fill">
+                    <mat-label>Дата и время доставки</mat-label>
+                    <input matInput [autofocus]="false" [ngxMatDatetimePicker]="DTPdeliveryDate" autocomplete="off"
+                        formControlName="deliveryDate" readonly>
+                    <mat-datepicker-toggle matSuffix [for]="DTPdeliveryDate"></mat-datepicker-toggle>
+                    <ngx-mat-datetime-picker [defaultTime]="defaultTime" [stepMinute]="30" #DTPdeliveryDate>
+                    </ngx-mat-datetime-picker>
+                    <button type="button" matSuffix mat-icon-button (click)="resetDeliveryDate();">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-error *ngIf="orderForm.controls['deliveryDate'].invalid">Выберите дату доставки</mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="order-info">
+                <p>Сумма заказа: <span>{{getOrderSummary() | number : '1.1-1'}} BYN</span></p>
+            </div>
+
+            <div class="order-btn__container">
+                <button color="primary" [disabled]="!orderForm.valid || addresses.length === 0 
+                    || dishCartService.dishCartItems.length === 0" mat-raised-button type="submit"
+                >Оформить заказ</button>
+            </div>
+        </form>
+    </div>
+
+</div>
