@@ -40,9 +40,6 @@ export class UserOrdersComponent implements OnInit {
     this.orderService.getUserOrders(this.pagination?.currentPage + 1, this.pagination?.pageSize)
     .subscribe((paginatedResult: PaginatedResult<OrderUserGet[]>) => {
       this.orders = paginatedResult.result;
-      this.orders.forEach(order => {
-        order.status = this.statusTranslator(order.status);
-      });
       this.pagination = paginatedResult.pagination;
       this.pagination.currentPage = this.pagination.currentPage - 1;
     });
@@ -70,11 +67,13 @@ export class UserOrdersComponent implements OnInit {
     });
   }
 
-  private statusTranslator(status: string): string {
-    if(status === 'accepted') return 'Принят';
-    else if(status === 'in way') return 'В пути';
-    else if(status === 'canceled') return 'Отменен';
-    else if(status === 'delivered') return 'Доставлен';
-    else return '-';
+  public statusTranslator(status: string): string {
+    switch(status) {
+      case 'accepted': return 'Принят';
+      case 'in way': return 'В пути';
+      case 'canceled': return 'Отменен';
+      case 'delivered': return 'Доставлен';
+      default: return '-';
+    }
   }
 }

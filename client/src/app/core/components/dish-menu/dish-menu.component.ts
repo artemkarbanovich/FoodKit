@@ -42,8 +42,8 @@ export class DishMenuComponent implements OnInit {
     return Math.round(sum / ingredients.length);
   }
 
-  public addToCart(dish: Dish) {
-    let dishCartItem: DishCartItem = {
+  public addToCart(dish: Dish): void {
+    const dishCartItem: DishCartItem = {
       dishId: dish.id,
       dishName: dish.name,
       dishPrice: dish.price,
@@ -52,7 +52,7 @@ export class DishMenuComponent implements OnInit {
       numberOfPersons: Number(this.numberOfPersons)
     };
 
-    let checkItemId = this.dishCartService.dishCartItems.findIndex(item => item.dishId === dishCartItem.dishId &&
+    const checkItemId = this.dishCartService.dishCartItems.findIndex(item => item.dishId === dishCartItem.dishId &&
       item.numberOfPersons === dishCartItem.numberOfPersons);
 
     if(checkItemId !== -1) {

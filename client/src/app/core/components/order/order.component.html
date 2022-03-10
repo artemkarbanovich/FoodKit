@@ -47,8 +47,9 @@
             </div>
 
             <div class="order-btn__container">
-                <button color="primary" [disabled]="!orderForm.valid || addresses.length === 0"
-                    mat-raised-button type="submit">Оформить заказ</button>
+                <button color="primary" [disabled]="!orderForm.valid || addresses.length === 0 
+                    || dishCartService.dishCartItems.length === 0" mat-raised-button type="submit"
+                >Оформить заказ</button>
             </div>
         </form>
     </div>

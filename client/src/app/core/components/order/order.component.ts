@@ -21,7 +21,7 @@ export class OrderComponent implements OnInit {
   public defaultTime: number[] = [new Date().getHours(), 0 , 0];
 
   constructor(private orderService: OrderService, private toastr: ToastrService, 
-    private dishCartService: DishCartService, private addressService: AddressService,
+    public dishCartService: DishCartService, private addressService: AddressService,
     private formBuilder: FormBuilder, private datePipe: DatePipe, private router: Router) { }
 
 
@@ -51,12 +51,12 @@ export class OrderComponent implements OnInit {
   }
 
   public makeOrder(): void {
-    let orderDishParameters: OrderDishParameter[] = [];
-    let deliveryDate = new Date(this.orderForm.controls['deliveryDate'].value);
-    let orderDate = new Date();
+    const orderDishParameters: OrderDishParameter[] = [];
+    const deliveryDate = new Date(this.orderForm.controls['deliveryDate'].value);
+    const orderDate = new Date();
 
     this.dishCartService.dishCartItems.forEach(item => {
-      let orderDishParameter: OrderDishParameter = {
+      const orderDishParameter: OrderDishParameter = {
         dishId: item.dishId,
         numberOfPersons: item.numberOfPersons,
         count: item.count
@@ -64,7 +64,7 @@ export class OrderComponent implements OnInit {
       orderDishParameters.push(orderDishParameter);
     });
 
-    let order: Order = {
+    const order: Order = {
       addressId: (Number(this.orderForm.controls['addressId'].value) === 0) 
         ? this.addresses[0].id 
         : Number(this.orderForm.controls['addressId'].value),
