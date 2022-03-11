@@ -1,0 +1,61 @@
+<div class="container">
+    <mat-divider></mat-divider>
+
+    <div class="messages__container" *ngIf="recipientId !== undefined">
+
+        <div #chatWrap class="chat-wrapper">
+            <ul class="chat__container">
+                <li *ngFor="let message of messages; let i = index">
+                    <div class="message-info__container">
+                        <div class="image" *ngIf="message.recipientId !== recipientId">
+                            <img src="../../../../assets/images/user-image.png" [alt]="message.recipientName">
+                            <div *ngIf="(presenceService.onlineUsers$ | async).includes(recipientId)"
+                                class="online-status-circle"></div>
+                        </div>
+                        <div class="image" *ngIf="message.recipientId === recipientId">
+                            <img src="../../../../assets/images/support-manager-image.jpg" [alt]="message.senderName">
+                        </div>
+                        <div class="sender-name">
+                            {{message.senderName}}
+                        </div>
+                        <div class="sent-time">
+                            {{message.dateSent | date:'dd.MM.yyyy HH:mm'}}
+                            <span *ngIf="message.dateRead === null && message.recipientId === recipientId"
+                                class="no-read"></span>
+                            <span *ngIf="message.dateRead !== null && message.recipientId === recipientId"
+                                class="readed"></span>
+                        </div>
+                    </div>
+
+                    <div class="content">
+                        {{message.content}}
+                    </div>
+                </li>
+            </ul>
+
+            <div class="zero-messages-info" *ngIf="messages.length === 0">
+                <p>Тут пусто. Даже очень...</p>
+            </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="chat__footer">
+            <form #messageForm="ngForm" (ngSubmit)="sendMessage()" autocomplete="off">
+
+                <div class="input-message">
+                    <input name="messageContent" required [(ngModel)]="messageContent" type="text"
+                        class="form-control input-sm" placeholder="Введите сообщение...">
+                </div>
+
+                <div class="btn-send-message">
+                    <button mat-raised-button color="primary"
+                        [disabled]="!messageForm.valid || messageContent.trim() === ''" class="btn btn-primary"
+                        type="submit">Отправить</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</div>

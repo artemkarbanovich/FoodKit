@@ -58,7 +58,8 @@ public class AutoMapperProfile : Profile
             .ForMember(dd => dd.CookingTimeMinutes, opt => opt.MapFrom(d => d.CookingTime.Minute))
             .ForMember(dd => dd.Images, opt => opt.Ignore())
             .ForMember(dd => dd.Ingredients, opt => opt.Ignore());
-
+    
         CreateMap<Order, OrderUserGetDto>();
+        CreateMap<Message, MessageDto>();
     }
 }

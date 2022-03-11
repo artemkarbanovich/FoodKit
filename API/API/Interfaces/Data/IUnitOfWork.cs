@@ -9,6 +9,7 @@ public interface IUnitOfWork
     IIngredientRepository IngredientRepository { get; }
     IDishRepository DishRepository { get; }
     IOrderRepository OrderRepository { get; }
+    IMessageRepository MessageRepository { get; }
 
     Task<bool> CompleteAsync();
 }
