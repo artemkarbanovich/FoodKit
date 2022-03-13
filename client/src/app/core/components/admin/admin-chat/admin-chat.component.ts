@@ -1,6 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Message } from 'src/app/core/models/message';
+import { take } from 'rxjs';
+import { Account } from 'src/app/core/models/account';
+import { AccountService } from 'src/app/core/services/account.service';
 import { MessageService } from 'src/app/core/services/message.service';
 import { PresenceService } from 'src/app/core/services/presence.service';
 
@@ -9,24 +11,29 @@ import { PresenceService } from 'src/app/core/services/presence.service';
   templateUrl: './admin-chat.component.html',
   styleUrls: ['./admin-chat.component.scss']
 })
-export class AdminChatComponent implements OnInit {
+export class AdminChatComponent implements OnInit, OnDestroy {
   @ViewChild('chatWrap') private chatWrap: ElementRef;
   public recipientId: number;
-  public messages: Message[] = [];
   public messageContent: string = '';
-
+  private user: Account;
+  
   constructor(private messageService: MessageService, private route: ActivatedRoute,
-    public presenceService: PresenceService) { }
+    public presenceService: PresenceService, private accountService: AccountService) { 
+      accountService.currentUser$.pipe(take(1)).subscribe((user: Account) => this.user = user);
+    }
   
 
   public ngOnInit(): void {
     this.loadMessages();
   }
 
+  public ngOnDestroy(): void {
+    this.messageService.stopHubConnection();
+  }
+
   public sendMessage(): void {
-    this.messageService.sendMessage(this.messageContent, this.recipientId).subscribe((message: Message) => {
+    this.messageService.sendMessage(this.messageContent, this.recipientId).then(() => {
       this.messageContent = '';
-      this.messages.push(message);
       this.scrollChatToBottom();
     });
   }
@@ -34,8 +41,8 @@ export class AdminChatComponent implements OnInit {
   private loadMessages(): void {
     this.route.params.subscribe((params: Params) => {
       this.recipientId = Number(params['id']);
-      this.messageService.getMessageThread(this.recipientId).subscribe((messages: Message[]) => {
-        this.messages = messages;
+      this.messageService.createHubConnection(this.user, this.recipientId);
+      this.messageService.messageThread$.subscribe(() => {
         this.scrollChatToBottom();
       });
     });

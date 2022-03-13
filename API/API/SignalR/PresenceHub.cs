@@ -17,16 +17,17 @@ public class PresenceHub : Hub
 
     public override async Task OnConnectedAsync()
     {
-        await _presenceTracker.UserConnected(Context.User.GetUserId(), Context.ConnectionId);
-        await Clients.Others.SendAsync("UserIsOnline", Context.User.GetUserId());
-        await Clients.All.SendAsync("GetOnlineUsers", await _presenceTracker.GetOnlineUsers());
+        if(await _presenceTracker.UserConnected(Context.User.GetUserId(), Context.ConnectionId))
+            await Clients.Others.SendAsync("UserIsOnline", Context.User.GetUserId());
+
+        await Clients.Caller.SendAsync("GetOnlineUsers", await _presenceTracker.GetOnlineUsers());
     }
 
     public override async Task OnDisconnectedAsync(Exception exception)
     {
-        await _presenceTracker.UserDisconnected(Context.User.GetUserId(), Context.ConnectionId);
-        await Clients.Others.SendAsync("UserIsOffline", Context.User.GetUserId());
-        await Clients.All.SendAsync("GetOnlineUsers", await _presenceTracker.GetOnlineUsers());
+        if(await _presenceTracker.UserDisconnected(Context.User.GetUserId(), Context.ConnectionId))
+            await Clients.Others.SendAsync("UserIsOffline", Context.User.GetUserId());
+
         await base.OnDisconnectedAsync(exception);
     }
 }

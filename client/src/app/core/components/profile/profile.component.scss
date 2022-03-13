@@ -13,14 +13,14 @@
 
 ::ng-deep.mat-tab-label .mat-tab-label-content span{
     display: flex !important;
-    flex: 1 0 100% !important;
+    flex: 1 0 99.999% !important;
     justify-content: center !important;
 }
 
 ::ng-deep .mat-tab-header {
     overflow-x: scroll !important;
 }
-  
+
 ::ng-deep .mat-tab-label-container { 
     overflow: visible !important;
 }

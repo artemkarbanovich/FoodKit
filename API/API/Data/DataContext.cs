@@ -19,6 +19,8 @@ public class DataContext : IdentityDbContext<AppUser, AppRole, int, IdentityUser
     public DbSet<DishIngredient> DishIngredients { get; set; }
     public DbSet<Image> Images { get; set; }
     public DbSet<Message> Messages { get; set; }
+    public DbSet<Group> Groups { get; set; }
+    public DbSet<Connection> Connections { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder builder)

@@ -5,7 +5,7 @@
 
         <div #chatWrap class="chat-wrapper">
             <ul class="chat__container">
-                <li *ngFor="let message of messages; let i = index">
+                <li *ngFor="let message of (messageService.messageThread$ | async); let i = index">
                     <div class="message-info__container">
                         <div class="image" *ngIf="message.recipientId !== recipientId">
                             <img src="../../../../assets/images/user-image.png" [alt]="message.recipientName">
@@ -33,7 +33,7 @@
                 </li>
             </ul>
 
-            <div class="zero-messages-info" *ngIf="messages.length === 0">
+            <div class="zero-messages-info" *ngIf="(messageService.messageThread$ | async)?.length === 0">
                 <p>Тут пусто. Даже очень...</p>
             </div>
         </div>

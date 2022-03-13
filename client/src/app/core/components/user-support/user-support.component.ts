@@ -1,5 +1,7 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Message } from '../../models/message';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { take } from 'rxjs';
+import { Account } from '../../models/account';
+import { AccountService } from '../../services/account.service';
 import { MessageService } from '../../services/message.service';
 import { PresenceService } from '../../services/presence.service';
 
@@ -8,34 +10,36 @@ import { PresenceService } from '../../services/presence.service';
   templateUrl: './user-support.component.html',
   styleUrls: ['./user-support.component.scss']
 })
-export class UserSupportComponent implements OnInit {
+export class UserSupportComponent implements OnInit, OnDestroy {
   @ViewChild('chatWrap') private chatWrap: ElementRef;
   public supportManagerId: number;
-  public messages: Message[] = [];
   public messageContent: string = '';
+  private user: Account;
 
-  constructor(private messageService: MessageService, public presenceService: PresenceService) { }
-
+  constructor(public messageService: MessageService, public presenceService: PresenceService,
+    private accountService: AccountService) { 
+      accountService.currentUser$.pipe(take(1)).subscribe((user: Account) => this.user = user);
+    }
+  
   
   public ngOnInit(): void {
     this.messageService.getSupportManagerId().subscribe(id => {
       this.supportManagerId = id;
-      this.loadMessages();
+      this.messageService.createHubConnection(this.user, this.supportManagerId);
+      this.messageService.messageThread$.subscribe(() => {
+        this.scrollChatToBottom();
+      });
     });
+  }
+
+  public ngOnDestroy(): void {
+    this.messageService.stopHubConnection();
   }
 
   public sendMessage(): void {
-    this.messageService.sendMessage(this.messageContent, this.supportManagerId).subscribe((message: Message) => {
+    this.messageService.sendMessage(this.messageContent, this.supportManagerId).then(() => {
       this.messageContent = '';
-      this.messages.push(message);
       this.scrollChatToBottom();
-    });
-  }
-
-  private loadMessages(): void {
-    this.messageService.getMessageThread(this.supportManagerId).subscribe((messages: Message[]) => {
-      this.messages = messages;
-      this.scrollChatToBottom()
     });
   }
 
