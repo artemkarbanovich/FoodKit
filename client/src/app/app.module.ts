@@ -29,6 +29,7 @@ import { UserOrdersComponent } from './core/components/user-orders/user-orders.c
 import { UserSupportComponent } from './core/components/user-support/user-support.component';
 import { MessageListComponent } from './core/components/admin/message-list/message-list.component';
 import { AdminChatComponent } from './core/components/admin/admin-chat/admin-chat.component';
+import { ErrorInterceptor } from './core/security/interceptors/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { AdminChatComponent } from './core/components/admin/admin-chat/admin-cha
     HttpClientModule
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

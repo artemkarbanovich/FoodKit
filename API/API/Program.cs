@@ -1,5 +1,6 @@
 using API.Extensions;
 using API.Helpers.Json;
+using API.Middleware;
 using API.SignalR;
 using System.Globalization;
 
@@ -23,6 +24,7 @@ services.AddControllers().AddJsonOptions(jo =>
 
 var app = builder.Build();
 
+app.UseMiddleware<GlobalErrorHandler>();
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseCors(policy => policy
