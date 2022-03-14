@@ -3,6 +3,7 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220310110841_FixMessageEntity")]
+    partial class FixMessageEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.1");
@@ -182,24 +184,6 @@ namespace API.Data.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("API.Entities.Connection", b =>
-                {
-                    b.Property<string>("ConnectionId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("GroupName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("ConnectionId");
-
-                    b.HasIndex("GroupName");
-
-                    b.ToTable("Connections");
-                });
-
             modelBuilder.Entity("API.Entities.Dish", b =>
                 {
                     b.Property<int>("Id")
@@ -242,16 +226,6 @@ namespace API.Data.Migrations
                     b.HasIndex("IngredientId");
 
                     b.ToTable("DishIngredients");
-                });
-
-            modelBuilder.Entity("API.Entities.Group", b =>
-                {
-                    b.Property<string>("GroupName")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("GroupName");
-
-                    b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("API.Entities.Image", b =>
@@ -552,13 +526,6 @@ namespace API.Data.Migrations
                     b.Navigation("AppUser");
                 });
 
-            modelBuilder.Entity("API.Entities.Connection", b =>
-                {
-                    b.HasOne("API.Entities.Group", null)
-                        .WithMany("Connections")
-                        .HasForeignKey("GroupName");
-                });
-
             modelBuilder.Entity("API.Entities.DishIngredient", b =>
                 {
                     b.HasOne("API.Entities.Dish", "Dish")
@@ -722,11 +689,6 @@ namespace API.Data.Migrations
                     b.Navigation("Images");
 
                     b.Navigation("Ingredients");
-                });
-
-            modelBuilder.Entity("API.Entities.Group", b =>
-                {
-                    b.Navigation("Connections");
                 });
 
             modelBuilder.Entity("API.Entities.Ingredient", b =>

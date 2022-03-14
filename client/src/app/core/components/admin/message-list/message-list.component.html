@@ -1,0 +1,9 @@
+<div class="container">
+    <mat-divider></mat-divider>
+    <div class="messages-list__container" *ngIf="messageList.length !== 0">
+        <mat-card *ngFor="let message of messageList" routerLink="/chat/{{message.recipientId}}">
+            <img src="../../../../../assets/images/user-image.png" [alt]="message.recipientName">
+            <p>{{message.recipientName}}</p>
+        </mat-card>
+    </div>
+</div>

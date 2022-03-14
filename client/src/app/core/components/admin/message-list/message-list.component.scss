@@ -1,0 +1,32 @@
+.container {
+    max-width: 1260px;
+    margin: auto;
+}
+
+.messages-list__container {
+    padding: 0 15px 40px 15px;
+}
+
+.mat-card {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    position: relative;
+    cursor: pointer;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    margin-top: 20px;
+
+    img {
+        margin-top: 1px;
+        height: 35px;
+        width: 35px;
+    }
+
+    p {
+        position: absolute;
+        top: 20px;
+        margin-left: 15px;
+        font-size: 17px;
+        font-weight: 500;
+        display: inline-block;
+    }
+}

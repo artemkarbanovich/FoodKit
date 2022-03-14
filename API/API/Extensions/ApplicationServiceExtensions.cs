@@ -3,6 +3,7 @@ using API.Helpers;
 using API.Interfaces;
 using API.Interfaces.Data;
 using API.Services;
+using API.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Extensions;
@@ -16,6 +17,7 @@ public static class ApplicationServiceExtensions
         services.AddScoped<IImageService, ImageService>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
+        services.AddSingleton<PresenceTracker>();
         services.AddDbContext<DataContext>(options =>
         {
             options.UseSqlite(config.GetConnectionString("DefaultConnection"));

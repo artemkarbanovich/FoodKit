@@ -23,11 +23,13 @@ import { DishAddFormComponent } from './core/components/admin/dish-add-form/dish
 import { DishComponent } from './core/components/admin/dish/dish.component';
 import { DishListComponent } from './core/components/admin/dish-list/dish-list.component';
 import { DishEditComponent } from './core/components/admin/dish-edit/dish-edit.component';
-import { RouterModule } from '@angular/router';
 import { DishMenuComponent } from './core/components/dish-menu/dish-menu.component';
 import { OrderComponent } from './core/components/order/order.component';
 import { UserOrdersComponent } from './core/components/user-orders/user-orders.component';
-import { CancellationConfirmationComponent } from './shared/components/cancellation-confirmation/cancellation-confirmation.component';
+import { UserSupportComponent } from './core/components/user-support/user-support.component';
+import { MessageListComponent } from './core/components/admin/message-list/message-list.component';
+import { AdminChatComponent } from './core/components/admin/admin-chat/admin-chat.component';
+import { ErrorInterceptor } from './core/security/interceptors/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,10 @@ import { CancellationConfirmationComponent } from './shared/components/cancellat
     DishEditComponent,
     DishMenuComponent,
     OrderComponent,
-    UserOrdersComponent
+    UserOrdersComponent,
+    UserSupportComponent,
+    MessageListComponent,
+    AdminChatComponent
   ],
   imports: [
     SharedModule,
@@ -62,6 +67,7 @@ import { CancellationConfirmationComponent } from './shared/components/cancellat
     HttpClientModule
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
