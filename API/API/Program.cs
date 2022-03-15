@@ -34,8 +34,11 @@ app.UseCors(policy => policy
     .WithOrigins("https://localhost:4200"));
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseDefaultFiles();
+app.UseStaticFiles();
 app.MapControllers();
 app.MapHub<PresenceHub>("hubs/presence");
 app.MapHub<MessageHub>("hubs/message");
+app.MapFallbackToController("Index", "Fallback");
 await app.ConfigureDatabaseAsync();
 await app.RunAsync();
