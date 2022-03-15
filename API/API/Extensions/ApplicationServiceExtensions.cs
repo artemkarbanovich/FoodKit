@@ -20,7 +20,7 @@ public static class ApplicationServiceExtensions
         services.AddSingleton<PresenceTracker>();
         services.AddDbContext<DataContext>(options =>
         {
-            options.UseSqlite(config.GetConnectionString("DefaultConnection"));
+            options.UseNpgsql(config.GetConnectionString("DefaultConnection"));
         });
 
         return services;

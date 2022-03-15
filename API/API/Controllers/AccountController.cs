@@ -36,7 +36,7 @@ public class AccountController : BaseApiController
             PhoneNumber = registerDto.PhoneNumber,
             Email = registerDto.Email,
             Name = registerDto.Name,
-            RegistrationDate = DateOnly.FromDateTime(DateTime.Now)
+            RegistrationDate = DateOnly.FromDateTime(DateTime.UtcNow)
         };
 
         var userResult = await _userManager.CreateAsync(user, registerDto.Password);

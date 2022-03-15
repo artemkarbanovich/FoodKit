@@ -34,7 +34,7 @@ public class Seeder
             PhoneNumber = "+375330000000",
             Name = "Administrator",
             Email = "admin@food.kit",
-            RegistrationDate = DateOnly.FromDateTime(DateTime.Now)
+            RegistrationDate = DateOnly.FromDateTime(DateTime.UtcNow)
         };
 
         await userManager.CreateAsync(admin, "Pa$$w0rd");

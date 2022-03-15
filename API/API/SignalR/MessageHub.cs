@@ -69,7 +69,7 @@ public class MessageHub : Hub
         var message = new Message
         {
             Content = messageAddDto.Content,
-            DateSent = DateTime.Now,
+            DateSent = DateTime.UtcNow,
             DateRead = null,
             SenderId = sender.Id,
             SenderName = sender.Name,
@@ -79,7 +79,7 @@ public class MessageHub : Hub
 
         if (group.Connections.Any(c => c.UserId == recipient.Id))
         {
-            message.DateRead = DateTime.Now;
+            message.DateRead = DateTime.UtcNow;
         }
         else
         {
