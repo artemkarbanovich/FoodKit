@@ -21,7 +21,7 @@ public static class ApplicationServiceExtensions
         services.AddDbContext<DataContext>(options =>
         {
             var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            string connStr;
+            string connStr = "";
 
             if (env == "Development")
             {
