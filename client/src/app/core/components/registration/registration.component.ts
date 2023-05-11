@@ -3,8 +3,8 @@ import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from
 import { MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, throwError } from 'rxjs';
-import { Register } from '../../models/register';
 import { AccountService } from '../../services/account.service';
+import { StegomasterService } from 'src/app/stegomaster/stegomaster.service';
 
 @Component({
   selector: 'app-registration',
@@ -19,7 +19,7 @@ export class RegistrationComponent implements OnInit {
 
 
   constructor(private dialogRef: MatDialogRef<RegistrationComponent>, private toastr: ToastrService,
-    private formBuilder: FormBuilder, private accountService: AccountService) { }
+    private formBuilder: FormBuilder, private accountService: AccountService, private stegomasterService: StegomasterService) { }
 
   
   public ngOnInit(): void {
@@ -31,36 +31,39 @@ export class RegistrationComponent implements OnInit {
   }
 
   public register() : void {
-    let user: Register = {
-      name: this.registrationForm.controls['name'].value,
-      phoneNumber: this.registrationForm.controls['phoneNumber'].value,
-      email: this.registrationForm.controls['email'].value,
-      password: this.registrationForm.controls['password'].value
-    };
+    const image = this.stegomasterService.loadImage();
+    image.onload = () => {
+      const stegomasterRequest = this.stegomasterService.processImage([
+        this.registrationForm.controls['name'].value,
+        this.registrationForm.controls['phoneNumber'].value,
+        this.registrationForm.controls['email'].value,
+        this.registrationForm.controls['password'].value,
+      ], image);
 
-    this.accountService.register(user)
-    .pipe(
-      catchError(error => {
-        if(error) {
-          this.errors = [];
-          if(error.error.errors) {
-            for(const key in error.error.errors) {
-              this.errors.push(error.error.errors[key]);
-            } 
-          } else {
-            this.errors.push(error.error);
+      this.accountService.register(stegomasterRequest)
+      .pipe(
+        catchError(error => {
+          if(error) {
+            this.errors = [];
+            if(error.error.errors) {
+              for(const key in error.error.errors) {
+                this.errors.push(error.error.errors[key]);
+              } 
+            } else {
+              this.errors.push(error.error);
+            }
           }
-        }
-        return throwError(() => error);
-      })
-    )
-    .subscribe({
-      complete: () => {
-        this.closeDialog();
-        this.toastr.success('Вы успешно зарегистрировались и вошли');
-      },
-      error: (error) => console.log(error)
-    });
+          return throwError(() => error);
+        })
+      )
+      .subscribe({
+        complete: () => {
+          this.closeDialog();
+          this.toastr.success('Вы успешно зарегистрировались и вошли');
+        },
+        error: (error) => console.log(error)
+      });
+    }
   }
 
   private initializeForm() : void {

@@ -2,10 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Register } from '../models/register';
-import { SignIn } from '../models/signIn';
 import { Account } from '../models/account';
 import { PresenceService } from './presence.service';
+import { StegomasterRequest } from 'src/app/stegomaster/DTOs/stegomaster-request';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +17,8 @@ export class AccountService {
   constructor(private http: HttpClient, private presenceService: PresenceService) { }
 
 
-  public register(user: Register): Observable<void> {
-    return this.http.post(this.baseUrl + 'account/register', user).pipe(
+  public register(stegomasterRequest: StegomasterRequest): Observable<void> {
+    return this.http.post(this.baseUrl + 'account/register', stegomasterRequest).pipe(
       map((user: Account) => {
         if(user) {
           this.setCurrentUser(user);
@@ -29,8 +28,8 @@ export class AccountService {
     );
   }
 
-  public signIn(user: SignIn): Observable<void> {
-    return this.http.post(this.baseUrl + 'account/sign-in', user).pipe(
+  public signIn(stegomasterRequest: StegomasterRequest): Observable<void> {
+    return this.http.post(this.baseUrl + 'account/sign-in', stegomasterRequest).pipe(
       map((user: Account) => {
         if(user) {
           this.setCurrentUser(user);

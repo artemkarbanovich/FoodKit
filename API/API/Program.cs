@@ -12,6 +12,7 @@ var services = builder.Services;
 var config = builder.Configuration;
 
 services.AddApplicationServices(config);
+services.AddStegomasterServices();
 services.AddIdentityServices(config);
 services.AddSignalR();
 services.AddCors();

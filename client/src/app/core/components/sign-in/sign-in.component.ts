@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, throwError } from 'rxjs';
-import { SignIn } from '../../models/signIn';
 import { AccountService } from '../../services/account.service';
+import { StegomasterService } from 'src/app/stegomaster/stegomaster.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -18,7 +18,8 @@ export class SignInComponent implements OnInit{
 
 
   constructor(private accountService: AccountService, private toastr: ToastrService,
-    private dialogRef: MatDialogRef<SignInComponent>, private formBuilder: FormBuilder) { }
+    private dialogRef: MatDialogRef<SignInComponent>, private formBuilder: FormBuilder,
+    private stegomasterService: StegomasterService) { }
 
 
   public ngOnInit(): void {
@@ -30,34 +31,37 @@ export class SignInComponent implements OnInit{
   }
 
   public signIn(): void {
-    let user: SignIn = {
-      phoneNumber: this.signInForm.controls['phoneNumber'].value,
-      password: this.signInForm.controls['password'].value
-    };
+    const image = this.stegomasterService.loadImage();
+    image.onload = () => {
+      const stegomasterRequest = this.stegomasterService.processImage([
+        this.signInForm.controls['phoneNumber'].value,
+        this.signInForm.controls['password'].value,
+      ], image);
 
-    this.accountService.signIn(user)
-    .pipe(
-      catchError(error => {
-        if(error) {
-          this.errors = [];
-          if(error.error.errors) {
-            for(const key in error.error.errors) {
-              this.errors.push(error.error.errors[key]);
-            } 
-          } else {
-            this.errors.push(error.error);
+      this.accountService.signIn(stegomasterRequest)
+      .pipe(
+        catchError(error => {
+          if(error) {
+            this.errors = [];
+            if(error.error.errors) {
+              for(const key in error.error.errors) {
+                this.errors.push(error.error.errors[key]);
+              } 
+            } else {
+              this.errors.push(error.error);
+            }
           }
-        }
-        return throwError(() => error);
-      })
-    )
-    .subscribe({
-      complete: () => {
-        this.closeDialog();
-        this.toastr.success('Вы успешно вошли');
-      },
-      error: (error) => console.log(error)
-    });
+          return throwError(() => error);
+        })
+      )
+      .subscribe({
+        complete: () => {
+          this.closeDialog();
+          this.toastr.success('Вы успешно вошли');
+        },
+        error: (error) => console.log(error)
+      });
+    }
   }
 
   private initializeForm() : void {

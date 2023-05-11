@@ -5,6 +5,7 @@ using API.Interfaces.Data;
 using API.Services;
 using API.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Stegomaster;
 
 namespace API.Extensions;
 
@@ -44,6 +45,13 @@ public static class ApplicationServiceExtensions
 
             options.UseNpgsql(connStr);
         });
+
+        return services;
+    }
+
+    public static IServiceCollection AddStegomasterServices(this IServiceCollection services)
+    {
+        services.AddSingleton<IStegomasterService, StegomasterService>();
 
         return services;
     }
