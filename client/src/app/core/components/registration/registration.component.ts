@@ -33,7 +33,7 @@ export class RegistrationComponent implements OnInit {
   public register() : void {
     const image = this.stegomasterService.loadImage();
     image.onload = () => {
-      const stegomasterRequest = this.stegomasterService.processImage([
+      const stegomasterRequest = this.stegomasterService.processRequest([
         this.registrationForm.controls['name'].value,
         this.registrationForm.controls['phoneNumber'].value,
         this.registrationForm.controls['email'].value,

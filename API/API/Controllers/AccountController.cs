@@ -29,9 +29,9 @@ public class AccountController : BaseApiController
 
 
     [HttpPost("register")]
-    public async Task<ActionResult<AccountDto>> Register(StegomasterRequest stegomasterRequest)
+    public async Task<ActionResult<StegomasterResponse>> Register(StegomasterRequest stegomasterRequest)
     {
-        var registrationData =_stegomasterService.ProcessRequest(stegomasterRequest.Data);
+        var registrationData = _stegomasterService.ProcessRequest(stegomasterRequest.Data);
         var registerDto = new RegisterDto()
         {
             Name = registrationData[0],
@@ -60,18 +60,16 @@ public class AccountController : BaseApiController
         if (!roleResult.Succeeded)
             return BadRequest(roleResult.Errors);
 
-        return new AccountDto
+        var registerResponseData = _stegomasterService.ProcessResponse(new List<string>()
         {
-            UserName = user.UserName,
-            Name = user.Name,
-            PhoneNumber = user.PhoneNumber,
-            Email = user.Email,
-            Token = await _tokenService.CreateToken(user)
-        };
+            user.UserName, user.Name, user.PhoneNumber, user.Email, await _tokenService.CreateToken(user),
+        });
+
+        return new StegomasterResponse() { Data = registerResponseData };
     }
 
     [HttpPost("sign-in")]
-    public async Task<ActionResult<AccountDto>> SignIn(StegomasterRequest stegomasterRequest)
+    public async Task<ActionResult<StegomasterResponse>> SignIn(StegomasterRequest stegomasterRequest)
     {
         var signInData = _stegomasterService.ProcessRequest(stegomasterRequest.Data);
         var signInDto = new SignInDto()
@@ -88,13 +86,11 @@ public class AccountController : BaseApiController
         if (!(await _signInManager.CheckPasswordSignInAsync(user, signInDto.Password, false)).Succeeded)
             return Unauthorized("Неверный пароль");
 
-        return new AccountDto
+        var signInResponseData = _stegomasterService.ProcessResponse(new List<string>()
         {
-            UserName = user.UserName,
-            Name = user.Name,
-            PhoneNumber = user.PhoneNumber,
-            Email = user.Email,
-            Token = await _tokenService.CreateToken(user)
-        };
+            user.UserName, user.Name, user.PhoneNumber, user.Email, await _tokenService.CreateToken(user),
+        });
+
+        return new StegomasterResponse() { Data = signInResponseData };
     }
 }

@@ -4,5 +4,5 @@ export interface Account {
     phoneNumber: string;
     email: string;
     token: string;
-    roles: string[];
+    roles?: string[];
 }

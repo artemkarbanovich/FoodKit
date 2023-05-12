@@ -33,7 +33,7 @@ export class SignInComponent implements OnInit{
   public signIn(): void {
     const image = this.stegomasterService.loadImage();
     image.onload = () => {
-      const stegomasterRequest = this.stegomasterService.processImage([
+      const stegomasterRequest = this.stegomasterService.processRequest([
         this.signInForm.controls['phoneNumber'].value,
         this.signInForm.controls['password'].value,
       ], image);

@@ -5,6 +5,8 @@ import { environment } from 'src/environments/environment';
 import { Account } from '../models/account';
 import { PresenceService } from './presence.service';
 import { StegomasterRequest } from 'src/app/stegomaster/DTOs/stegomaster-request';
+import { StegomasterService } from 'src/app/stegomaster/stegomaster.service';
+import { StegomasterResponse } from 'src/app/stegomaster/DTOs/stegomaster-response';
 
 @Injectable({
   providedIn: 'root'
@@ -14,15 +16,28 @@ export class AccountService {
   private currentUserSource: ReplaySubject<Account> = new ReplaySubject<Account>(1);
   public currentUser$: Observable<Account> = this.currentUserSource.asObservable();
 
-  constructor(private http: HttpClient, private presenceService: PresenceService) { }
+  constructor(private http: HttpClient, private presenceService: PresenceService,
+    private stegomasterService: StegomasterService) { }
 
 
   public register(stegomasterRequest: StegomasterRequest): Observable<void> {
     return this.http.post(this.baseUrl + 'account/register', stegomasterRequest).pipe(
-      map((user: Account) => {
-        if(user) {
-          this.setCurrentUser(user);
-          this.presenceService.createHubConnection(user);
+      map((stegomasterResponse: StegomasterResponse) => {
+        if(stegomasterResponse.data) {
+          const image = this.stegomasterService.loadImage(stegomasterResponse.data);
+          image.onload = () => {
+            const userData = this.stegomasterService.processResponse(image);
+            const user: Account = {
+              userName: userData[0],
+              name: userData[1],
+              phoneNumber: userData[2],
+              email: userData[3],
+              token: userData[4],
+            };
+
+            this.setCurrentUser(user);
+            this.presenceService.createHubConnection(user);
+          }
         }
       })
     );
@@ -30,10 +45,22 @@ export class AccountService {
 
   public signIn(stegomasterRequest: StegomasterRequest): Observable<void> {
     return this.http.post(this.baseUrl + 'account/sign-in', stegomasterRequest).pipe(
-      map((user: Account) => {
-        if(user) {
-          this.setCurrentUser(user);
-          this.presenceService.createHubConnection(user);
+      map((stegomasterResponse: StegomasterResponse) => {
+        if(stegomasterResponse.data) {
+          const image = this.stegomasterService.loadImage(stegomasterResponse.data);
+          image.onload = () => {
+            const userData = this.stegomasterService.processResponse(image);
+            const user: Account = {
+              userName: userData[0],
+              name: userData[1],
+              phoneNumber: userData[2],
+              email: userData[3],
+              token: userData[4],
+            };
+
+            this.setCurrentUser(user);
+            this.presenceService.createHubConnection(user);
+          }
         }
       })
     );
