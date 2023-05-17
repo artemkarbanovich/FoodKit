@@ -58,7 +58,7 @@ export class StegomasterService {
     const imageData = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
     const binaryData = this.getBinaryData(data);
 
-    for (let i = 0, j = 0; i < imageData.data.length; i += 4) {
+    for (let i = 0, j = 0; i < imageData.data.length; i += 4 * StegomasterConfiguration.SKIP_BITS_COUNT) {
       if (StegomasterConfiguration.ColorsDataHiding.includes(RGBA.Red) && binaryData.length > j) {
         let redBinary = this.numberToBinary(imageData.data[i]);
         redBinary = this.replaceAt(redBinary, StegomasterConfiguration.BITS_COUNT - StegomasterConfiguration.LSB_COUNT, binaryData.substring(j, j + StegomasterConfiguration.LSB_COUNT));
@@ -109,7 +109,7 @@ export class StegomasterService {
     const imageData = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
     let binaryData: string = '';
 
-    for (let i = 0; i < imageData.data.length; i += 4) {
+    for (let i = 0; i < imageData.data.length; i += 4 * StegomasterConfiguration.SKIP_BITS_COUNT) {
       if (StegomasterConfiguration.ColorsDataHiding.includes(RGBA.Red)) { 
         let redBinary = this.numberToBinary(imageData.data[i]);
         binaryData += redBinary.substring(StegomasterConfiguration.BITS_COUNT - StegomasterConfiguration.LSB_COUNT, StegomasterConfiguration.BITS_COUNT);

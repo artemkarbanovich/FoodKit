@@ -28,10 +28,20 @@ public class StegomasterService : IStegomasterService
 
     private string InjectDataIntoContainer(Bitmap image, string binaryData)
     {
+        var skipFirstBitsCounter = 0;
+
         for (int i = 0, k = 0; i < image.Height; i++)
         {
-            for (var j = 0; j < image.Width; j++)
+            var isFirstIteration = true;
+            for (var j = skipFirstBitsCounter;;)
             {
+                j += isFirstIteration ? 0 : StegomasterConfiguration.SKIP_BITS_COUNT;
+                if (j >= image.Width)
+                {
+                    skipFirstBitsCounter = j - image.Width;
+                    break;
+                }
+
                 var pixel = image.GetPixel(j, i);
 
                 if (StegomasterConfiguration.ColorsDataHiding.Contains(RGBA.Red) && binaryData.Length > k)
@@ -72,6 +82,11 @@ public class StegomasterService : IStegomasterService
                 if (binaryData.Length == k)
                 {
                     return BitmapToBase64String(image);
+                }
+
+                if (isFirstIteration)
+                {
+                    isFirstIteration = false;
                 }
             }
         }
@@ -150,11 +165,20 @@ public class StegomasterService : IStegomasterService
     private string GetBinaryDataFromBitmap(Bitmap image)
     {
         var data = new StringBuilder(string.Empty);
+        var skipFirstBitsCounter = 0;
 
         for (var i = 0; i < image.Height; i++)
         {
-            for (var j = 0; j < image.Width; j++)
+            var isFirstIteration = true;
+            for (var j = skipFirstBitsCounter;;)
             {
+                j += isFirstIteration ? 0 : StegomasterConfiguration.SKIP_BITS_COUNT;
+                if (j >= image.Width)
+                {
+                    skipFirstBitsCounter = j - image.Width;
+                    break;
+                }
+
                 var pixel = image.GetPixel(j, i);
 
                 if (StegomasterConfiguration.ColorsDataHiding.Contains(RGBA.Red))
@@ -199,6 +223,11 @@ public class StegomasterService : IStegomasterService
                     {
                         return data.ToString();
                     }
+                }
+
+                if (isFirstIteration)
+                {
+                    isFirstIteration = false;
                 }
             }
         }

@@ -11,25 +11,25 @@
 	<form [formGroup]="registrationForm" autocomplete="off" (ngSubmit)="registrationForm.valid && register()">
 
 		<mat-form-field class="form-field" appearance="fill">
-			<mat-label>Введите имя</mat-label>
+			<mat-label>Enter name</mat-label>
 			<input [autofocus]="false" matInput placeholder="Артём" formControlName="name">
-			<mat-error *ngIf="registrationForm.controls['name'].invalid">Имя не может быть пустым</mat-error>
+			<mat-error *ngIf="registrationForm.controls['name'].invalid">Name cannot be empty</mat-error>
 		</mat-form-field>
 
 		<mat-form-field class="form-field" appearance="fill">
-			<mat-label>Введите телефон</mat-label>
+			<mat-label>Enter phone number</mat-label>
 			<input matInput placeholder="+375XXXXXXXXX" formControlName="phoneNumber">
-			<mat-error *ngIf="registrationForm.controls['phoneNumber'].invalid">Неверный формат телефона</mat-error>
+			<mat-error *ngIf="registrationForm.controls['phoneNumber'].invalid">Invalid phone number fomar</mat-error>
 		</mat-form-field>
 
 		<mat-form-field class="form-field" appearance="fill">
-			<mat-label>Введите email</mat-label>
+			<mat-label>Enter email</mat-label>
 			<input matInput placeholder="xxx@gmail.com" [formControl]="registrationForm.controls['email']">
-			<mat-error *ngIf="registrationForm.controls['email'].invalid">Неверный формат email</mat-error>
+			<mat-error *ngIf="registrationForm.controls['email'].invalid">Invalid email format</mat-error>
 		</mat-form-field>
 
 		<mat-form-field class="form-field" appearance="fill">
-			<mat-label>Введите пароль</mat-label>
+			<mat-label>Enter password</mat-label>
 			<input 
 				matInput
 				[type]="hidePassword ? 'password' : 'text'"
@@ -43,11 +43,11 @@
 				[attr.aria-pressed]="hidePassword">
 				<mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
 			</button>
-			<mat-error *ngIf="registrationForm.controls['password'].invalid">Длина должна быть от 6 до 32 символов</mat-error>
+			<mat-error *ngIf="registrationForm.controls['password'].invalid">Length should be from 6 to 32</mat-error>
 		</mat-form-field>
 
 		<mat-form-field class="form-field" appearance="fill">
-			<mat-label>Повторите пароль</mat-label>
+			<mat-label>Confirm password</mat-label>
 			<input
 				matInput
 				[type]="hideConfirmPassword ? 'password' : 'text'"
@@ -61,7 +61,7 @@
 				[attr.aria-pressed]="hideConfirmPassword">
 				<mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
 			</button>
-			<mat-error *ngIf="registrationForm.controls['confirmPassword'].invalid">Пароли должны совпадать</mat-error>
+			<mat-error *ngIf="registrationForm.controls['confirmPassword'].invalid">Passwords must match</mat-error>
 		</mat-form-field>
 
 		<button
@@ -69,7 +69,7 @@
 			color="primary"
 			[disabled]="!registrationForm.valid || errors"
 			mat-raised-button
-			type="submit">ЗАРЕГИСТРИРОВАТЬСЯ</button>
+			type="submit">REGISTER</button>
 			
 	</form>
 
