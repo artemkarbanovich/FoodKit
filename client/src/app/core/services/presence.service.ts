@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, take } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -21,6 +21,7 @@ export class PresenceService {
     this.hubConnection = new HubConnectionBuilder()
       .withUrl(this.hubUrl + 'presence', { accessTokenFactory: () => user.token })
       .withAutomaticReconnect()
+      .configureLogging(LogLevel.None)
       .build();
 
     this.hubConnection

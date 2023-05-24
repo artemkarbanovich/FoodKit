@@ -19,7 +19,8 @@ export class RegistrationComponent implements OnInit {
 
 
   constructor(private dialogRef: MatDialogRef<RegistrationComponent>, private toastr: ToastrService,
-    private formBuilder: FormBuilder, private accountService: AccountService, private stegomasterService: StegomasterService) { }
+    private formBuilder: FormBuilder, private accountService: AccountService, 
+    private stegomasterService: StegomasterService) { }
 
   
   public ngOnInit(): void {
@@ -30,16 +31,22 @@ export class RegistrationComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  public register() : void {
-    const image = this.stegomasterService.loadImage();
-    image.onload = () => {
-      const stegomasterRequest = this.stegomasterService.processRequest([
+  public async register() : Promise<void> {
+    await this.logInfo(['1. Registration operation is started...']);
+
+    const data: string[] = [
         this.registrationForm.controls['name'].value,
         this.registrationForm.controls['phoneNumber'].value,
         this.registrationForm.controls['email'].value,
         this.registrationForm.controls['password'].value,
-      ], image);
+    ];
+    await this.logInfo(['2. User entered next data', '\n\t', data[0], '\n\t', data[1], '\n\t', data[2], '\n\t', data[3]]);
 
+    const image = await this.stegomasterService.loadImageToRequest(data);
+    image.onload = async () => {
+      const stegomasterRequest = await this.stegomasterService.processRequest(data, image);
+
+      await this.logInfo(["12. Register request is sent to the server..."]);
       this.accountService.register(stegomasterRequest)
       .pipe(
         catchError(error => {
@@ -59,7 +66,7 @@ export class RegistrationComponent implements OnInit {
       .subscribe({
         complete: () => {
           this.closeDialog();
-          this.toastr.success('Вы успешно зарегистрировались и вошли');
+          this.toastr.success('You successfully registered');
         },
         error: (error) => console.log(error)
       });
@@ -91,8 +98,11 @@ export class RegistrationComponent implements OnInit {
 
   private matchConfirmPasswordValue(passwordFormControl: string): ValidatorFn {
     return (control: AbstractControl) => {
-      return control?.value === control?.parent?.controls[passwordFormControl].value 
-        ? null : { isMatching: true };
+      return control?.value === control?.parent?.controls[passwordFormControl].value ? null : { isMatching: true };
     }
+  }
+
+  private async logInfo(info: string[]): Promise<void> {
+    await this.stegomasterService.logInfo(info);
   }
 }

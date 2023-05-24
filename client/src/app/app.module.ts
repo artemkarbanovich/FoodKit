@@ -54,7 +54,7 @@ import { ErrorInterceptor } from './core/security/interceptors/error.interceptor
     UserOrdersComponent,
     UserSupportComponent,
     MessageListComponent,
-    AdminChatComponent
+    AdminChatComponent,
   ],
   imports: [
     SharedModule,

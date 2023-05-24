@@ -15,18 +15,20 @@ export class AccountService {
   private baseUrl: string = environment.apiUrl;
   private currentUserSource: ReplaySubject<Account> = new ReplaySubject<Account>(1);
   public currentUser$: Observable<Account> = this.currentUserSource.asObservable();
+  
+  constructor(private http: HttpClient, private presenceService: PresenceService, private stegomasterService: StegomasterService) { }
 
-  constructor(private http: HttpClient, private presenceService: PresenceService,
-    private stegomasterService: StegomasterService) { }
 
-
-  public register(stegomasterRequest: StegomasterRequest): Observable<void> {
+  public register(stegomasterRequest: StegomasterRequest): Observable<Promise<void>> {
     return this.http.post(this.baseUrl + 'account/register', stegomasterRequest).pipe(
-      map((stegomasterResponse: StegomasterResponse) => {
+      map(async (stegomasterResponse: StegomasterResponse) => {
         if(stegomasterResponse.data) {
+          await this.logInfo(['11. Client accept register response from the server...']);
+
+          await this.logInfo(['12. Container in Base64 format from response:', '\n', stegomasterResponse.data]);
           const image = this.stegomasterService.loadImage(stegomasterResponse.data);
-          image.onload = () => {
-            const userData = this.stegomasterService.processResponse(image);
+          image.onload = async () => {
+            const userData = await this.stegomasterService.processResponse(image);
             const user: Account = {
               userName: userData[0],
               name: userData[1],
@@ -34,6 +36,7 @@ export class AccountService {
               email: userData[3],
               token: userData[4],
             };
+            await this.logInfo(['14. Response register data:', '\n\t', user.userName, '\n\t', user.name, '\n\t', user.phoneNumber, '\n\t', user.email, '\n', user.token]);
 
             this.setCurrentUser(user);
             this.presenceService.createHubConnection(user);
@@ -43,13 +46,16 @@ export class AccountService {
     );
   }
 
-  public signIn(stegomasterRequest: StegomasterRequest): Observable<void> {
+  public signIn(stegomasterRequest: StegomasterRequest): Observable<Promise<void>> {
     return this.http.post(this.baseUrl + 'account/sign-in', stegomasterRequest).pipe(
-      map((stegomasterResponse: StegomasterResponse) => {
+      map(async (stegomasterResponse: StegomasterResponse) => {
         if(stegomasterResponse.data) {
+          await this.logInfo(['11. Client accept login response from the server...']);
+
+          await this.logInfo(['12. Container in Base64 format from response:', '\n', stegomasterResponse.data]);
           const image = this.stegomasterService.loadImage(stegomasterResponse.data);
-          image.onload = () => {
-            const userData = this.stegomasterService.processResponse(image);
+          image.onload = async () => {
+            const userData = await this.stegomasterService.processResponse(image);
             const user: Account = {
               userName: userData[0],
               name: userData[1],
@@ -57,6 +63,7 @@ export class AccountService {
               email: userData[3],
               token: userData[4],
             };
+            await this.logInfo(['14. Response login data:', '\n\t', user.userName, '\n\t', user.name, '\n\t', user.phoneNumber, '\n\t', user.email, '\n', user.token]);
 
             this.setCurrentUser(user);
             this.presenceService.createHubConnection(user);
@@ -89,5 +96,9 @@ export class AccountService {
       user.email = email;
       this.setCurrentUser(user);
     }
+  }
+
+  private async logInfo(info: string[]): Promise<void> {
+    await this.stegomasterService.logInfo(info);
   }
 }

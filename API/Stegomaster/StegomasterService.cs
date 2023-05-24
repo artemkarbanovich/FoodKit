@@ -11,7 +11,11 @@ public class StegomasterService : IStegomasterService
     public List<string> ProcessRequest(string base64String)
     {
         var bitmap = Base64ToBitmap(base64String);
+        LogInfo($"3. Container has next params:", $"\twidth: {bitmap.Width} px;", $"\theight: {bitmap.Height} px;", $"\tsize: {bitmap.Width * bitmap.Height} px.");
+
         var binaryData = GetBinaryDataFromBitmap(bitmap);
+        LogInfo($"5. The following binary data is obtained from the container:", binaryData, $"\tbits count: {binaryData.Length}.");
+
         var data = GetDataFromBinaryString(binaryData);
 
         return data;
@@ -19,11 +23,64 @@ public class StegomasterService : IStegomasterService
 
     public string ProcessResponse(List<string> data)
     {
-        var bitmap = GetBitmapContainer(StegomasterConfiguration.CONTAINER_URL);
         var binaryData = GetBinaryData(data);
-        var filledBase64Container = InjectDataIntoContainer(bitmap, binaryData);
+        LogInfo($"9. Binary representation of response data:", binaryData, $"\tbits count: {binaryData.Length}.");
 
-        return $"{StegomasterConfiguration.BASE64_IMAGE_PREFIX}{filledBase64Container}";
+        var bitmap = GetBitmapContainer(GetContainerUrl(binaryData));
+        var filledBase64Container = InjectDataIntoContainer(bitmap, binaryData);
+        var base64ContainerWithPrefix = $"{StegomasterConfiguration.BASE64_IMAGE_PREFIX}{filledBase64Container}";
+        LogInfo($"14. Base64 representation of filled container with response data:", base64ContainerWithPrefix);
+
+        return base64ContainerWithPrefix;
+    }
+
+    private string GetContainerUrl(string binaryData)
+    {
+        LogInfo($"10. Use default container: {StegomasterConfiguration.USE_DEFAULT_CONTAINER}.");
+
+        var pixelsRequired = CalculateMinContainerPixelsCount(binaryData);
+        LogInfo($"11. Minimum number of pixels required to the container: {pixelsRequired}.");
+
+        if (StegomasterConfiguration.USE_DEFAULT_CONTAINER)
+        {
+            var defaultContainerSize = StegomasterConfiguration.DEFAULT_CONTAINER.Width * StegomasterConfiguration.DEFAULT_CONTAINER.Height;
+            if (pixelsRequired > defaultContainerSize)
+            {
+                LogError("Error: default container for response data is incorrect. Data size is too large.");
+                throw new Exception("Error: default container for response data is incorrect. Data size is too large.");
+            }
+
+            LogInfo("12. Default container info:", 
+                $"\turl: {StegomasterConfiguration.DEFAULT_CONTAINER.Url}", $"\twidth: {StegomasterConfiguration.DEFAULT_CONTAINER.Width} px;", 
+                $"\theight: {StegomasterConfiguration.DEFAULT_CONTAINER.Height} px;", $"\tsize: {defaultContainerSize} px.");
+
+            return StegomasterConfiguration.DEFAULT_CONTAINER.Url;
+        }
+
+        foreach (var container in StegomasterConfiguration.AvailableContainers)
+        {
+            var containerPixelsCount = container.Width * container.Height;
+
+            if (containerPixelsCount > pixelsRequired)
+            {
+                LogInfo("12. Suitable container was found:", 
+                    $"\turl: {container.Url}", $"\twidth: {container.Width} px;", 
+                    $"\theight: {container.Height} px;", $"\tsize: {containerPixelsCount} px.");
+
+                return container.Url;
+            }
+        }
+
+        LogError("Error: suitable container for response data was not found. Data size is too large.");
+        throw new Exception("Suitable container for response data was not found.");
+    }
+
+    private int CalculateMinContainerPixelsCount(string binaryData)
+    {
+        var payloadPerPixel = StegomasterConfiguration.ColorsDataHiding.Count() * StegomasterConfiguration.LSB_COUNT;
+        var pixelsRequiredWithoutShift = (int)Math.Floor((double)binaryData.Length / payloadPerPixel);
+
+        return pixelsRequiredWithoutShift * StegomasterConfiguration.SKIP_BITS_COUNT;
     }
 
     private string InjectDataIntoContainer(Bitmap image, string binaryData)
@@ -151,6 +208,7 @@ public class StegomasterService : IStegomasterService
 
     private Bitmap Base64ToBitmap(string base64String)
     {
+        LogInfo("2. Container in Base64 format from request payload:", base64String);
         if (base64String.Contains(StegomasterConfiguration.BASE64_IMAGE_PREFIX, StringComparison.OrdinalIgnoreCase))
         {
             base64String = base64String[StegomasterConfiguration.BASE64_IMAGE_PREFIX.Length..];
@@ -164,6 +222,11 @@ public class StegomasterService : IStegomasterService
 
     private string GetBinaryDataFromBitmap(Bitmap image)
     {
+        LogInfo("4. Operation 'recovery data from container' is started. Configuration:", 
+            $"\tskip bits count: {StegomasterConfiguration.SKIP_BITS_COUNT - 1};", 
+            $"\tpixels involved in recovery: {string.Join(", ", StegomasterConfiguration.ColorsDataHiding.Select(c => c.ToString()))};",
+            $"\tleast significant bits (LSB) count: {StegomasterConfiguration.LSB_COUNT}.");
+
         var data = new StringBuilder(string.Empty);
         var skipFirstBitsCounter = 0;
 
@@ -266,6 +329,31 @@ public class StegomasterService : IStegomasterService
         }
 
         return data;
+    }
+
+    public void LogInfo(string header, params string[] info)
+    {
+        if (StegomasterInfoConfiguration.USE_INFO)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine(header);
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            foreach (var i in info)
+            {
+                Console.WriteLine(i);
+            }
+            Thread.Sleep(StegomasterInfoConfiguration.INFO_DELAY);
+        }
+    }
+
+    public void LogError(string error)
+    {
+        if (StegomasterInfoConfiguration.USE_INFO)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine(error);
+            Thread.Sleep(StegomasterInfoConfiguration.INFO_DELAY);
+        }
     }
 }
 #pragma warning restore CA1416

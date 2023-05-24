@@ -37,7 +37,7 @@ export class NavbarComponent {
   public signOut(): void {
     this.accountService.signOut();
     this.router.navigateByUrl('/');
-    this.toastr.success('Вы успешно вышли');
+    this.toastr.success('You successful logout');
   }
 
   public deleteCartItem(cartItem: DishCartItem): void {
