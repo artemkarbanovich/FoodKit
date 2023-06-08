@@ -2,14 +2,16 @@ import { RGBA } from "./rgba";
 import { StegomasterContainer } from "./stegomaster-containers";
 
 export class StegomasterConfiguration {
+  public static readonly USE_INFO = true;
+  public static readonly INFO_DELAY = 300;
   public static readonly USE_DEFAULT_CONTAINER = false;
   public static readonly DATA_DELIMETER: string = '11111111';
   public static readonly DATA_ENDING: string = '11111110';
   public static readonly BITS_COUNT = 8;
-  public static readonly SKIP_BITS_COUNT = 94 + 1;
-  public static readonly LSB_COUNT = 2; // 2 or 4 or 8
+  public static readonly SKIP_BITS_COUNT = 5 + 1; // should be more or equals 1
+  public static readonly LSB_COUNT = 8; // 2 or 4 or 8
   
-  public static ColorsDataHiding: Readonly<RGBA[]> = [RGBA.Green, RGBA.Alpha];
+  public static ColorsDataHiding: Readonly<RGBA[]> = [RGBA.Green];
 
   public static AvailableContainers: Readonly<StegomasterContainer[]> = [
     { url: '../../assets/stegomaster/container_10x10.jpg', width: 10, height: 10 },

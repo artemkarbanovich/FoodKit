@@ -80,7 +80,7 @@ public class StegomasterService : IStegomasterService
         var payloadPerPixel = StegomasterConfiguration.ColorsDataHiding.Count() * StegomasterConfiguration.LSB_COUNT;
         var pixelsRequiredWithoutShift = (int)Math.Floor((double)binaryData.Length / payloadPerPixel);
 
-        return pixelsRequiredWithoutShift * StegomasterConfiguration.SKIP_BITS_COUNT;
+        return pixelsRequiredWithoutShift * StegomasterConfiguration.SKIP_BITS_COUNT - (StegomasterConfiguration.SKIP_BITS_COUNT - 1);
     }
 
     private string InjectDataIntoContainer(Bitmap image, string binaryData)
@@ -333,26 +333,24 @@ public class StegomasterService : IStegomasterService
 
     public void LogInfo(string header, params string[] info)
     {
-        if (StegomasterInfoConfiguration.USE_INFO)
+        if (StegomasterConfiguration.USE_INFO)
         {
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine(header);
             Console.ForegroundColor = ConsoleColor.DarkGray;
             foreach (var i in info)
-            {
                 Console.WriteLine(i);
-            }
-            Thread.Sleep(StegomasterInfoConfiguration.INFO_DELAY);
+            Thread.Sleep(StegomasterConfiguration.INFO_DELAY);
         }
     }
 
     public void LogError(string error)
     {
-        if (StegomasterInfoConfiguration.USE_INFO)
+        if (StegomasterConfiguration.USE_INFO)
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine(error);
-            Thread.Sleep(StegomasterInfoConfiguration.INFO_DELAY);
+            Thread.Sleep(StegomasterConfiguration.INFO_DELAY);
         }
     }
 }

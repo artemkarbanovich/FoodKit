@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { StegomasterConfiguration } from './configuration/stegomaster-configuration';
 import { StegomasterRequest } from './DTOs/stegomaster-request';
 import { RGBA } from './configuration/rgba';
-import { StegomasterInfoConfiguration } from './configuration/stegomaster-info-configuration';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
@@ -32,7 +31,8 @@ export class StegomasterService {
     const payloadPerPixel = StegomasterConfiguration.ColorsDataHiding.length * StegomasterConfiguration.LSB_COUNT;
     const pixelsRequiredWithoutShift = Math.floor(binaryData.length / payloadPerPixel);
 
-    return pixelsRequiredWithoutShift * StegomasterConfiguration.SKIP_BITS_COUNT;
+    console.log(pixelsRequiredWithoutShift);
+    return pixelsRequiredWithoutShift * StegomasterConfiguration.SKIP_BITS_COUNT - (StegomasterConfiguration.SKIP_BITS_COUNT - 1);
   }
 
   public async loadImageToRequest(data: string[]): Promise<HTMLImageElement> {
@@ -71,10 +71,14 @@ export class StegomasterService {
         return this.loadImage(container.url);
       }
     }
-
-    await this.LogError('Errod: suitable container for entered data not found. Data size is too large.');
-    this.toastr.error('Suitable container for entered data not found.');
-    throw('Suitable container for entered data not found.');
+    
+    if (StegomasterConfiguration.USE_INFO) {
+      await this.LogError('Errod: suitable container for entered data not found. Data size is too large.');
+      this.toastr.error('Suitable container for entered data not found.');
+      throw('Suitable container for entered data not found.');
+    }
+    this.toastr.error('Unknown application error.');
+    this.toastr.error('Unknown application error.');
   }
 
   public loadImage(url: string): HTMLImageElement {
@@ -240,19 +244,19 @@ export class StegomasterService {
 
   private waiter(): Promise<void> {
     return new Promise((resolve, _) => {
-      setTimeout(() => resolve(), StegomasterInfoConfiguration.INFO_DELAY);
+      setTimeout(() => resolve(), StegomasterConfiguration.INFO_DELAY);
     });
   }
 
   public async logInfo(info: string[]): Promise<void> {
-    if (StegomasterInfoConfiguration.USE_INFO) {
+    if (StegomasterConfiguration.USE_INFO) {
       console.log(...info);
       await this.waiter();
     }
   }
 
   public async LogError(error: string): Promise<void> {
-    if (StegomasterInfoConfiguration.USE_INFO) {
+    if (StegomasterConfiguration.USE_INFO) {
       console.error(error);
       await this.waiter();
     }
