@@ -8,8 +8,8 @@ export class StegomasterConfiguration {
   public static readonly DATA_DELIMETER: string = '11111111';
   public static readonly DATA_ENDING: string = '11111110';
   public static readonly BITS_COUNT = 8;
-  public static readonly SKIP_BITS_COUNT = 5 + 1; // should be more or equals 1
-  public static readonly LSB_COUNT = 8; // 2 or 4 or 8
+  public static readonly SKIP_BITS_COUNT = 37 + 1; // should be more or equals 1
+  public static readonly LSB_COUNT = 2; // 2 or 4 or 8
   
   public static ColorsDataHiding: Readonly<RGBA[]> = [RGBA.Green];
 

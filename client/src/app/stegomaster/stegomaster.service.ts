@@ -74,11 +74,11 @@ export class StegomasterService {
     
     if (StegomasterConfiguration.USE_INFO) {
       await this.LogError('Errod: suitable container for entered data not found. Data size is too large.');
-      this.toastr.error('Suitable container for entered data not found.');
+      this.toastr.error('Suitable container for entered data not found');
       throw('Suitable container for entered data not found.');
     }
-    this.toastr.error('Unknown application error.');
-    this.toastr.error('Unknown application error.');
+    this.toastr.error('Unknown application error');
+    throw('Unkown application error.');
   }
 
   public loadImage(url: string): HTMLImageElement {
